@@ -1,0 +1,19 @@
+services:
+  nest-app:
+    container_name: nest-CRM-app-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    env_file:
+      - ./back/environments/local.env
+    ports:
+      - '${APP_PORT:-3000}:3000' # Map port 3000 of the container to port 3000 on the host
+    volumes:
+      - ./back:/app_nest # Sync project directory to container
+      - /app_nest/node_modules # Ignore node_modules on the host
+    restart: on-failure
+    command: npm run start:local # Run the NestJS app
+
+
+
