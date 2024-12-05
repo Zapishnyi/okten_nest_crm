@@ -58,7 +58,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
       case exception instanceof HttpException:
         status = exception.getStatus();
-        messages = exception.message;
+        messages = [exception.message];
         break;
 
       case exception instanceof QueryFailedError:
@@ -68,12 +68,12 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
       case exception instanceof TokenExpiredError:
         status = HttpStatus.UNAUTHORIZED;
-        messages = (exception as TokenExpiredError).message;
+        messages = [(exception as TokenExpiredError).message];
         break;
 
       case exception instanceof JsonWebTokenError:
         status = HttpStatus.UNAUTHORIZED;
-        messages = (exception as JsonWebTokenError).message;
+        messages = [(exception as JsonWebTokenError).message];
         break;
 
       default:

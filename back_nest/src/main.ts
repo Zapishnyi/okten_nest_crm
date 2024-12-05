@@ -11,7 +11,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const appEnvConfig = app.get(ConfigService).get<AppConfigType>('app');
-
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    credentials: true, // If cookies or auth headers are needed
+  });
   const swaggerConfig = new DocumentBuilder()
     .setTitle('CRM, Programming school API')
     .setDescription('OKTEN capstone project')

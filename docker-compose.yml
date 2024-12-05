@@ -6,11 +6,11 @@ services:
       dockerfile: Dockerfile
 
     env_file:
-      - ./back/environments/local.env
+      - back_nest/environments/local.env
     ports:
-      - '${APP_PORT:-3000}:3000' # Map port 3000 of the container to port 3000 on the host
+      - '${APP_PORT:-5000}:5000' # Map port 5000 of the container to port 5000 on the host
     volumes:
-      - ./back:/app_nest # Sync project directory to container
+      - ./back_nest:/app_nest # Sync project directory to container
       - /app_nest/node_modules # Ignore node_modules on the host
     restart: on-failure
     command: npm run start:local # Run the NestJS app

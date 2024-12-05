@@ -7,7 +7,7 @@ RUN mkdir /app_nest
 WORKDIR /app_nest
 
 # Copy package.json and package-lock.json
-COPY ./back/package.json /app_nest
+COPY back_nest/package.json /app_nest
 
 # Install dependencies
 RUN npm i
