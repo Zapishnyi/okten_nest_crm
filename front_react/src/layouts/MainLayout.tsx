@@ -4,6 +4,7 @@ import { CRMApi } from '../services/crm.api.servise';
 import { AxiosError } from 'axios';
 
 const MainLayout: FC = () => {
+  console.log('.');
   useEffect(() => {
     const getData = async () => {
       try {

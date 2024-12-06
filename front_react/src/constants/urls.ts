@@ -5,6 +5,6 @@ export const urls = {
     sing_in: '/auth/sing-in',
     refresh: '/auth/refresh',
   },
-  orders: (query: string) => `/orders?${query}`,
+  orders: '/orders',
   health: '/health',
 };

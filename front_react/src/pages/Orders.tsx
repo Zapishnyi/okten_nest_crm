@@ -1,63 +1,52 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { CRMApi } from '../services/crm.api.servise';
-import IOrderQuery from '../interfaces/IOrderQuery';
-import { OrderEnum } from '../enums/order.enum';
-import { OrderByEnum } from '../enums/order-by.enum';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import IOrderPaginated from '../interfaces/IOrderPaginated';
 
-interface IOrderQueryString {
-  page: string,
-  order: string,
-  orderBy: string,
-}
 
-const Orders = () => {
-  const [page, setPage] = useState<number>(1);
+const Orders: FC = () => {
+  console.log('.');
   const navigate = useNavigate();
-  const initial: IOrderQuery = {
-    page: page,
-    order: OrderEnum.DESC,
-    orderBy: OrderByEnum.ID,
-  };
-
-  const queryMapper = (query: IOrderQuery) => ({
-    page: query.page.toString(),
-    order: query.order.toString(),
-    orderBy: query.orderBy.toString(),
+  const [query, setQuery] = useSearchParams({
+    page: '1',
+    order: 'DESC',
+    orderBy: 'id',
   });
-  const [query, setQuery] = useSearchParams(queryMapper(initial));
   const [ordersPaginated, setOrdersPaginated] = useState<IOrderPaginated | null>(null);
+  const queryObject = Object.fromEntries(query.entries());
 
-  console.log('query:', query);
   useEffect(() => {
-    setQuery(queryMapper({ ...initial, page }));
     const getData = async () => {
       try {
-        console.log('heppened');
-        const orders = await CRMApi.orders.get(query.toString());
+        const orders = await CRMApi.orders.get(queryObject);
         setOrdersPaginated(orders);
-
       } catch (e) {
         const error = e as AxiosError;
         console.log(error.message);
         if (error.status === 401) navigate('/sing-in');
       }
     };
+    void getData();
+  }, [query]);
 
+  const clickHandle = (action: boolean) => {
+    let page = +(query.get('page') || '1');
+    queryObject.page = (action ? ++page : --page).toString();
+    setQuery(queryObject);
+  };
 
-  }, [page]);
-  console.log('ordersPaginated - ', ordersPaginated);
+  console.log(ordersPaginated);
   return (
     <div>
       <p>Orders {' '}</p>
-      <button onClick={() => {
-        setPage((current) => ++current);
-      }}>+ Plus
+      <button onClick={
+        () => {
+          clickHandle(true);
+        }}>+ Plus
       </button>
       <button onClick={() => {
-        setPage((current) => --current);
+        clickHandle(false);
       }}>- Minus
       </button>
     </div>

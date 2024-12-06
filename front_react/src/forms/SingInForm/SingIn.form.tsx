@@ -16,7 +16,7 @@ interface ILocation {
 }
 
 const SingInForm = () => {
-  console.log('LoginForm');
+  console.log('.');
   const [loginError, setLoginError] = useState<string[] | null>(null);
   const { register, handleSubmit } = useForm<IUserSingIn>({ mode: 'all' });
   const navigate = useNavigate();
