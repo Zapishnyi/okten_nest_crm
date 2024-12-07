@@ -5,7 +5,7 @@ import styles from './SingInForm.module.css';
 import IUserSingIn from '../../interfaces/IUserSingIn';
 import { AxiosError } from 'axios';
 import { CRMApi } from '../../services/crm.api.servise';
-import { storage } from '../../services/localStorage.servise';
+import { cookie } from '../../services/cookies.servise';
 
 interface ILocation {
   hash: string;
@@ -29,8 +29,10 @@ const SingInForm = () => {
 
       const { tokens } = await CRMApi.auth.singIn(credentials);
       console.log('tokens:', tokens);
-      storage.setAccessToken(tokens.access);
-      storage.setRefreshToken(tokens.refresh);
+      // storage.setAccessToken(tokens.access);
+      // storage.setRefreshToken(tokens.refresh);
+      cookie.setAccessToken(tokens.access);
+      cookie.setRefreshToken(tokens.refresh);
       navigate(`/orders`);
 
     } catch (error: any | AxiosError) {

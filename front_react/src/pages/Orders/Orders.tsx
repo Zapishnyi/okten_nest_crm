@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
-import { CRMApi } from '../services/crm.api.servise';
+import { CRMApi } from '../../services/crm.api.servise';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
-import IOrderPaginated from '../interfaces/IOrderPaginated';
+import IOrderPaginated from '../../interfaces/IOrderPaginated';
 
 
 const Orders: FC = () => {
@@ -40,6 +40,22 @@ const Orders: FC = () => {
   return (
     <div>
       <p>Orders {' '}</p>
+      {ordersPaginated &&
+        <table>
+          <thead>
+          <tr>
+            {Object.keys(ordersPaginated?.data[0]).map((e, i) => <th key={i}>{e}</th>)}
+          </tr>
+
+          </thead>
+          <tbody>
+          {ordersPaginated?.data?.map((order) => <tr>{Object.values(order).map((e, i) => <td key={i}>{e}</td>)}</tr>)}
+          </tbody>
+
+        </table>
+      }
+
+
       <button onClick={
         () => {
           clickHandle(true);

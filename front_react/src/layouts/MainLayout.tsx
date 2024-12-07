@@ -1,7 +1,8 @@
-import { FC, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { FC, useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { CRMApi } from '../services/crm.api.servise';
 import { AxiosError } from 'axios';
+import { setNavigate } from '../helpers/navigate-to';
 
 const MainLayout: FC = () => {
   console.log('.');
@@ -16,7 +17,14 @@ const MainLayout: FC = () => {
       }
     };
     void getData();
+
+    //to make navigate function access globally
+    setNavigate(navigate);
+
   }, []);
+
+  const navigate = useNavigate();
+
   return <>
     <Outlet />
   </>;

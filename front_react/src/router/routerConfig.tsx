@@ -1,7 +1,7 @@
 import { createHashRouter, Navigate } from 'react-router-dom';
 import React from 'react';
-import SingIn from '../pages/SingIn';
-import Orders from '../pages/Orders';
+import SingIn from '../pages/SingIn/SingIn';
+import Orders from '../pages/Orders/Orders';
 import MainLayout from '../layouts/MainLayout';
 
 export const routerConfig = createHashRouter([
@@ -11,7 +11,7 @@ export const routerConfig = createHashRouter([
     children: [
       {
         index: true,
-        element: <Navigate to={'/sing-in'} />,
+        element: <Navigate to={'/orders'} />,
       },
       {
         path: '/sing-in',

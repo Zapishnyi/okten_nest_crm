@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { baseURL, urls } from '../constants/urls';
 import IUserSingIn from '../interfaces/IUserSingIn';
-import { storage } from './localStorage.servise';
 import IOrderPaginated from '../interfaces/IOrderPaginated';
 import { IHealth } from '../interfaces/IHealth';
 import IAuthTokens from '../interfaces/IAuthTokens';
+import { cookie } from './cookies.servise';
+import { navigateTo } from '../helpers/navigate-to';
 
 
 const axiosInstance = axios.create({
@@ -15,16 +16,24 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((request) => {
-  let accessToken = storage.getAccessToken();
-  accessToken
-    ? (request.headers.Authorization = `Bearer ${accessToken}`)
-    : console.log('NO TOKEN');
+  let token: string | null;
+  switch (request.url) {
+    case '/auth/refresh':
+      token = cookie.getRefreshToken();
+      break;
+    default :
+      token = cookie.getAccessToken();
+  }
+  token
+    ? (request.headers.Authorization = `Bearer ${token}`)
+    : navigateTo('/sing-in');
   return request;
 });
 
 interface ICRMApiService {
   auth: {
     singIn: (body: IUserSingIn) => Promise<IAuthTokens>;
+    refresh: () => Promise<IAuthTokens>;
   };
   orders: {
     get: (query: Record<string, string>) => Promise<IOrderPaginated>;
@@ -38,6 +47,7 @@ export const CRMApi: ICRMApiService = {
     singIn: (body: IUserSingIn) => axiosInstance
       .post(urls.auth.sing_in, body)
       .then((response) => response.data),
+    refresh: () => axiosInstance.post(urls.auth.refresh).then((response) => response.data),
   },
   orders: {
     get: (query) => axiosInstance
@@ -47,3 +57,19 @@ export const CRMApi: ICRMApiService = {
   health: () => axiosInstance.get(urls.health).then((response) => response.data),
 
 };
+
+axiosInstance.interceptors.response.use((response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response.status === 401 && !originalRequest._retry && cookie.getRefreshToken()) {
+      try {
+        await CRMApi.auth.refresh();
+        originalRequest._retry = true;
+        return axiosInstance(originalRequest);
+      } catch (error) {
+        navigateTo('/sing-in');
+      }
+    }
+    return Promise.reject(error);
+  });
