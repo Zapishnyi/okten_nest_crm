@@ -12,11 +12,11 @@ export const cookie: ICookiesService = {
   setAccessToken: (token) => document.cookie = `access=${token}; path=/; ${setCookieExpire(1)};`,
   setRefreshToken: (token) => document.cookie = `refresh=${token}; path=/; ${setCookieExpire(30)};`,
   getAccessToken: () => {
-    const match = document.cookie.match(/(?<=access=)\S+(?=;)/);
-    return match ? match[0] : null;
+    const token = document.cookie.split('; ').filter(e => e.includes('access'))[0]?.replace('access=', '');
+    return !!token ? token : null;
   },
   getRefreshToken: () => {
-    const match = document.cookie.match(/(?<=refresh=)\S+(?=;)/);
-    return match ? match[0] : null;
+    const token = document.cookie.split('; ').filter(e => e.includes('refresh'))[0]?.replace('refresh=', '');
+    return !!token ? token : null;
   },
 };

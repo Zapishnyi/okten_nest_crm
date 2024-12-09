@@ -1,58 +1,70 @@
-import React, { FC, useEffect, useState } from 'react';
-import { CRMApi } from '../../services/crm.api.servise';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { AxiosError } from 'axios';
-import IOrderPaginated from '../../interfaces/IOrderPaginated';
+import React, { BaseSyntheticEvent, FC, memo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import TitleRowCell from '../../components/TableTitleIRowCell/TitleRowCell';
+import BodyRow from '../../components/TableBodyRow/BodyRow';
+import styles from './Orders.module.css';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { initialQuery } from '../../constants/initialQuery';
+import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
+import { OrdersActions } from '../../redux/Slices/ordersSlice';
+import IFormData from '../../interfaces/IOrderFormData';
+import { useForm } from 'react-hook-form';
 
 
-const Orders: FC = () => {
+const Orders: FC = memo(() => {
   console.log('.');
-  const navigate = useNavigate();
-  const [query, setQuery] = useSearchParams({
-    page: '1',
-    order: 'DESC',
-    orderBy: 'id',
-  });
-  const [ordersPaginated, setOrdersPaginated] = useState<IOrderPaginated | null>(null);
-  const queryObject = Object.fromEntries(query.entries());
+  const { orders } = useAppSelector((state) => state.orders);
+  const dispatch = useAppDispatch();
+  const [query, setQuery] = useSearchParams(queryToSearchParams(initialQuery));
+
+  const titles = orders.length ? Object.keys(orders[0]) : [];
+
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const orders = await CRMApi.orders.get(queryObject);
-        setOrdersPaginated(orders);
-      } catch (e) {
-        const error = e as AxiosError;
-        console.log(error.message);
-        if (error.status === 401) navigate('/sing-in');
-      }
-    };
-    void getData();
+    dispatch(OrdersActions.searchForOrders(Object.fromEntries(query.entries())));
   }, [query]);
 
-  const clickHandle = (action: boolean) => {
-    let page = +(query.get('page') || '1');
-    queryObject.page = (action ? ++page : --page).toString();
+  const search = (formData: IFormData, event?: BaseSyntheticEvent) => {
+    const queryObject = Object.fromEntries(query.entries());
+    queryObject.order = formData.order ? 'DESC' : 'ASC';
+    queryObject.orderBy = formData.orderBy;
+    console.log('FormData:', formData);
+    console.log('FormData queryObject:', queryObject);
     setQuery(queryObject);
+
   };
 
-  console.log(ordersPaginated);
+
+  const { register, handleSubmit } = useForm<IFormData>({
+    defaultValues: { orderBy: 'id', order: false },
+  });
+
+  const clickHandle = (action: boolean) => {
+    const queryObject = Object.fromEntries(query.entries());
+    queryObject.page = (action ? +queryObject.page + 1 : +queryObject.page - 1).toString();
+    setQuery(queryObject);
+  };
+  const formSubmit = handleSubmit(search);
+
   return (
     <div>
-      <p>Orders {' '}</p>
-      {ordersPaginated &&
-        <table>
-          <thead>
-          <tr>
-            {Object.keys(ordersPaginated?.data[0]).map((e, i) => <th key={i}>{e}</th>)}
-          </tr>
+      {titles.length &&
+        <form id={'searchForm'}>
+          <input id={'order'} type="checkbox" {...register('order')} />
+          <table className={styles.table} border={1}>
+            <thead>
+            <tr>
+              {titles.map((e, i) => <TitleRowCell key={i} cellName={e}
+                                                  formSubmit={formSubmit}
+                                                  register={register} />)}
+            </tr>
+            </thead>
+            <tbody>
+            {orders && orders.map((order, i) => <BodyRow key={i} order={order} />)}
+            </tbody>
 
-          </thead>
-          <tbody>
-          {ordersPaginated?.data?.map((order) => <tr>{Object.values(order).map((e, i) => <td key={i}>{e}</td>)}</tr>)}
-          </tbody>
-
-        </table>
+          </table>
+        </form>
       }
 
 
@@ -67,6 +79,6 @@ const Orders: FC = () => {
       </button>
     </div>
   );
-};
+});
 
 export default Orders;

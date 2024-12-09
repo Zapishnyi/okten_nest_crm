@@ -24,9 +24,7 @@ axiosInstance.interceptors.request.use((request) => {
     default :
       token = cookie.getAccessToken();
   }
-  token
-    ? (request.headers.Authorization = `Bearer ${token}`)
-    : navigateTo('/sing-in');
+  request.headers.Authorization = `Bearer ${token}`;
   return request;
 });
 
@@ -61,13 +59,15 @@ export const CRMApi: ICRMApiService = {
 axiosInstance.interceptors.response.use((response) => response,
   async (error) => {
     const originalRequest = error.config;
-
-    if (error.response.status === 401 && !originalRequest._retry && cookie.getRefreshToken()) {
+    if (error.response.status === 401 && !originalRequest._retry && cookie.getRefreshToken() && originalRequest.url !== '/auth/refresh') {
+      originalRequest._retry = true;
       try {
-        await CRMApi.auth.refresh();
-        originalRequest._retry = true;
+        const { tokens } = await CRMApi.auth.refresh();
+        cookie.setAccessToken(tokens.access);
+        cookie.setRefreshToken(tokens.refresh);
         return axiosInstance(originalRequest);
       } catch (error) {
+        console.log('Token refresh failed', error);
         navigateTo('/sing-in');
       }
     }

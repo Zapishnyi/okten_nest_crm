@@ -1,0 +1,217 @@
+.table {
+    width: 100%;
+    border: 1px solid black;
+    table-layout: fixed;
+    border-collapse: collapse;
+
+    thead {
+        width: 100%;
+
+        tr {
+            width: 100%;
+
+            th {
+                overflow: hidden;
+                height: 130px;
+                user-select: none;
+
+                label {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    height: 100%;
+                    cursor: pointer;
+                }
+            }
+
+            /*ID*/
+
+            > :nth-child(1) {
+                width: 30px;
+            }
+
+            /*name*/
+
+            > :nth-child(2) {
+                width: 180px;
+            }
+
+            /*surname*/
+
+            > :nth-child(3) {
+                width: 180px;
+            }
+
+            /*email*/
+
+            > :nth-child(4) {
+                width: 250px;
+            }
+
+            /*phone*/
+
+            > :nth-child(5) {
+                width: 130px;
+            }
+
+            /*age*/
+
+            > :nth-child(6) {
+                width: 40px;
+                writing-mode: vertical-rl; /* Sets vertical text layout */
+                text-orientation: initial;
+                transform: rotate(180deg)
+            }
+
+            /*course*/
+
+            > :nth-child(7) {
+                width: 50px;
+                writing-mode: vertical-rl; /* Sets vertical text layout */
+                text-orientation: initial;
+                transform: rotate(180deg)
+            }
+
+            /*course_format*/
+
+            > :nth-child(8) {
+                width: 60px;
+                writing-mode: vertical-rl; /* Sets vertical text layout */
+                text-orientation: initial;
+                transform: rotate(180deg)
+            }
+
+            /*course_type*/
+
+            > :nth-child(9) {
+                width: 70px;
+                writing-mode: vertical-rl; /* Sets vertical text layout */
+                text-orientation: initial;
+                transform: rotate(180deg)
+            }
+
+            /*sum*/
+
+            > :nth-child(10) {
+                width: 60px;
+                writing-mode: vertical-rl; /* Sets vertical text layout */
+                text-orientation: initial;
+                transform: rotate(180deg)
+            }
+
+            /*alreadyPaid*/
+
+            > :nth-child(11) {
+                width: 60px;
+                writing-mode: vertical-rl; /* Sets vertical text layout */
+                text-orientation: initial;
+                transform: rotate(180deg)
+            }
+
+
+            /*utm*/
+
+            > :nth-child(12) {
+                width: 80px;
+            }
+
+
+            /*msg*/
+            /*status*/
+            /*created_at*/
+        }
+    }
+
+    tbody {
+
+        tr {
+            width: 100%;
+
+            td {
+                overflow: hidden;
+                text-wrap: nowrap;
+                font-size: 16px;
+                border: 1px solid black;
+            }
+
+            /*ID*/
+
+            > :nth-child(1) {
+            }
+
+            /*name*/
+
+            > :nth-child(2) {
+            }
+
+            /*surname*/
+
+            > :nth-child(3) {
+
+            }
+
+            /*email*/
+
+            > :nth-child(4) {
+
+            }
+
+
+            /*phone*/
+
+            > :nth-child(5) {
+            }
+
+
+            /*age*/
+
+            > :nth-child(6) {
+                text-align: center;
+            }
+
+            /*course*/
+
+            > :nth-child(7) {
+                text-align: center;
+            }
+
+            /*course_format*/
+
+            > :nth-child(8) {
+                text-align: center;
+            }
+
+            /*course_type*/
+
+            > :nth-child(9) {
+                text-align: center;
+            }
+
+            /*sum*/
+
+            > :nth-child(10) {
+
+            }
+
+            /*alreadyPaid*/
+
+            > :nth-child(11) {
+
+            }
+
+            /*utm*/
+
+            > :nth-child(12) {
+
+            }
+
+
+            /*msg*/
+            /*status*/
+            /*created_at*/
+        }
+
+
+    }
+}

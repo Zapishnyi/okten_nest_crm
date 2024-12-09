@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import { routerConfig } from './router/routerConfig';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 
 const root = ReactDOM.createRoot(
@@ -11,8 +13,8 @@ const root = ReactDOM.createRoot(
 
 
 root.render(
-  // <Provider store={store}>
-  <RouterProvider router={routerConfig} future={{ v7_startTransition: true }} />,
-  // </Provider>,
+  <Provider store={store}>
+    <RouterProvider router={routerConfig} future={{ v7_startTransition: true }} />,
+  </Provider>,
 );
 

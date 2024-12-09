@@ -17,7 +17,6 @@ import { UserSingInReqDTO } from '../user/dto/req/user-sing-in.req.dto';
 import { UserResDto } from '../user/dto/res/user.res.dto';
 import { JwtRefreshGuard } from '../../common/guards/jwt-refresh.guard';
 import { JwtAccessGuard } from '../../common/guards/jwt-access.guard';
-import { AuthTokenPairResDto } from './dto/res/auth-tokens-pair.res.dto';
 
 @ApiTags('1.Authorization')
 @Controller('auth')
@@ -83,8 +82,9 @@ export class AuthController {
   @Post('refresh')
   public async refresh(
     @GetStoredUserDataFromResponse() userData: IUserData,
-  ): Promise<AuthTokenPairResDto> {
-    return await this.authService.refresh(userData);
+  ): Promise<AuthResDto> {
+    const tokens = await this.authService.refresh(userData);
+    return { tokens, user: userData.user };
   }
 
   @UseGuards(JwtAccessGuard)
