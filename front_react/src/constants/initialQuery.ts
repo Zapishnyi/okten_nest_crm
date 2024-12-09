@@ -1,10 +1,11 @@
 import IOrderQuery from '../interfaces/IOrderQuery';
-import { OrderEnum } from '../enums/order.enum';
-import { OrderByEnum } from '../enums/order-by.enum';
+import { SortByEnum } from '../enums/sort-by.enum';
+import { SortEnum } from '../enums/sort.enum';
+
 
 export const initialQuery: IOrderQuery = {
   page: 1,
-  order: OrderEnum.DESC,
-  orderBy: OrderByEnum.ID,
+  sort: SortEnum.DESC,
+  sortBy: SortByEnum.ID,
 };
 

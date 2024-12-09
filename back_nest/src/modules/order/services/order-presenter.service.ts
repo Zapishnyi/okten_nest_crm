@@ -9,7 +9,7 @@ import { OrderResDto } from '../dto/res/order.res.dto';
 export class OrderPresenterService {
   public toOrderListDto(
     orderList: OrderEntity[],
-    { page, orderBy, order }: OrdersQueryReqDto,
+    { page, sortBy, sort }: OrdersQueryReqDto,
     total: number,
   ): OrdersListResDto {
     return {
@@ -18,8 +18,8 @@ export class OrderPresenterService {
       limit: 25,
       page,
       pages: Math.ceil(total / 25),
-      orderBy,
-      order,
+      sortBy,
+      sort,
     };
   }
 

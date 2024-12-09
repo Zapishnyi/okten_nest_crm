@@ -1,6 +1,6 @@
 export default interface IOrderQueryString {
   page: string;
-  orderBy: string;
-  order: string;
+  sortBy: string;
+  sort: string;
 
 }

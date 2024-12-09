@@ -12,14 +12,14 @@ export class OrdersRepository extends Repository<OrderEntity> {
 
   public async getByQuery({
     page,
-    orderBy,
-    order,
+    sortBy,
+    sort,
   }: OrdersQueryReqDto): Promise<[OrderEntity[], number]> {
     try {
       return this.createQueryBuilder('orders')
         .limit(25)
         .offset((page - 1) * 25)
-        .orderBy(`orders.${orderBy}`, order)
+        .orderBy(`orders.${sortBy}`, sort)
         .getManyAndCount();
     } catch (err) {
       throw new Error(err);

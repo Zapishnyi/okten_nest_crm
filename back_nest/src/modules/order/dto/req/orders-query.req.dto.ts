@@ -19,7 +19,7 @@ export class OrdersQueryReqDto {
     description: 'Sorted order',
     default: OrderEnum.DESC,
   })
-  public readonly order: OrderEnum;
+  public readonly sort: OrderEnum;
 
   @Transform(TransformHelper.trim)
   @IsNotEmpty()
@@ -27,5 +27,5 @@ export class OrdersQueryReqDto {
     description: 'Sorted by ...',
     default: OrderByEnum.ID,
   })
-  public readonly orderBy: OrderByEnum;
+  public readonly sortBy: OrderByEnum;
 }

@@ -1,4 +1,4 @@
 export default interface IFormData {
-  order: boolean,
-  orderBy: string,
+  sort: boolean,
+  sortBy: string,
 }

@@ -3,6 +3,7 @@ import IOrder from '../../interfaces/IOrder';
 import { CRMApi } from '../../services/crm.api.servise';
 import { AxiosError } from 'axios';
 import IErrorResponse from '../../interfaces/IErrorResponse';
+import { PaginationActions } from './paginationSlice';
 
 interface IInitial {
   orders: IOrder[];
@@ -19,7 +20,8 @@ const searchForOrders = createAsyncThunk(
   async (searchQuery: Record<string, string>, thunkAPI) => {
     try {
       const ordersPaginated = await CRMApi.orders.get(searchQuery);
-
+      const { page, pages, total, limit } = ordersPaginated;
+      thunkAPI.dispatch(PaginationActions.setPaginationData({ page, pages, total, limit }));
       return thunkAPI.fulfillWithValue(ordersPaginated.data);
     } catch (e) {
       const error = e as AxiosError<IErrorResponse>;

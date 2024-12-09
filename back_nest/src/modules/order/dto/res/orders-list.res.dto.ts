@@ -15,7 +15,7 @@ export class OrdersListResDto {
   @ApiProperty({ example: 3 })
   pages: number;
   @ApiProperty({ enum: OrderEnum, example: OrderEnum.DESC })
-  order: OrderEnum;
+  sort: OrderEnum;
   @ApiProperty({ enum: OrderByEnum, example: OrderByEnum.ID })
-  orderBy: OrderByEnum;
+  sortBy: OrderByEnum;
 }
