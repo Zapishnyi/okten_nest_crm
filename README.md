@@ -1,6 +1,9 @@
 ## OKTEN capstone project. Programming school CRM:
 
-Back developed in Nest, Front - React
+Back developed in Nest
+
+Front - React
+
 Database - MySQL
 
 Developed as per technical assigment, up to list item N:6
@@ -42,7 +45,7 @@ Developed as per technical assigment, up to list item N:6
 
 ### Migrations
 
-Database is built and running on http://owu.linkpc.net/ and available without pre-setting
+Database is built and running on http://owu.linkpc.net/, available without pre-setting
 
 * To build up migration as per latest database update:
   > npm run migration:generate -name=[name of file / table change indication]
