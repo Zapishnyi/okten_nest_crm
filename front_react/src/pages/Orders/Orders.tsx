@@ -8,8 +8,7 @@ import { initialQuery } from '../../constants/initialQuery';
 import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
 import { OrdersActions } from '../../redux/Slices/ordersSlice';
 import Pagination from '../../components/Pagination/Pagination';
-import MenuBtn from '../../components/MenuBtn/MenuBtn';
-import MenuBar from '../../components/MemuBar/MenuBar';
+import LogOut from '../../components/LogOutBtn/LogOut';
 
 
 const Orders: FC = () => {
@@ -31,8 +30,7 @@ const Orders: FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <MenuBar />
-      <MenuBtn />
+      <LogOut />
       {titles.length !== 0 && <>
         <table className={styles.table} border={1}>
           <thead>
