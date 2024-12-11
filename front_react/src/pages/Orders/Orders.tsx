@@ -15,7 +15,7 @@ import MenuBar from '../../components/MemuBar/MenuBar';
 const Orders: FC = () => {
   console.log('.');
   const { orders } = useAppSelector((state) => state.orders);
-  const { pages, page, total, limit } = useAppSelector((state) => state.pagination.paginationData);
+  const { pages, page } = useAppSelector((state) => state.pagination.paginationData);
   const dispatch = useAppDispatch();
   const chosenColumnRef = useRef<string>('id');
   const [query, setQuery] = useSearchParams(queryToSearchParams(initialQuery));
@@ -38,7 +38,7 @@ const Orders: FC = () => {
           <thead>
           <tr>
             {titles.map((e, i) => <TitleRowCell key={i} cellName={e}
-                                                setQuery={setQuery} chosenColumnRef={chosenColumnRef} />)}
+                                                chosenColumnRef={chosenColumnRef} />)}
           </tr>
           </thead>
           <tbody>

@@ -137,7 +137,7 @@ export class AuthService {
 
   public async activate(
     dto: UserValidateReqDto,
-    { user, device }: IUserData,
+    { user }: IUserData,
   ): Promise<UserEntity> {
     return await this.entityManager.transaction(
       await this.isolation.set(),

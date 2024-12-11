@@ -18,7 +18,7 @@ const Pagination: FC<IProps> = ({ page, pages }) => {
     const pagesToShowLeft = pages > 7 ? 7 : pages;
     const pagesToShowRight = pages > 6 ? 6 : pages - 1;
     let paginationScheme: string[] = [];
-    let output: string[] = [];
+    let output: string[];
     const findPageLeft = (pageN: number): number => {
       const check = pageN - pageLimit;
       return check < 1 ? findPageLeft(++pageN) : check;

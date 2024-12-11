@@ -1,15 +1,14 @@
 import React, { ChangeEvent, FC, MouseEvent, MutableRefObject, useEffect } from 'react';
-import { SetURLSearchParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { sortToggle } from '../../helpers/sort-toggle';
 import { SortEnum } from '../../enums/sort.enum';
 
 interface IProps {
   cellName: string;
-  setQuery: SetURLSearchParams;
   chosenColumnRef: MutableRefObject<string>;
 }
 
-const TitleRowCell: FC<IProps> = ({ cellName, setQuery, chosenColumnRef }) => {
+const TitleRowCell: FC<IProps> = ({ cellName, chosenColumnRef }) => {
   console.log('.');
   useEffect(() => {
     const radio = document.getElementsByName('orderBy') as NodeListOf<HTMLInputElement>;
