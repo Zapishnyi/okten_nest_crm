@@ -72,7 +72,7 @@ axiosInstance.interceptors.response.use((response) => response,
           return axiosInstance(originalRequest);
         } catch (error) {
           console.error('Token refresh failed', error);
-          navigateTo('/sing-in');
+          navigateTo('/sign-in');
         }
       }
       return Promise.reject(error);
