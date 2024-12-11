@@ -15,7 +15,7 @@ import { UserCreateByAdminReqDto } from '../../user/dto/req/user-create-by-admin
 import { UserEntity } from '../../../database/entities/user.entity';
 import { IUserData } from '../interfaces/IUserData';
 import { UserValidateReqDto } from '../../user/dto/req/user-validate.req.dto';
-import { UserSingInReqDTO } from '../../user/dto/req/user-sing-in.req.dto';
+import { UserSignInReqDto } from '../../user/dto/req/user-sign-in.req.dto';
 import { EntityManager } from 'typeorm';
 import { AuthTokenEntity } from '../../../database/entities/auth-token.entity';
 import { ActivateTokenEntity } from '../../../database/entities/activate-token.entity';
@@ -67,8 +67,8 @@ export class AuthService {
     });
   }
 
-  public async singIn(
-    dto: UserSingInReqDTO,
+  public async signIn(
+    dto: UserSignInReqDto,
     request: Request,
   ): Promise<[UserEntity, AuthTokenPairResDto]> {
     const device = request.headers['user-agent'];

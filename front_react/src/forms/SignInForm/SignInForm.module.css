@@ -1,0 +1,53 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+    padding: 20px;
+    width: fit-content;
+    background: #86ccff;
+    border-radius: 5px;
+    font-size: 18px;
+
+    .form {
+        display: flex;
+        width: fit-content;
+        flex-direction: column;
+        gap: 20px;
+
+        div {
+            position: relative;
+
+            label {
+                display: flex;
+                flex-direction: column;
+
+
+                input {
+                    font-size: 18px;
+                    padding: 5px;
+                    width: 400px;
+                }
+            }
+
+            p {
+                position: absolute;
+                color: #ff0000;
+                top: 0;
+                right: 0;
+            }
+
+            p:before {
+                content: "*";
+            }
+
+        }
+
+
+        button {
+            font-size: 18px;
+            padding: 8px;
+            cursor: pointer;
+        }
+    }
+}

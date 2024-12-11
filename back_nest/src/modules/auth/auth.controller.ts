@@ -13,7 +13,7 @@ import { UserPresenterService } from '../user/services/user-presenter.service';
 import { JwtActivateGuard } from '../../common/guards/jwt-activate.guard';
 import { IUserData } from './interfaces/IUserData';
 import { UserValidateReqDto } from '../user/dto/req/user-validate.req.dto';
-import { UserSingInReqDTO } from '../user/dto/req/user-sing-in.req.dto';
+import { UserSignInReqDto } from '../user/dto/req/user-sign-in.req.dto';
 import { UserResDto } from '../user/dto/res/user.res.dto';
 import { JwtRefreshGuard } from '../../common/guards/jwt-refresh.guard';
 import { JwtAccessGuard } from '../../common/guards/jwt-access.guard';
@@ -32,7 +32,7 @@ export class AuthController {
       statusCode: 401,
       messages: 'Unauthorized',
       timestamp: '2024-12-03T18:41:52.824Z',
-      path: '/auth/sing-in',
+      path: '/auth/sign-in',
     },
   })
   @ApiBadRequestResponse({
@@ -45,15 +45,15 @@ export class AuthController {
         'email must be a string',
       ],
       timestamp: '2024-12-03T18:43:59.872Z',
-      path: '/auth/sing-in',
+      path: '/auth/sign-in',
     },
   })
-  @Post('sing-in')
-  public async singIn(
-    @Body() dto: UserSingInReqDTO,
+  @Post('sign-in')
+  public async signIn(
+    @Body() dto: UserSignInReqDto,
     @Req() request: Request,
   ): Promise<AuthResDto> {
-    const [user, tokens] = await this.authService.singIn(dto, request);
+    const [user, tokens] = await this.authService.signIn(dto, request);
     return { tokens, user: this.userPresenter.toResponseDto(user) };
   }
 

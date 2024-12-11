@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
-import { IsInt, IsNotEmpty, Min } from 'class-validator';
+import { IsEnum, IsInt, IsNotEmpty, Min } from 'class-validator';
 
 import { OrderEnum } from '../../enums/order.enum';
 import { OrderByEnum } from '../../enums/order-by.enum';
@@ -15,6 +15,7 @@ export class OrdersQueryReqDto {
 
   @Transform(TransformHelper.trim)
   @IsNotEmpty()
+  @IsEnum(OrderEnum)
   @ApiProperty({
     description: 'Sorted order',
     default: OrderEnum.DESC,
@@ -23,6 +24,7 @@ export class OrdersQueryReqDto {
 
   @Transform(TransformHelper.trim)
   @IsNotEmpty()
+  @IsEnum(OrderByEnum)
   @ApiProperty({
     description: 'Sorted by ...',
     default: OrderByEnum.ID,

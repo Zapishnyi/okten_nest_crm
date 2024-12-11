@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <Provider store={store}>
-    <RouterProvider router={routerConfig} future={{ v7_startTransition: true }} />,
+    <RouterProvider router={routerConfig} future={{ v7_startTransition: true }} />
   </Provider>,
 );
 

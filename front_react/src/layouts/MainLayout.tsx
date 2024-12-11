@@ -13,7 +13,7 @@ const MainLayout: FC = () => {
         console.log('health:', health);
       } catch (e) {
         const error = e as AxiosError;
-        console.log(error.message);
+        console.log('health check failed with error:', error.message);
       }
     };
     void getData();

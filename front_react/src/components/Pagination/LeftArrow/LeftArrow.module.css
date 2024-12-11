@@ -1,0 +1,8 @@
+:global(body) .not_active {
+    cursor: initial;
+    user-select: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.3s;
+}
+

@@ -4,6 +4,7 @@ import { CRMApi } from '../../services/crm.api.servise';
 import { AxiosError } from 'axios';
 import IErrorResponse from '../../interfaces/IErrorResponse';
 import { PaginationActions } from './paginationSlice';
+import { navigateTo } from '../../helpers/navigate-to';
 
 interface IInitial {
   orders: IOrder[];
@@ -25,7 +26,9 @@ const searchForOrders = createAsyncThunk(
       return thunkAPI.fulfillWithValue(ordersPaginated.data);
     } catch (e) {
       const error = e as AxiosError<IErrorResponse>;
-      return thunkAPI.rejectWithValue(error.response?.data.status_message);
+      navigateTo('/sign-in');
+      return thunkAPI.rejectWithValue(error.response?.data);
+
     } finally {
       thunkAPI.dispatch(OrdersActions.setLoadingState(false));
     }
@@ -49,7 +52,7 @@ export const ordersSlice = createSlice({
       .addMatcher(
         isRejected(searchForOrders),
         (state, action) => {
-          console.log(
+          console.error(
             'Orders receive sequence failed with error:',
             action.payload,
           );

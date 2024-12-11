@@ -1,10 +1,7 @@
-import React, { ChangeEvent, FC, MouseEvent, MutableRefObject } from 'react';
-import { SetURLSearchParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
-import { QueryActions } from '../../redux/Slices/querySlice';
+import React, { ChangeEvent, FC, MouseEvent, MutableRefObject, useEffect } from 'react';
+import { SetURLSearchParams, useSearchParams } from 'react-router-dom';
 import { sortToggle } from '../../helpers/sort-toggle';
-import { SortByEnum } from '../../enums/sort-by.enum';
+import { SortEnum } from '../../enums/sort.enum';
 
 interface IProps {
   cellName: string;
@@ -14,35 +11,42 @@ interface IProps {
 
 const TitleRowCell: FC<IProps> = ({ cellName, setQuery, chosenColumnRef }) => {
   console.log('.');
-  const { orderQuery } = useAppSelector((state) => state.orderQuery);
-  const dispatch = useAppDispatch();
-  const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    const radio = document.getElementsByName('orderBy') as NodeListOf<HTMLInputElement>;
+    radio.forEach(e => {
+      if (e.value === 'id') {
+        e.checked = true;
+      }
+    });
+  }, []);
 
+  const queryParams = useSearchParams();
+
+  const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
+    const queryModified = { ...Object.fromEntries(queryParams[0].entries()), sortBy: event.currentTarget.value };
+    queryParams[1](queryModified);
+  };
+
+  const clickHandle = (event: MouseEvent<HTMLInputElement>) => {
+    const sortUp = Array.from(document.getElementsByClassName('up')) as HTMLParagraphElement[];
+    const sortDawn = Array.from(document.getElementsByClassName('down')) as HTMLParagraphElement[];
     if (chosenColumnRef.current === event.currentTarget.value) {
-      dispatch(QueryActions.setQuery({
-        ...orderQuery,
-        sort: sortToggle(orderQuery.sort),
-        sortBy: event.currentTarget.value as SortByEnum,
-      }));
-    } else {
-      dispatch(QueryActions.setQuery({ ...orderQuery, sortBy: event.currentTarget.value as SortByEnum }));
+      const queryModified = {
+        ...Object.fromEntries(queryParams[0].entries()),
+        sort: sortToggle((queryParams[0].get('sort')) as SortEnum),
+      };
+      queryParams[1](queryModified);
+      sortUp.forEach(e => e.classList.toggle('visible'));
+      sortDawn.forEach(e => e.classList.toggle('visible'));
     }
     chosenColumnRef.current = event.currentTarget.value;
-    setQuery(queryToSearchParams(orderQuery));
-  };
-  const clickHandle = (event: MouseEvent<HTMLInputElement>) => {
-    if (chosenColumnRef.current === event.currentTarget.value) {
-      dispatch(QueryActions.setQuery({
-        ...orderQuery,
-        sort: sortToggle(orderQuery.sort),
-      }));
-    }
-
   };
   return <th>
     <label>
       <input className={'title'} onClick={clickHandle} onChange={changeHandle} type="radio"
-             value={cellName} name={'orderBy'} checked={cellName === orderQuery.sortBy} /> {cellName}
+             value={cellName} name={'orderBy'} /> {cellName}
+      <p className={'down'}>{'\u25BE'}</p>
+      <p className={'up visible'}>{'\u25B4'}</p>
     </label>
   </th>;
 };

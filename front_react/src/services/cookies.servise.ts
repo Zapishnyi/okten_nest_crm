@@ -5,6 +5,7 @@ interface ICookiesService {
   setRefreshToken: (token: string) => void;
   getAccessToken: () => string | null;
   getRefreshToken: () => string | null;
+  deleteAuthTokens: () => void;
 }
 
 
@@ -18,5 +19,9 @@ export const cookie: ICookiesService = {
   getRefreshToken: () => {
     const token = document.cookie.split('; ').filter(e => e.includes('refresh'))[0]?.replace('refresh=', '');
     return !!token ? token : null;
+  },
+  deleteAuthTokens: () => {
+    document.cookie = `access=token; path=/; ${setCookieExpire(0)}`;
+    document.cookie = `refresh=token; path=/; ${setCookieExpire(0)}`;
   },
 };

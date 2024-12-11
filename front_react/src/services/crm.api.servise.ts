@@ -32,6 +32,7 @@ interface ICRMApiService {
   auth: {
     singIn: (body: IUserSingIn) => Promise<IAuthTokens>;
     refresh: () => Promise<IAuthTokens>;
+    log_out: () => Promise<void>;
   };
   orders: {
     get: (query: Record<string, string>) => Promise<IOrderPaginated>;
@@ -46,6 +47,7 @@ export const CRMApi: ICRMApiService = {
       .post(urls.auth.sing_in, body)
       .then((response) => response.data),
     refresh: () => axiosInstance.post(urls.auth.refresh).then((response) => response.data),
+    log_out: () => axiosInstance.post(urls.auth.log_out),
   },
   orders: {
     get: (query) => axiosInstance
@@ -59,17 +61,22 @@ export const CRMApi: ICRMApiService = {
 axiosInstance.interceptors.response.use((response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry && cookie.getRefreshToken() && originalRequest.url !== '/auth/refresh') {
-      originalRequest._retry = true;
-      try {
-        const { tokens } = await CRMApi.auth.refresh();
-        cookie.setAccessToken(tokens.access);
-        cookie.setRefreshToken(tokens.refresh);
-        return axiosInstance(originalRequest);
-      } catch (error) {
-        console.log('Token refresh failed', error);
-        navigateTo('/sing-in');
+    if (error.status) {
+
+      if (error.response.status === 401 && !originalRequest._retry && cookie.getRefreshToken() && originalRequest.url !== '/auth/refresh') {
+        originalRequest._retry = true;
+        try {
+          const { tokens } = await CRMApi.auth.refresh();
+          cookie.setAccessToken(tokens.access);
+          cookie.setRefreshToken(tokens.refresh);
+          return axiosInstance(originalRequest);
+        } catch (error) {
+          console.error('Token refresh failed', error);
+          navigateTo('/sing-in');
+        }
       }
+      return Promise.reject(error);
+    } else {
+      return Promise.reject(error);
     }
-    return Promise.reject(error);
   });
