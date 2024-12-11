@@ -31,7 +31,7 @@ const searchForOrders = createAsyncThunk(
       } else {
         navigateTo('/error');
       }
-      ;
+
       return thunkAPI.rejectWithValue(error.response?.data);
 
     } finally {
