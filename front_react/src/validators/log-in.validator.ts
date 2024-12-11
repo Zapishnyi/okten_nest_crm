@@ -1,7 +1,7 @@
 import Joi from 'joi';
-import IUserSingIn from '../interfaces/IUserSingIn';
+import IUserSignIn from '../interfaces/IUserSignIn';
 
-const userValidator: Joi.ObjectSchema<IUserSingIn> = Joi.object({
+const userValidator: Joi.ObjectSchema<IUserSignIn> = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .empty()

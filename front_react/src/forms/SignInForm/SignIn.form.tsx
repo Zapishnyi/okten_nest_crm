@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styles from './SignInForm.module.css';
-import IUserSingIn from '../../interfaces/IUserSingIn';
+import IUserSignIn from '../../interfaces/IUserSignIn';
 import { CRMApi } from '../../services/crm.api.servise';
 import { cookie } from '../../services/cookies.servise';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -13,13 +13,13 @@ import { AxiosError } from 'axios';
 const SignInForm = () => {
   console.log('.');
   const [loginError, setLoginError] = useState<string[] | null>(null);
-  const { register, handleSubmit, formState: { errors } } = useForm<IUserSingIn>({
+  const { register, handleSubmit, formState: { errors } } = useForm<IUserSignIn>({
     mode: 'all',
     resolver: joiResolver(userValidator),
   });
   const navigate = useNavigate();
 
-  const SubmitHandler = async (credentials: IUserSingIn) => {
+  const SubmitHandler = async (credentials: IUserSignIn) => {
     try {
       const { tokens } = await CRMApi.auth.singIn(credentials);
       // storage.setAccessToken(tokens.access);

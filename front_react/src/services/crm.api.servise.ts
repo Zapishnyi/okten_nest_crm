@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { baseURL, urls } from '../constants/urls';
-import IUserSingIn from '../interfaces/IUserSingIn';
+import IUserSignIn from '../interfaces/IUserSignIn';
 import IOrderPaginated from '../interfaces/IOrderPaginated';
 import { IHealth } from '../interfaces/IHealth';
 import IAuthTokens from '../interfaces/IAuthTokens';
@@ -30,7 +30,7 @@ axiosInstance.interceptors.request.use((request) => {
 
 interface ICRMApiService {
   auth: {
-    singIn: (body: IUserSingIn) => Promise<IAuthTokens>;
+    singIn: (body: IUserSignIn) => Promise<IAuthTokens>;
     refresh: () => Promise<IAuthTokens>;
     log_out: () => Promise<void>;
   };
@@ -43,7 +43,7 @@ interface ICRMApiService {
 
 export const CRMApi: ICRMApiService = {
   auth: {
-    singIn: (body: IUserSingIn) => axiosInstance
+    singIn: (body: IUserSignIn) => axiosInstance
       .post(urls.auth.sing_in, body)
       .then((response) => response.data),
     refresh: () => axiosInstance.post(urls.auth.refresh).then((response) => response.data),
