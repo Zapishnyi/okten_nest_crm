@@ -1,6 +1,5 @@
-### Summary
+## OKTEN capstone project. Programming school CRM:
 
-OKTEN capstone project. Programming school CRM:
 Back developed in Nest, Front - React
 Database - MySQL
 
@@ -35,16 +34,15 @@ Developed as per technical assigment, up to list item N:6
 1. Swagger is awaitable on URL:
    > http://localhost:5000/api-docs
 
-### Postman configuration files may be found in folder
+### Postman
 
-    /Postman
+1. Postman configuration files may be found in folder
 
-1. Swagger is awaitable on URL:
-   > http://localhost:5000/api-docs
+   > root:/Postman
 
 ### Migrations
 
-Database is built and running on http://owu.linkpc.net/ and do not require of pre-setting
+Database is built and running on http://owu.linkpc.net/ and available without pre-setting
 
 * To build up migration as per latest database update:
   > npm run migration:generate -name=[name of file / table change indication]
