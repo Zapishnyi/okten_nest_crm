@@ -14,7 +14,7 @@ const MenuBar: FC = () => {
     try {
       await CRMApi.auth.log_out();
       cookie.deleteAuthTokens();
-      navigate('/sing-in');
+      navigate('/sign-in');
     } catch (err) {
       console.log(err);
     }
