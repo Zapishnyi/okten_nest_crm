@@ -10,8 +10,8 @@ export default interface IOrder {
   course_type: string,
   sum: number,
   alreadyPaid: number,
-  utm: string,
-  msg: string,
+  utm?: string,
+  msg?: string,
   status: string,
   created_at: Date,
 }

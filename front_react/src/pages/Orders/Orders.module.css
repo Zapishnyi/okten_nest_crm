@@ -15,7 +15,7 @@
 
                 th {
                     overflow: hidden;
-                    height: 140px;
+                    height: 50px;
                     user-select: none;
 
                     label {
@@ -31,10 +31,12 @@
                             display: none;
                         }
 
+                        /*sor marker*/
+
                         p {
                             position: absolute;
                             display: none;
-                            bottom: 0;
+                            bottom: -2px;
                         }
                     }
 
@@ -51,7 +53,7 @@
                 /*ID*/
 
                 > :nth-child(1) {
-                    width: 30px;
+                    width: 3vw;
                 }
 
                 /*name*/
@@ -69,7 +71,7 @@
                 /*email*/
 
                 > :nth-child(4) {
-                    width: 12vw;
+                    width: 10vw;
                 }
 
                 /*phone*/
@@ -81,26 +83,22 @@
                 /*age*/
 
                 > :nth-child(6) {
-                    width: 40px;
-                    writing-mode: vertical-rl; /* Sets vertical text layout */
-                    line-height: 10px;
-                    transform: rotate(180deg);
+                    width: 5vw;
+
 
                     p {
-                        transform: rotate(180deg) translateY(120px);
+
                     }
                 }
 
                 /*course*/
 
                 > :nth-child(7) {
-                    width: 50px;
-                    writing-mode: vertical-rl; /* Sets vertical text layout */
-                    line-height: 10px;
-                    transform: rotate(180deg);
+                    width: 5vw;
+
 
                     p {
-                        transform: rotate(180deg) translateY(120px);
+
 
                     }
                 }
@@ -108,13 +106,11 @@
                 /*course_format*/
 
                 > :nth-child(8) {
-                    width: 60px;
-                    writing-mode: vertical-rl; /* Sets vertical text layout */
-                    line-height: 10px;
-                    transform: rotate(180deg);
+                    width: 8vw;
+
 
                     p {
-                        transform: rotate(180deg) translateY(120px);
+
                     }
                 }
 
@@ -122,20 +118,17 @@
 
                 > :nth-child(9) {
 
-                    width: 70px;
-                    writing-mode: vertical-rl; /* Sets vertical text layout */
-                    line-height: 10px;
-                    transform: rotate(180deg);
+                    width: 8vw;
 
                     p {
-                        transform: rotate(180deg) translateY(120px);
+
                     }
                 }
 
                 /*sum*/
 
                 > :nth-child(10) {
-                    width: 60px;
+                    width: 8vw;
 
 
                 }
@@ -143,36 +136,33 @@
                 /*alreadyPaid*/
 
                 > :nth-child(11) {
-                    width: 60px;
-                    writing-mode: vertical-rl; /* Sets vertical text layout */
-                    line-height: 10px;
-                    transform: rotate(180deg);
+                    width: 8vw;
 
                     p {
-                        transform: rotate(180deg) translateY(120px);
+
                     }
                 }
 
 
                 /*utm*/
 
-                > :nth-child(12) {
-                    width: 6vw;
-                }
+                /*> :nth-child(12) {*/
+                /*    width: 5vw;*/
+                /*}*/
 
 
                 /*msg*/
 
                 /*status*/
 
-                > :nth-child(14) {
-                    width: 5vw;
+                > :nth-child(12) {
+                    width: 7vw;
                 }
 
                 /*created_at*/
 
-                > :nth-child(15) {
-                    width: 10vw;
+                > :nth-child(13) {
+                    width: 9vw;
                 }
             }
         }
@@ -192,6 +182,7 @@
                 /*ID*/
 
                 > :nth-child(1) {
+                    text-align: center;
                 }
 
                 /*name*/
@@ -254,13 +245,7 @@
 
                 }
 
-                /*utm*/
 
-                > :nth-child(12) {
-
-                }
-
-                /*msg*/
                 /*status*/
                 /*created_at*/
             }

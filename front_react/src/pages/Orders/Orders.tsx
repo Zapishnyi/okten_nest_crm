@@ -19,7 +19,7 @@ const Orders: FC = () => {
   const dispatch = useAppDispatch();
   const chosenColumnRef = useRef<string>('id');
   const [query, setQuery] = useSearchParams(queryToSearchParams(initialQuery));
-  const titles = orders.length ? Object.keys(orders[0]) : [];
+  const titles = orders.length ? Object.keys(orders[0]).filter(e => (e !== 'msg' && e !== 'utm')) : [];
   useEffect(() => {
     //Initial sync initial parameters to the URL
     setQuery(queryToSearchParams(initialQuery));
