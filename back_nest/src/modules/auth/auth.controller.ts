@@ -77,6 +77,15 @@ export class AuthController {
     return this.userPresenter.toResponseDto(user);
   }
 
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    example: {
+      statusCode: 401,
+      messages: 'jwt expired',
+      timestamp: '2024-12-03T18:52:08.622Z',
+      path: '/auth/refresh',
+    },
+  })
   @UseGuards(JwtRefreshGuard)
   @ApiBearerAuth('Refresh-Token')
   @Post('refresh')
@@ -87,6 +96,15 @@ export class AuthController {
     return { tokens, user: userData.user };
   }
 
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    example: {
+      statusCode: 401,
+      messages: 'jwt expired',
+      timestamp: '2024-12-03T18:52:08.622Z',
+      path: '/auth/sign-out',
+    },
+  })
   @UseGuards(JwtAccessGuard)
   @ApiBearerAuth('Access-Token')
   @Post('sign-out')
