@@ -34,7 +34,7 @@ Developed as per technical assigment, up to list item N:6
 
 ### Swagger
 
-1. Swagger is awaitable on URL:
+1. Swagger is available on URL:
    > http://localhost:5000/api-docs
 
 ### Postman
