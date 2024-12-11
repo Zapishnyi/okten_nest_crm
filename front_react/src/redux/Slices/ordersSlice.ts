@@ -26,7 +26,12 @@ const searchForOrders = createAsyncThunk(
       return thunkAPI.fulfillWithValue(ordersPaginated.data);
     } catch (e) {
       const error = e as AxiosError<IErrorResponse>;
-      navigateTo('/sign-in');
+      if (error.status === 401) {
+        navigateTo('/sign-in');
+      } else {
+        navigateTo('/error');
+      }
+      ;
       return thunkAPI.rejectWithValue(error.response?.data);
 
     } finally {
