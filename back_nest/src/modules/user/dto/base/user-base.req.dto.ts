@@ -57,8 +57,9 @@ export class UserBaseReqDto {
   @Length(5, 16)
   @Matches(regexp.password, {
     message:
-      'Password must contain one digit from 1 to 9, one lowercase letter, one uppercase letter,' +
-      'one special character, no space, and it must be 5-16 characters long.',
+      'Password may contain any characters, no space, and it must be 5-16 characters long.',
+    // 'Password must contain one digit from 1 to 9, one lowercase letter, one uppercase letter,' +
+    // 'one special character, no space, and it must be 5-16 characters long.
   })
   @ApiProperty({
     description: 'Password',

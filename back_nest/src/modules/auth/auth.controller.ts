@@ -43,8 +43,11 @@ export class AuthController {
         'email must be longer than or equal to 3 characters',
         'Must be a valid e-mail address',
         'email must be a string',
+        'Password may contain any characters, no space, and it must be 5-16 characters long.',
+        'password must be longer than or equal to 5 characters',
+        'password must be a string',
       ],
-      timestamp: '2024-12-03T18:43:59.872Z',
+      timestamp: '2024-12-12T19:43:34.861Z',
       path: '/auth/sign-in',
     },
   })

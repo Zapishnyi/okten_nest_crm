@@ -19,13 +19,18 @@
 									"// Parse the response body to JSON\r",
 									"const responseBody = pm.response.json();\r",
 									"// Extract the token \r",
+									"try{\r",
 									"const access = responseBody.tokens.access;\r",
 									"const refresh = responseBody.tokens.refresh;\r",
 									"if (access||refresh) {\r",
 									"    // Set the token in the environment\r",
 									"    pm.environment.set('access', access);\r",
 									"    pm.environment.set('refresh', refresh);\r",
-									"       } "
+									"       } \r",
+									"}catch(err){\r",
+									"console.log(err)\r",
+									"}\r",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -36,22 +41,28 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"admin@gmail.com\",\r\n    \"password\":\"admin\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "admin@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
 								}
-							}
+							]
 						},
 						"url": {
-							"raw": "{{host}}/auth/sing-in",
+							"raw": "{{host}}/auth/sign-in",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"auth",
-								"sing-in"
+								"sign-in"
 							]
 						}
 					},
