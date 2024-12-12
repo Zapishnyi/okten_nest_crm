@@ -28,7 +28,7 @@ const TitleRowCell: FC<IProps> = ({ cellName, chosenColumnRef }) => {
 
   const clickHandle = (event: MouseEvent<HTMLInputElement>) => {
     const sortUp = Array.from(document.getElementsByClassName('up')) as HTMLParagraphElement[];
-    const sortDawn = Array.from(document.getElementsByClassName('down')) as HTMLParagraphElement[];
+    const sortDown = Array.from(document.getElementsByClassName('down')) as HTMLParagraphElement[];
     if (chosenColumnRef.current === event.currentTarget.value) {
       const queryModified = {
         ...Object.fromEntries(queryParams[0].entries()),
@@ -36,7 +36,7 @@ const TitleRowCell: FC<IProps> = ({ cellName, chosenColumnRef }) => {
       };
       queryParams[1](queryModified);
       sortUp.forEach(e => e.classList.toggle('visible'));
-      sortDawn.forEach(e => e.classList.toggle('visible'));
+      sortDown.forEach(e => e.classList.toggle('visible'));
     }
     chosenColumnRef.current = event.currentTarget.value;
   };

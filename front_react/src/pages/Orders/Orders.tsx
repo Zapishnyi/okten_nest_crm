@@ -9,6 +9,7 @@ import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
 import { OrdersActions } from '../../redux/Slices/ordersSlice';
 import Pagination from '../../components/Pagination/Pagination';
 import LogOut from '../../components/LogOutBtn/LogOut';
+import { orderToReduced } from '../../helpers/order-to-reduced';
 
 
 const Orders: FC = () => {
@@ -18,7 +19,7 @@ const Orders: FC = () => {
   const dispatch = useAppDispatch();
   const chosenColumnRef = useRef<string>('id');
   const [query, setQuery] = useSearchParams(queryToSearchParams(initialQuery));
-  const titles = orders.length ? Object.keys(orders[0]).filter(e => (e !== 'msg' && e !== 'utm')) : [];
+  const titles = orders.length ? Object.keys(orderToReduced(orders[0])) : [];
   useEffect(() => {
     //Initial sync initial parameters to the URL
     setQuery(queryToSearchParams(initialQuery));
