@@ -84,53 +84,30 @@
 
                 > :nth-child(6) {
                     width: 5vw;
-
-
-                    p {
-
-                    }
                 }
 
                 /*course*/
 
                 > :nth-child(7) {
                     width: 5vw;
-
-
-                    p {
-
-
-                    }
                 }
 
                 /*course_format*/
 
                 > :nth-child(8) {
                     width: 8vw;
-
-
-                    p {
-
-                    }
                 }
 
                 /*course_type*/
 
                 > :nth-child(9) {
-
                     width: 8vw;
-
-                    p {
-
-                    }
                 }
 
                 /*sum*/
 
                 > :nth-child(10) {
                     width: 6vw;
-
-
                 }
 
                 /*alreadyPaid*/
@@ -138,20 +115,7 @@
                 > :nth-child(11) {
                     width: 6vw;
 
-                    p {
-
-                    }
                 }
-
-
-                /*utm*/
-
-                /*> :nth-child(12) {*/
-                /*    width: 5vw;*/
-                /*}*/
-
-
-                /*msg*/
 
                 /*status*/
 
@@ -168,7 +132,6 @@
         }
 
         tbody {
-
             tr {
                 width: 100%;
 
@@ -179,76 +142,83 @@
                     border: 1px solid black;
                 }
 
-                /*ID*/
+                /*ID - 1*/
 
                 > :nth-child(1) {
                     text-align: center;
                 }
 
-                /*name*/
+                /*name - 2*/
 
                 > :nth-child(2) {
+                    text-indent: 5px;
                 }
 
-                /*surname*/
+                /*surname - 3*/
 
                 > :nth-child(3) {
-
+                    text-indent: 5px;
                 }
 
-                /*email*/
+                /*email - 4*/
 
                 > :nth-child(4) {
-
+                    text-indent: 5px;
                 }
 
-
-                /*phone*/
+                /*phone - 5*/
 
                 > :nth-child(5) {
                     text-align: center;
                 }
 
-
-                /*age*/
+                /*age - 6*/
 
                 > :nth-child(6) {
                     text-align: center;
                 }
 
-                /*course*/
+                /*course - 7*/
 
                 > :nth-child(7) {
                     text-align: center;
                 }
 
-                /*course_format*/
+                /*course_format - 8*/
 
                 > :nth-child(8) {
                     text-align: center;
                 }
 
-                /*course_type*/
+                /*course_type - 9*/
 
                 > :nth-child(9) {
                     text-align: center;
                 }
 
-                /*sum*/
+                /*sum - 10*/
 
                 > :nth-child(10) {
-
+                    text-indent: 5px;
                 }
 
-                /*alreadyPaid*/
+                /*alreadyPaid - 11*/
 
                 > :nth-child(11) {
-
+                    text-indent: 5px;
                 }
 
+                /*status - 12*/
 
-                /*status*/
-                /*created_at*/
+                > :nth-child(12) {
+                    text-align: center;
+                }
+
+                /*created_at - 13*/
+
+                > :nth-child(13) {
+                    text-align: center;
+                }
             }
         }
     }
