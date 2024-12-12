@@ -2,13 +2,27 @@ import { Injectable } from '@nestjs/common';
 
 import { OrdersRepository } from '../../repository/services/orders-repository.service';
 import { OrdersQueryReqDto } from '../dto/req/orders-query.req.dto';
+import { OrderEntity } from '../../../database/entities/order.entity';
+import { EntityManager } from 'typeorm';
+import { IsolationLevelService } from '../../transaction-isolation-level/isolation-level.service';
 
 @Injectable()
 export class OrderService {
-  constructor(private readonly ordersRepository: OrdersRepository) {}
+  constructor(
+    private readonly ordersRepository: OrdersRepository,
+    private readonly entityManager: EntityManager,
+    private readonly isolationLevel: IsolationLevelService,
+  ) {}
 
-  public async getByQuery(query: OrdersQueryReqDto): Promise<any> {
-    return await this.ordersRepository.getByQuery(query);
+  public async getByQuery(
+    query: OrdersQueryReqDto,
+  ): Promise<[OrderEntity[], number]> {
+    return await this.entityManager.transaction(
+      await this.isolationLevel.set(),
+      async (em: EntityManager): Promise<[OrderEntity[], number]> => {
+        return await this.ordersRepository.getByQuery(query, em);
+      },
+    );
   }
 
   public async getGroupingItems(): Promise<Record<string, string[]>> {

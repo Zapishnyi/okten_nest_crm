@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, EntityManager, Repository } from 'typeorm';
 
 import { OrderEntity } from '../../../database/entities/order.entity';
 import { OrdersQueryReqDto } from '../../order/dto/req/orders-query.req.dto';
@@ -10,13 +10,14 @@ export class OrdersRepository extends Repository<OrderEntity> {
     super(OrderEntity, dataSource.manager);
   }
 
-  public async getByQuery({
-    page,
-    sortBy,
-    sort,
-  }: OrdersQueryReqDto): Promise<[OrderEntity[], number]> {
+  public async getByQuery(
+    { page, sortBy, sort }: OrdersQueryReqDto,
+    em?: EntityManager,
+  ): Promise<[OrderEntity[], number]> {
+    const repo = em ? em.getRepository(OrderEntity) : this;
     try {
-      return this.createQueryBuilder('orders')
+      return repo
+        .createQueryBuilder('orders')
         .limit(25)
         .offset((page - 1) * 25)
         .orderBy(`orders.${sortBy}`, sort)
