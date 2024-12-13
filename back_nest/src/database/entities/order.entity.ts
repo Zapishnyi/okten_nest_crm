@@ -1,5 +1,7 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { BaseModel } from './base/base.model';
+import { UserEntity } from './user.entity';
+import { GroupEntity } from './group.entity';
 
 @Entity('orders')
 export class OrderEntity extends BaseModel {
@@ -41,4 +43,10 @@ export class OrderEntity extends BaseModel {
 
   @Column('varchar', { length: 15, nullable: true })
   status: string;
+
+  @ManyToOne(() => UserEntity, (entity) => entity.orders)
+  user: UserEntity;
+
+  @ManyToOne(() => GroupEntity, (group) => group.orders)
+  group: GroupEntity;
 }

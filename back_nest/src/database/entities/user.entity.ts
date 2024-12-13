@@ -3,6 +3,7 @@ import { BaseModel } from './base/base.model';
 import { AuthTokenEntity } from './auth-token.entity';
 import { ActivateTokenEntity } from './activate-token.entity';
 import { UserRoleEnum } from '../../modules/user/enums/user-role.enum';
+import { OrderEntity } from './order.entity';
 
 @Entity('users')
 export class UserEntity extends BaseModel {
@@ -32,4 +33,6 @@ export class UserEntity extends BaseModel {
 
   @OneToMany(() => ActivateTokenEntity, (entity) => entity.user)
   activate_tokens?: ActivateTokenEntity[];
+  @OneToMany(() => OrderEntity, (entity) => entity.user)
+  orders: OrderEntity[];
 }

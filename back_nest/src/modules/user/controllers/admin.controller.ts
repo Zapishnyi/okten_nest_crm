@@ -26,7 +26,7 @@ import { UserValidateResDto } from '../dto/res/user-validate.res.dto';
 import { UserBanResDto } from '../dto/res/user-ban.res.dto';
 
 @ApiTags('2.Administrator')
-@Controller()
+@Controller('/admin')
 export class AdminController {
   constructor(
     private readonly adminService: AdminService,

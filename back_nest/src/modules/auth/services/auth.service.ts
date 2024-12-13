@@ -11,7 +11,6 @@ import { validate } from 'class-validator';
 import { AdminConfigType, EnvConfigType } from '../../../configs/envConfigType';
 
 import { TokenService } from './token.service';
-import { UserCreateByAdminReqDto } from '../../user/dto/req/user-create-by-admin.req.dto';
 import { UserEntity } from '../../../database/entities/user.entity';
 import { IUserData } from '../interfaces/IUserData';
 import { UserValidateReqDto } from '../../user/dto/req/user-validate.req.dto';
@@ -21,6 +20,7 @@ import { AuthTokenEntity } from '../../../database/entities/auth-token.entity';
 import { ActivateTokenEntity } from '../../../database/entities/activate-token.entity';
 import { IsolationLevelService } from '../../transaction-isolation-level/isolation-level.service';
 import { AuthTokenPairResDto } from '../dto/res/auth-tokens-pair.res.dto';
+import { AdminSelfCreateReqDto } from '../../user/dto/req/admin-self-create.req.dto';
 
 @Injectable()
 export class AuthService {
@@ -158,7 +158,7 @@ export class AuthService {
 
   public async adminCreate(): Promise<void> {
     const admin = plainToInstance(
-      UserCreateByAdminReqDto,
+      AdminSelfCreateReqDto,
       this.envConfig.get<AdminConfigType>('admin'),
     );
     const errors = await validate(admin);

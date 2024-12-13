@@ -47,7 +47,8 @@ Developed as per technical assigment, up to list item N:6
 
 Database is built and running on http://owu.linkpc.net/, available without pre-setting
 
-* To build up migration as per latest database update:
+* To build up migration as per latest database update use following command from back_nest folder:
+
   > npm run migration:generate -name=[name of file / table change indication]
 * To apply latest migration:
   > npm run migration:run

@@ -1,9 +1,11 @@
 import { PickType } from '@nestjs/swagger';
 import { UserBaseReqDto } from '../base/user-base.req.dto';
 
-export class UserCreateByAdminReqDto extends PickType(UserBaseReqDto, [
+export class AdminSelfCreateReqDto extends PickType(UserBaseReqDto, [
   'name',
   'surname',
+  'password',
   'email',
+  'active',
   'role',
 ]) {}

@@ -14,9 +14,9 @@ export class OrdersRepository extends Repository<OrderEntity> {
     { page, sortBy, sort }: OrdersQueryReqDto,
     em?: EntityManager,
   ): Promise<[OrderEntity[], number]> {
-    const repo = em ? em.getRepository(OrderEntity) : this;
+    const repository = em ? em.getRepository(OrderEntity) : this;
     try {
-      return repo
+      return repository
         .createQueryBuilder('orders')
         .limit(25)
         .offset((page - 1) * 25)
