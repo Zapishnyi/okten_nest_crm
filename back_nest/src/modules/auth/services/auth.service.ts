@@ -18,9 +18,9 @@ import { UserSignInReqDto } from '../../user/dto/req/user-sign-in.req.dto';
 import { EntityManager } from 'typeorm';
 import { AuthTokenEntity } from '../../../database/entities/auth-token.entity';
 import { ActivateTokenEntity } from '../../../database/entities/activate-token.entity';
-import { IsolationLevelService } from '../../transaction-isolation-level/isolation-level.service';
 import { AuthTokenPairResDto } from '../dto/res/auth-tokens-pair.res.dto';
 import { AdminSelfCreateReqDto } from '../../user/dto/req/admin-self-create.req.dto';
+import { IsolationLevelService } from '../../transaction-isolation-level/isolation-level.service';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +28,7 @@ export class AuthService {
     private readonly tokenService: TokenService,
     private readonly entityManager: EntityManager,
     private readonly envConfig: ConfigService<EnvConfigType>,
-    private readonly isolation: IsolationLevelService,
+    private readonly isolationLevel: IsolationLevelService,
   ) {}
 
   private async generateSaveAuthTokens(
@@ -73,7 +73,7 @@ export class AuthService {
   ): Promise<[UserEntity, AuthTokenPairResDto]> {
     const device = request.headers['user-agent'];
     return await this.entityManager.transaction(
-      await this.isolation.set(),
+      this.isolationLevel.set(),
       async (em: EntityManager): Promise<[UserEntity, AuthTokenPairResDto]> => {
         const usersRepositoryEM = em.getRepository(UserEntity);
         const user = await usersRepositoryEM.findOne({
@@ -115,7 +115,7 @@ export class AuthService {
     device,
   }: IUserData): Promise<AuthTokenPairResDto> {
     return await this.entityManager.transaction(
-      await this.isolation.set(),
+      this.isolationLevel.set(),
       async (em: EntityManager) => {
         await this.deleteAuthTokens(user.id, device, em);
         return await this.generateSaveAuthTokens(user.id, device, em);
@@ -125,7 +125,7 @@ export class AuthService {
 
   public async signOut({ user, device }: IUserData): Promise<void> {
     await this.entityManager.transaction(
-      await this.isolation.set(),
+      this.isolationLevel.set(),
       async (em: EntityManager): Promise<void> => {
         const activateTokensRepositoryEM =
           em.getRepository(ActivateTokenEntity);
@@ -140,7 +140,7 @@ export class AuthService {
     { user }: IUserData,
   ): Promise<UserEntity> {
     return await this.entityManager.transaction(
-      await this.isolation.set(),
+      this.isolationLevel.set(),
       async (em: EntityManager): Promise<UserEntity> => {
         const userRepositoryEM = em.getRepository(UserEntity);
         const activateTokensRepositoryEM =
@@ -169,7 +169,7 @@ export class AuthService {
       ]);
     }
     await this.entityManager.transaction(
-      await this.isolation.set(),
+      this.isolationLevel.set(),
       async (em: EntityManager): Promise<void> => {
         const usersRepositoryEM = em.getRepository(UserEntity);
         try {

@@ -33,7 +33,7 @@ export class AdminService {
     user_id: number,
   ): Promise<[ActivateTokenEntity, UserEntity]> {
     return await this.entityManager.transaction(
-      await this.isolationLevel.set(),
+      this.isolationLevel.set(),
       async (em) => {
         const usersRepositoryEM = em.getRepository(UserEntity);
         const activateTokenRepositoryEM = em.getRepository(ActivateTokenEntity);
@@ -61,7 +61,7 @@ export class AdminService {
 
   public async userBan(user_id: number): Promise<UserEntity> {
     return await this.entityManager.transaction(
-      await this.isolationLevel.set(),
+      this.isolationLevel.set(),
       async (em) => {
         const usersRepositoryEM = em.getRepository(UserEntity);
         const user = await usersRepositoryEM.findOneBy({ id: user_id });
@@ -80,7 +80,7 @@ export class AdminService {
 
   public async userReinstate(user_id: number): Promise<UserEntity> {
     return await this.entityManager.transaction(
-      await this.isolationLevel.set(),
+      this.isolationLevel.set(),
       async (em) => {
         const usersRepositoryEM = em.getRepository(UserEntity);
         const user = await usersRepositoryEM.findOneBy({ id: user_id });
@@ -99,7 +99,7 @@ export class AdminService {
 
   public async userDelete(user_id: number): Promise<void> {
     await this.entityManager.transaction(
-      await this.isolationLevel.set(),
+      this.isolationLevel.set(),
       async (em) => {
         const usersRepositoryEM = em.getRepository(UserEntity);
         if (await usersRepositoryEM.exists({ where: { id: user_id } })) {

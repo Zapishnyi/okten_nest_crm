@@ -18,7 +18,7 @@ export class OrderService {
     query: OrdersQueryReqDto,
   ): Promise<[OrderEntity[], number]> {
     return await this.entityManager.transaction(
-      await this.isolationLevel.set(),
+      this.isolationLevel.set(),
       async (em: EntityManager): Promise<[OrderEntity[], number]> => {
         return await this.ordersRepository.getByQuery(query, em);
       },
