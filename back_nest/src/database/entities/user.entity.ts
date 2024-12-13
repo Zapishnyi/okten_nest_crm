@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import { BaseModel } from './base/base.model';
 import { AuthTokenEntity } from './auth-token.entity';
 import { ActivateTokenEntity } from './activate-token.entity';
@@ -31,8 +31,9 @@ export class UserEntity extends BaseModel {
   @OneToMany(() => AuthTokenEntity, (entity) => entity.user)
   auth_tokens?: AuthTokenEntity[];
 
-  @OneToMany(() => ActivateTokenEntity, (entity) => entity.user)
-  activate_tokens?: ActivateTokenEntity[];
+  @OneToOne(() => ActivateTokenEntity, (entity) => entity.user)
+  activate_token?: ActivateTokenEntity;
+
   @OneToMany(() => OrderEntity, (entity) => entity.user)
   orders: OrderEntity[];
 }

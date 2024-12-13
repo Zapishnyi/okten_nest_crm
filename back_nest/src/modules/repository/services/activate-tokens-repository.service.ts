@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, EntityManager, Repository } from 'typeorm';
 import { ActivateTokenEntity } from '../../../database/entities/activate-token.entity';
 
 @Injectable()
@@ -8,8 +8,12 @@ export class ActivateTokensRepository extends Repository<ActivateTokenEntity> {
     super(ActivateTokenEntity, dataSource.manager);
   }
 
-  public async isActivateTokenExist(token: string): Promise<boolean> {
-    return await this.exists({
+  public async isActivateTokenExist(
+    token: string,
+    em?: EntityManager,
+  ): Promise<boolean> {
+    const repository = em ? em.getRepository(ActivateTokenEntity) : this;
+    return await repository.exists({
       where: [{ activate: token }],
     });
   }

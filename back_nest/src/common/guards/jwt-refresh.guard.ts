@@ -8,14 +8,17 @@ import {
 import { TokenTypeEnum } from '../../modules/auth/enums/token-type.enum';
 import { TokenService } from '../../modules/auth/services/token.service';
 import { AuthTokensRepository } from '../../modules/repository/services/auth-tokens-repository.service';
-import { UsersRepository } from '../../modules/repository/services/users-repository.service';
+import { EntityManager } from 'typeorm';
+import { IsolationLevelService } from '../../modules/transaction-isolation-level/isolation-level.service';
+import { UserEntity } from '../../database/entities/user.entity';
 
 @Injectable()
 export class JwtRefreshGuard implements CanActivate {
   constructor(
     private readonly tokenService: TokenService,
     private readonly authTokensRepository: AuthTokensRepository,
-    private readonly usersRepository: UsersRepository,
+    private readonly entityManager: EntityManager,
+    private readonly isolationLevel: IsolationLevelService,
   ) {}
 
   async canActivate(
@@ -35,24 +38,28 @@ export class JwtRefreshGuard implements CanActivate {
     if (!user_id) {
       throw new UnauthorizedException();
     }
+    await this.entityManager.transaction(
+      this.isolationLevel.set(),
+      async (em): Promise<void> => {
+        const userRepositoryEM = em.getRepository(UserEntity);
+        const refreshTokenExist =
+          await this.authTokensRepository.isAuthTokenExist(refresh, em);
+        if (!refreshTokenExist) {
+          throw new UnauthorizedException();
+        }
 
-    const refreshTokenExist =
-      await this.authTokensRepository.isAuthTokenExist(refresh);
-    if (!refreshTokenExist) {
-      throw new UnauthorizedException();
-    }
-
-    const user = await this.usersRepository.findOneBy({
-      id: user_id,
-    });
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-
-    request.user_data = {
-      user,
-      device,
-    };
+        const user = await userRepositoryEM.findOneBy({
+          id: user_id,
+        });
+        if (!user) {
+          throw new UnauthorizedException();
+        }
+        request.user_data = {
+          user,
+          device,
+        };
+      },
+    );
 
     return true;
   }

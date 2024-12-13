@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, EntityManager, Repository } from 'typeorm';
 import { AuthTokenEntity } from '../../../database/entities/auth-token.entity';
 
 @Injectable()
@@ -8,8 +8,12 @@ export class AuthTokensRepository extends Repository<AuthTokenEntity> {
     super(AuthTokenEntity, dataSource.manager);
   }
 
-  public async isAuthTokenExist(token: string): Promise<boolean> {
-    return await this.exists({
+  public async isAuthTokenExist(
+    token: string,
+    em?: EntityManager,
+  ): Promise<boolean> {
+    const repository = em ? em.getRepository(AuthTokenEntity) : this;
+    return await repository.exists({
       where: [{ refresh: token }, { access: token }],
     });
   }

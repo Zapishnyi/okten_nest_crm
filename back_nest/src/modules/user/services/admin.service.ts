@@ -26,7 +26,13 @@ export class AdminService {
 
   public async userCreate(dto: UserCreateByAdminReqDto): Promise<UserEntity> {
     await this.userService.isUserNotExistOrThrow(dto.email);
-    return await this.usersRepository.save(this.usersRepository.create(dto));
+    return await this.entityManager.transaction(
+      this.isolationLevel.set(),
+      (em: EntityManager): Promise<UserEntity> => {
+        const userRepositoryEM = em.getRepository(UserEntity);
+        return userRepositoryEM.save(userRepositoryEM.create(dto));
+      },
+    );
   }
 
   public async userActivate(

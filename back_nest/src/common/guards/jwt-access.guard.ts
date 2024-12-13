@@ -6,15 +6,18 @@ import {
 } from '@nestjs/common';
 import { TokenTypeEnum } from '../../modules/auth/enums/token-type.enum';
 import { TokenService } from '../../modules/auth/services/token.service';
-import { UsersRepository } from '../../modules/repository/services/users-repository.service';
 import { AuthTokensRepository } from '../../modules/repository/services/auth-tokens-repository.service';
+import { IsolationLevelService } from '../../modules/transaction-isolation-level/isolation-level.service';
+import { EntityManager } from 'typeorm';
+import { UserEntity } from '../../database/entities/user.entity';
 
 @Injectable()
 export class JwtAccessGuard implements CanActivate {
   constructor(
     private readonly tokenService: TokenService,
     private readonly authTokensRepository: AuthTokensRepository,
-    private readonly usersRepository: UsersRepository,
+    private readonly isolationLevel: IsolationLevelService,
+    private readonly entityManager: EntityManager,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -32,25 +35,31 @@ export class JwtAccessGuard implements CanActivate {
     if (!user_id) {
       throw new UnauthorizedException();
     }
+    await this.entityManager.transaction(
+      this.isolationLevel.set(),
+      async (em: EntityManager): Promise<void> => {
+        const usersRepositoryEM = em.getRepository(UserEntity);
+        const accessTokenExist =
+          await this.authTokensRepository.isAuthTokenExist(access, em);
+        if (!accessTokenExist) {
+          throw new UnauthorizedException();
+        }
 
-    const accessTokenExist =
-      await this.authTokensRepository.isAuthTokenExist(access);
-    if (!accessTokenExist) {
-      throw new UnauthorizedException();
-    }
-
-    const user = await this.usersRepository.findOne({
-      where: {
-        id: user_id,
+        const user = await usersRepositoryEM.findOne({
+          where: {
+            id: user_id,
+          },
+        });
+        if (!user) {
+          throw new UnauthorizedException();
+        }
+        request.user_data = {
+          user,
+          device,
+        };
       },
-    });
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-    request.user_data = {
-      user,
-      device,
-    };
+    );
+
     return true;
   }
 }

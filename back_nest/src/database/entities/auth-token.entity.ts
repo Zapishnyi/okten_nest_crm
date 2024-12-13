@@ -10,7 +10,7 @@ export class AuthTokenEntity extends BaseModel {
 
   @Column('varchar', { length: 308, nullable: false })
   refresh: string;
-  // @Index() /* index speed up search in database, sorting data in special order*/
+
   @Column('varchar', { nullable: false })
   device: string;
 
