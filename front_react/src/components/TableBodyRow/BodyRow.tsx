@@ -9,7 +9,7 @@ interface IProps {
 
 const BodyRow: FC<IProps> = ({ order }) => {
   const date = new Date(order.created_at);
-  const orderDataCorrected = { ...orderToReduced(order), created_at: date.toLocaleString('en-GB') };
+  const orderDataCorrected = { ...orderToReduced(order), created_at: date.toLocaleDateString('en-GB') };
   return <tr>{Object.values(orderDataCorrected).map((cell, i) => <BodyRowCell key={i} cell={cell} />)}</tr>;
 };
 

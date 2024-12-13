@@ -39,7 +39,9 @@ export class OrderPresenterService {
       utm: order.utm,
       msg: order.msg,
       status: order.status,
+      group: order.group ? order.group.name : null,
       created_at: order.created_at,
+      manager: order.user ? order.user.name : null,
     };
   }
 }

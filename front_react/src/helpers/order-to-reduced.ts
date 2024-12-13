@@ -14,5 +14,7 @@ export const orderToReduced = (order: IOrder): IOrderReduced => ({
   sum: order.sum,
   alreadyPaid: order.alreadyPaid,
   status: order.status,
+  group: order.group,
   created_at: order.created_at,
+  manager: order.manager,
 });

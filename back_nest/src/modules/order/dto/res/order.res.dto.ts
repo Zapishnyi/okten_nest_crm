@@ -29,6 +29,10 @@ export class OrderResDto {
   msg: string;
   @ApiProperty({ example: null })
   status: string;
+  @ApiProperty({ example: null })
+  group: string;
+  @ApiProperty({ example: null })
+  manager: string;
   @ApiProperty({ example: new Date() })
   created_at: Date;
 }

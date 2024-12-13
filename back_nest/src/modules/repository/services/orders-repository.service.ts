@@ -18,6 +18,8 @@ export class OrdersRepository extends Repository<OrderEntity> {
     try {
       return repository
         .createQueryBuilder('orders')
+        .leftJoinAndSelect('orders.group', 'group')
+        .leftJoinAndSelect('orders.user', 'user')
         .limit(25)
         .offset((page - 1) * 25)
         .orderBy(`orders.${sortBy}`, sort)

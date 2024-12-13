@@ -31,7 +31,7 @@
                             display: none;
                         }
 
-                        /*sor marker*/
+                        /*sort marker*/
 
                         p {
                             position: absolute;
@@ -82,7 +82,7 @@
                 /*phone*/
 
                 > :nth-child(5) {
-                    width: 8vw;
+                    width: 7vw;
                 }
 
                 /*age*/
@@ -100,13 +100,13 @@
                 /*course_format*/
 
                 > :nth-child(8) {
-                    width: 8vw;
+                    width: 7vw;
                 }
 
                 /*course_type*/
 
                 > :nth-child(9) {
-                    width: 8vw;
+                    width: 6vw;
                 }
 
                 /*sum*/
@@ -128,10 +128,22 @@
                     width: 4vw;
                 }
 
-                /*created_at*/
+                /*group*/
 
                 > :nth-child(13) {
-                    width: 9vw;
+                    width: 4vw;
+                }
+
+                /*created_at*/
+
+                > :nth-child(14) {
+                    width: 5vw;
+                }
+
+                /*manager*/
+
+                > :nth-child(15) {
+                    width: 6vw;
                 }
             }
         }
@@ -221,11 +233,25 @@
                     text-align: center;
                 }
 
-                /*created_at - 13*/
+                /*group - 13*/
 
                 > :nth-child(13) {
                     text-align: center;
                 }
+
+
+                /*created_at - 13*/
+
+                > :nth-child(14) {
+                    text-align: center;
+                }
+
+                /*manager - 13*/
+
+                > :nth-child(15) {
+                    text-align: center;
+                }
+
             }
 
             > :hover {
