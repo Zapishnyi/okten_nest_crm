@@ -4,6 +4,7 @@ import { AuthTokenEntity } from './auth-token.entity';
 import { ActivateTokenEntity } from './activate-token.entity';
 import { UserRoleEnum } from '../../modules/user/enums/user-role.enum';
 import { OrderEntity } from './order.entity';
+import { CommentEntity } from './comment.entity';
 
 @Entity('users')
 export class UserEntity extends BaseModel {
@@ -36,4 +37,7 @@ export class UserEntity extends BaseModel {
 
   @OneToMany(() => OrderEntity, (entity) => entity.user)
   orders: OrderEntity[];
+
+  @OneToMany(() => CommentEntity, (entity) => entity.order)
+  comments: CommentEntity[];
 }

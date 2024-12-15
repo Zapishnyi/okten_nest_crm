@@ -7,25 +7,4 @@
     flex-direction: column;
     gap: 15px;
 
-    /*button*/
-
-    div {
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #86ccff;
-        border-radius: 5px;
-        padding: 10px 15px;
-        border: 1px solid rgb(115, 115, 115);
-        cursor: pointer;
-        transition: all 0.3s;
-        font-size: 18px;
-    }
-
-    div:hover {
-        background: #abd6fb;
-        box-shadow: 2px 2px 10px rgba(114, 193, 254, 0.72);
-
-    }
 }

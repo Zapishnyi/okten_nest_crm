@@ -1,0 +1,102 @@
+.cell {
+    overflow: hidden;
+    height: 50px;
+    user-select: none;
+
+    > :hover {
+        background-color: #f4f4f4;
+        transition: 0.3s;
+    }
+
+    label {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+
+        input {
+            display: none;
+        }
+
+        /*sort marker*/
+
+        .up, .down {
+            position: absolute;
+            display: none;
+            bottom: -2px;
+        }
+
+    }
+
+    /*hover and appearance logic of sorting mark switch */
+
+
+    :has(input:checked) {
+        background: #e3e3e3;
+
+        .visible {
+            display: flex;
+        }
+
+    }
+}
+
+/*individual settings for each table column*/
+.id {
+    width: 3vw;
+}
+
+.name {
+    width: 10vw;
+}
+
+.surname {
+    width: 10vw;
+}
+
+.email {
+    width: 13vw;
+}
+
+.phone {
+    width: 7vw;
+}
+
+.age {
+    width: 5vw;
+}
+
+.course {
+    width: 7vw;
+}
+
+.course_type {
+    width: 6vw;
+}
+
+.sum {
+    width: 6vw;
+}
+
+.alreadyPaid {
+    width: 6vw;
+}
+
+.status {
+    width: 4vw;
+}
+
+.group {
+    width: 4vw;
+}
+
+.created_at {
+    width: 5vw;
+}
+
+.manager {
+    width: 6vw;
+}

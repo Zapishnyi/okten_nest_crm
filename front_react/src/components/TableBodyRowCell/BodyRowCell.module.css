@@ -1,0 +1,71 @@
+.cell {
+    overflow: hidden;
+    text-wrap: nowrap;
+    font-size: 16px;
+    border-left: 1px solid #bcbcbc;
+    border-right: 1px solid #bcbcbc;
+    border-top: 1px solid #bcbcbc;
+    border-bottom: none;
+    user-select: none;
+}
+
+.id {
+    text-align: center;
+}
+
+.name {
+    text-indent: 3px;
+}
+
+.surname {
+    text-indent: 3px;
+}
+
+.email {
+    text-indent: 3px;
+}
+
+.phone {
+    text-align: center;
+}
+
+.age {
+    text-align: center;
+}
+
+.course {
+    text-align: center;
+}
+
+
+.course_format {
+    text-align: center;
+}
+
+.course_type {
+    text-align: center;
+}
+
+.sum {
+    text-indent: 3px;
+}
+
+.alreadyPaid {
+    text-indent: 3px;
+}
+
+.status {
+    text-align: center;
+}
+
+.group {
+    text-indent: 3px;
+}
+
+.created_at {
+    text-align: center;
+}
+
+.manager {
+    text-indent: 3px;
+}

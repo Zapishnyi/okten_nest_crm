@@ -1,0 +1,9 @@
+.order_row {
+    cursor: pointer;
+    border: none;
+}
+
+.order_row:hover {
+    background-color: #f4f4f4;
+}
+

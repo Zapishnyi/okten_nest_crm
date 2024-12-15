@@ -2,13 +2,14 @@ import React, { ChangeEvent, FC, MouseEvent, MutableRefObject, useEffect } from 
 import { useSearchParams } from 'react-router-dom';
 import { sortToggle } from '../../helpers/sort-toggle';
 import { SortEnum } from '../../enums/sort.enum';
+import styles from './HeadRowCell.module.css';
 
 interface IProps {
   cellName: string;
   chosenColumnRef: MutableRefObject<string>;
 }
 
-const TitleRowCell: FC<IProps> = ({ cellName, chosenColumnRef }) => {
+const HeadRowCell: FC<IProps> = ({ cellName, chosenColumnRef }) => {
   console.log('.');
   useEffect(() => {
     const radio = document.getElementsByName('orderBy') as NodeListOf<HTMLInputElement>;
@@ -27,27 +28,27 @@ const TitleRowCell: FC<IProps> = ({ cellName, chosenColumnRef }) => {
   };
 
   const clickHandle = (event: MouseEvent<HTMLInputElement>) => {
-    const sortUp = Array.from(document.getElementsByClassName('up')) as HTMLParagraphElement[];
-    const sortDown = Array.from(document.getElementsByClassName('down')) as HTMLParagraphElement[];
+    const sortUp = Array.from(document.getElementsByClassName(styles.up)) as HTMLParagraphElement[];
+    const sortDown = Array.from(document.getElementsByClassName(styles.down)) as HTMLParagraphElement[];
     if (chosenColumnRef.current === event.currentTarget.value) {
       const queryModified = {
         ...Object.fromEntries(queryParams[0].entries()),
         sort: sortToggle((queryParams[0].get('sort')) as SortEnum),
       };
       queryParams[1](queryModified);
-      sortUp.forEach(e => e.classList.toggle('visible'));
-      sortDown.forEach(e => e.classList.toggle('visible'));
+      sortUp.forEach(e => e.classList.toggle(styles.visible));
+      sortDown.forEach(e => e.classList.toggle(styles.visible));
     }
     chosenColumnRef.current = event.currentTarget.value;
   };
-  return <th>
+  return <th className={[styles[cellName], styles.cell].join(' ')}>
     <label>
       <input className={'title'} onClick={clickHandle} onChange={changeHandle} type="radio"
              value={cellName} name={'orderBy'} /> {cellName}
-      <p className={'down'}>{'\u25BE'}</p>
-      <p className={'up visible'}>{'\u25B4'}</p>
+      <p className={styles.up}>{'\u25BE'}</p>
+      <p className={[styles.down, styles.visible].join(' ')}>{'\u25B4'}</p>
     </label>
   </th>;
 };
 
-export default TitleRowCell;
+export default HeadRowCell;

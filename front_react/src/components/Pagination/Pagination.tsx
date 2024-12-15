@@ -61,7 +61,7 @@ const Pagination: FC<IProps> = ({ page, pages }) => {
   return (
     <div className={styles.wrapper}>
       <LeftArrow />
-      {pagination.map((mark, i) => <PageBubble key={i} page={mark} />)}
+      {pagination.map((page_mark, i) => <PageBubble key={i} page={page_mark} />)}
       <RightArrow pages={pages} />
     </div>
   );

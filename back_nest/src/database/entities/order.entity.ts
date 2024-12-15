@@ -1,7 +1,8 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { BaseModel } from './base/base.model';
 import { UserEntity } from './user.entity';
 import { GroupEntity } from './group.entity';
+import { CommentEntity } from './comment.entity';
 
 @Entity('orders')
 export class OrderEntity extends BaseModel {
@@ -47,6 +48,9 @@ export class OrderEntity extends BaseModel {
   @ManyToOne(() => UserEntity, (entity) => entity.orders)
   user: UserEntity;
 
-  @ManyToOne(() => GroupEntity, (group) => group.orders)
+  @ManyToOne(() => GroupEntity, (entity) => entity.orders)
   group: GroupEntity;
+
+  @OneToMany(() => CommentEntity, (entity) => entity.order)
+  comments: CommentEntity[];
 }

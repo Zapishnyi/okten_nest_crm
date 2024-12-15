@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import styles from './LogOut.module.css';
 import { CRMApi } from '../../services/crm.api.servise';
 import { cookie } from '../../services/cookies.servise';
 import { useNavigate } from 'react-router-dom';
+import { withButtonWrapper } from '../../hoc/ButtonWrapper/withButtonWrapper';
 
 const LogOut: FC = () => {
   const navigate = useNavigate();
@@ -17,10 +17,10 @@ const LogOut: FC = () => {
 
   };
   return (
-    <div className={styles.button} onClick={clickHandle}>
+    <div onClick={clickHandle}>
       <p> Log out</p>
     </div>
   );
 };
 
-export default LogOut;
+export default withButtonWrapper(LogOut);
