@@ -10,6 +10,7 @@ import { GlobalExceptionFilter } from './common/filters/global-exemption.filter'
 import { HealthModule } from './modules/health/health.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { IsolationLevelModule } from './modules/transaction-isolation-level/isolation-level.module';
+import { CommentModule } from './modules/comment/comment.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { IsolationLevelModule } from './modules/transaction-isolation-level/isol
     HealthModule,
     AuthModule,
     IsolationLevelModule,
+    CommentModule,
   ],
   controllers: [],
   providers: [

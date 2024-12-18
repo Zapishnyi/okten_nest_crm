@@ -1,0 +1,14 @@
+.comment {
+    display: grid;
+    grid-template-columns: 6fr 1fr 1fr 1fr; /* Four equal columns */
+    gap: 10px; /* Space between grid items */
+    align-items: center; /* Vertically align items */
+
+    border: 1px solid #ccc; /* Optional styling for container */
+
+    span {
+        text-indent: 5px;
+        overflow-x: auto;
+    }
+}
+

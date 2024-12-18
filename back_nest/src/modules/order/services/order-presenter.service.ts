@@ -4,9 +4,12 @@ import { OrderEntity } from '../../../database/entities/order.entity';
 import { OrdersQueryReqDto } from '../dto/req/orders-query.req.dto';
 import { OrdersListResDto } from '../dto/res/orders-list.res.dto';
 import { OrderResDto } from '../dto/res/order.res.dto';
+import { CommentPresenterService } from '../../comment/services/comment-presenter.service';
 
 @Injectable()
 export class OrderPresenterService {
+  constructor(private readonly commentPresenter: CommentPresenterService) {}
+
   public toOrderListDto(
     orderList: OrderEntity[],
     { page, sortBy, sort }: OrdersQueryReqDto,
@@ -42,6 +45,12 @@ export class OrderPresenterService {
       group: order.group ? order.group.name : null,
       created_at: order.created_at,
       manager: order.user ? order.user.name : null,
+      comments: !!order.comments
+        ? order.comments?.map((comment) =>
+            this.commentPresenter.toResponseDto(comment, order.user),
+          )
+        : [],
+      manager_id: order.user ? order.user.id : null,
     };
   }
 }

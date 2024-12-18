@@ -6,6 +6,7 @@ import { setNavigate } from '../helpers/navigate-to';
 
 const MainLayout: FC = () => {
   console.log('.');
+  const navigate = useNavigate();
   useEffect(() => {
     const getData = async () => {
       try {
@@ -23,7 +24,6 @@ const MainLayout: FC = () => {
 
   }, []);
 
-  const navigate = useNavigate();
 
   return <>
     <Outlet />

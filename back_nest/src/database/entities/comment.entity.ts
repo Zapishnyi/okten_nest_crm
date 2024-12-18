@@ -6,7 +6,7 @@ import { UserEntity } from './user.entity';
 @Entity('comments')
 export class CommentEntity extends BaseModel {
   @Column('varchar', { length: 100 })
-  body: string;
+  comment: string;
 
   @ManyToOne(() => OrderEntity, (entity) => entity.comments)
   order: OrderEntity;

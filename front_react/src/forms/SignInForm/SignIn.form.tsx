@@ -5,37 +5,41 @@ import styles from './SignInForm.module.css';
 import IUserSignIn from '../../interfaces/IUserSignIn';
 import { CRMApi } from '../../services/crm.api.servise';
 import { cookie } from '../../services/cookies.servise';
-import { joiResolver } from '@hookform/resolvers/joi';
-import userValidator from '../../validators/log-in.validator';
 import { AxiosError } from 'axios';
+import IErrorResponse from '../../interfaces/IErrorResponse';
+import { useAppDispatch } from '../../redux/store';
+import { UserActions } from '../../redux/Slices/userSlice';
 
 
 const SignInForm = () => {
   console.log('.');
   const [loginError, setLoginError] = useState<string[] | null>(null);
-  const { register, handleSubmit, formState: { errors } } = useForm<IUserSignIn>({
-    mode: 'all',
-    resolver: joiResolver(userValidator),
-  });
+  const { register, handleSubmit, formState: { errors } } = useForm<IUserSignIn>();
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   const SubmitHandler = async (credentials: IUserSignIn) => {
     try {
-      const { tokens } = await CRMApi.auth.singIn(credentials);
+      const { tokens, user } = await CRMApi.auth.singIn(credentials);
       // storage.setAccessToken(tokens.access);
       // storage.setRefreshToken(tokens.refresh);
       cookie.setAccessToken(tokens.access);
       cookie.setRefreshToken(tokens.refresh);
+      dispatch(UserActions.setUser(user));
       navigate(`/orders`);
     } catch (error) {
-      const err = error as AxiosError;
-      console.error('error details:', err.message);
-      setLoginError([err.message]);
+      const err = error as AxiosError<IErrorResponse>;
+      if (err.response?.data.messages) {
+        console.error('error details:', err.response?.data.messages);
+        setLoginError(err.response?.data.messages || null);
+      } else {
+        setLoginError([err.message]);
+      }
+
     }
   };
   return (
     <div className={styles.wrapper}>
-      <form onSubmit={handleSubmit(SubmitHandler)} className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit(SubmitHandler)}>
         <div>
           <label>
             Email:{' '}
@@ -45,23 +49,23 @@ const SignInForm = () => {
               {...register('email')}
             />
           </label>
-          {errors.email && <p>{errors.email.message}</p>}
+
         </div>
         <div>
           <label>
             Password:{' '}
             <input
-              type="text"
+              type="password"
               autoComplete="on"
               {...register('password')}
             />
           </label>
-          {errors.password && <p>{errors.password.message}</p>}
-        </div>
-        <button>Login</button>
 
+        </div>
+        <button className="button">Login</button>
+        {loginError?.length && loginError.map((e, i) => <p key={i}>{e}</p>)}
       </form>
-      {loginError?.length && loginError.map((e, i) => <p key={i}>{e}</p>)}
+
     </div>
   );
 };

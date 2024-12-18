@@ -1,3 +1,7 @@
+html {
+    overflow-y: scroll;
+}
+
 html, body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -5,6 +9,7 @@ html, body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     height: 100dvh;
+
 }
 
 * {
@@ -13,3 +18,21 @@ html, body {
     padding: 0;
 }
 
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #86ccff;
+    border-radius: 8px;
+    border: 1px solid rgb(115, 115, 115);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 18px;
+    width: fit-content;
+    user-select: none;
+    padding: 5px 10px;
+}
+
+.button:hover {
+    background: #abd6fb;
+}

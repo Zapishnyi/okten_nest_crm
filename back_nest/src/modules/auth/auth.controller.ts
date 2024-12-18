@@ -1,6 +1,5 @@
 import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import {
-  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiTags,
   ApiUnauthorizedResponse,
@@ -13,10 +12,10 @@ import { UserPresenterService } from '../user/services/user-presenter.service';
 import { JwtActivateGuard } from '../../common/guards/jwt-activate.guard';
 import { IUserData } from './interfaces/IUserData';
 import { UserValidateReqDto } from '../user/dto/req/user-validate.req.dto';
-import { UserSignInReqDto } from '../user/dto/req/user-sign-in.req.dto';
 import { UserResDto } from '../user/dto/res/user.res.dto';
 import { JwtRefreshGuard } from '../../common/guards/jwt-refresh.guard';
 import { JwtAccessGuard } from '../../common/guards/jwt-access.guard';
+import { UserAuthReqDto } from './dto/req/user-auth.req.dto';
 
 @ApiTags('1.Authorization')
 @Controller('auth')
@@ -35,25 +34,9 @@ export class AuthController {
       path: '/auth/sign-in',
     },
   })
-  @ApiBadRequestResponse({
-    description: 'Bad Request',
-    example: {
-      statusCode: 400,
-      messages: [
-        'email must be longer than or equal to 3 characters',
-        'Must be a valid e-mail address',
-        'email must be a string',
-        'Password may contain any characters, no space, and it must be 5-16 characters long.',
-        'password must be longer than or equal to 5 characters',
-        'password must be a string',
-      ],
-      timestamp: '2024-12-12T19:43:34.861Z',
-      path: '/auth/sign-in',
-    },
-  })
   @Post('sign-in')
   public async signIn(
-    @Body() dto: UserSignInReqDto,
+    @Body() dto: UserAuthReqDto,
     @Req() request: Request,
   ): Promise<AuthResDto> {
     const [user, tokens] = await this.authService.signIn(dto, request);

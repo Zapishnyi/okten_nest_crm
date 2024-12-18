@@ -23,7 +23,11 @@ const HeadRowCell: FC<IProps> = ({ cellName, chosenColumnRef }) => {
   const queryParams = useSearchParams();
 
   const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
-    const queryModified = { ...Object.fromEntries(queryParams[0].entries()), sortBy: event.currentTarget.value };
+    const queryModified = {
+      ...Object.fromEntries(queryParams[0].entries()),
+      page: '1',
+      sortBy: event.currentTarget.value,
+    };
     queryParams[1](queryModified);
   };
 
@@ -32,7 +36,7 @@ const HeadRowCell: FC<IProps> = ({ cellName, chosenColumnRef }) => {
     const sortDown = Array.from(document.getElementsByClassName(styles.down)) as HTMLParagraphElement[];
     if (chosenColumnRef.current === event.currentTarget.value) {
       const queryModified = {
-        ...Object.fromEntries(queryParams[0].entries()),
+        ...Object.fromEntries(queryParams[0].entries()), page: '1',
         sort: sortToggle((queryParams[0].get('sort')) as SortEnum),
       };
       queryParams[1](queryModified);

@@ -6,6 +6,9 @@ export const urls = {
     refresh: '/auth/refresh',
     log_out: '/auth/sign-out',
   },
-  orders: '/orders',
+  orders: {
+    get: '/orders',
+    add_comment: (order_id: number) => `/orders/${order_id}/comment`,
+  },
   health: '/health',
 };

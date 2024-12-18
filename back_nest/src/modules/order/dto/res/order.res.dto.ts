@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { CommentResDto } from '../../../comment/dto/res/comment.res.dto';
 
 export class OrderResDto {
   @ApiProperty({ example: '245' })
@@ -35,4 +36,8 @@ export class OrderResDto {
   manager: string;
   @ApiProperty({ example: new Date() })
   created_at: Date;
+  @ApiProperty()
+  comments: CommentResDto[];
+  @ApiProperty()
+  manager_id: number;
 }

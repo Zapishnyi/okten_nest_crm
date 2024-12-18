@@ -1,6 +1,6 @@
 export default interface IErrorResponse {
   status_code: number;
-  massages: string[];
+  messages: string[];
   timestamp: Date;
   path: string;
 }

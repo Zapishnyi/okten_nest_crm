@@ -6,6 +6,10 @@ import { IHealth } from '../interfaces/IHealth';
 import IAuthTokens from '../interfaces/IAuthTokens';
 import { cookie } from './cookies.servise';
 import { navigateTo } from '../helpers/navigate-to';
+import { store } from '../redux/store';
+import { UserActions } from '../redux/Slices/userSlice';
+import ICommentResponse from '../interfaces/ICommentResponse';
+import IComment from '../interfaces/IComment';
 
 
 const axiosInstance = axios.create({
@@ -36,6 +40,7 @@ interface ICRMApiService {
   };
   orders: {
     get: (query: Record<string, string>) => Promise<IOrderPaginated>;
+    add_comment: (order_id: number, body: IComment) => Promise<ICommentResponse>;
   };
   health: () => Promise<IHealth>;
 
@@ -51,8 +56,9 @@ export const CRMApi: ICRMApiService = {
   },
   orders: {
     get: (query) => axiosInstance
-      .get(urls.orders, { params: query })
+      .get(urls.orders.get, { params: query })
       .then((response) => response.data),
+    add_comment: (order_id: number, body) => axiosInstance.post(urls.orders.add_comment(order_id), body).then((response) => response.data),
   },
   health: () => axiosInstance.get(urls.health).then((response) => response.data),
 
@@ -60,7 +66,9 @@ export const CRMApi: ICRMApiService = {
 
 axiosInstance.interceptors.response.use((response) => response,
   async (error) => {
+    const dispatch = store.dispatch;
     const originalRequest = error.config;
+
     if (error.status) {
 
       if (error.response.status === 401 && !originalRequest._retry && cookie.getRefreshToken() && originalRequest.url !== '/auth/refresh') {
@@ -71,6 +79,8 @@ axiosInstance.interceptors.response.use((response) => response,
           cookie.setRefreshToken(tokens.refresh);
           return axiosInstance(originalRequest);
         } catch (error) {
+          cookie.deleteAuthTokens();
+          dispatch(UserActions.setUser(null));
           console.error('Token refresh failed', error);
           navigateTo('/sign-in');
         }

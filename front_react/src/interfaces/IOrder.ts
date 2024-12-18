@@ -1,3 +1,5 @@
+import ICommentResponse from './ICommentResponse';
+
 export default interface IOrder {
   id: number,
   name: string,
@@ -16,4 +18,6 @@ export default interface IOrder {
   group: string
   created_at: Date,
   manager: string,
+  comments: ICommentResponse[]
+  manager_id: number,
 }

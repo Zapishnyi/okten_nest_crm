@@ -16,14 +16,23 @@ export class OrdersRepository extends Repository<OrderEntity> {
   ): Promise<[OrderEntity[], number]> {
     const repository = em ? em.getRepository(OrderEntity) : this;
     try {
-      return repository
+      const [orderIds, total] = await repository
         .createQueryBuilder('orders')
-        .leftJoinAndSelect('orders.group', 'group')
-        .leftJoinAndSelect('orders.user', 'user')
+        .select('orders.id')
         .limit(25)
         .offset((page - 1) * 25)
         .orderBy(`orders.${sortBy}`, sort)
         .getManyAndCount();
+      const currentPage = await repository
+        .createQueryBuilder('orders')
+        .leftJoinAndSelect('orders.group', 'group')
+        .leftJoinAndSelect('orders.user', 'user')
+        .leftJoinAndSelect('orders.comments', 'comments')
+        .where('orders.id IN (:...orderIds)', {
+          orderIds: orderIds.map((order) => order.id),
+        })
+        .getMany();
+      return [currentPage, total];
     } catch (err) {
       throw new Error(err);
     }

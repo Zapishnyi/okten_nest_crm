@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import styles from './BodyRowExtension.module.css';
 import IOrder from '../../interfaces/IOrder';
+import CommentForm from '../../forms/CommentForm/CommentForm';
+import Comment from '../Comment/Comment';
 
 interface IProps {
   visibility: boolean;
@@ -8,6 +10,7 @@ interface IProps {
 }
 
 const BodyRowExtension: FC<IProps> = ({ visibility, order }) => {
+  console.log('Created:', typeof order.comments[0]?.created_at);
   return (
     <tr className={[visibility ? styles.visible : styles.not_visible, styles.row_extension].join(' ')}>
       <td colSpan={15}>
@@ -18,13 +21,14 @@ const BodyRowExtension: FC<IProps> = ({ visibility, order }) => {
           </div>
           <div className={styles.edit_container}>
             <div className={styles.comments_part}>
-              <div className={styles.comments}></div>
-              <div className={styles.comments_add}>
-                <input type="text" />
+              <div className={styles.comments}>
+                {!!order.comments.length && order.comments.slice().reverse().map((comment, i) => <Comment key={i}
+                                                                                                          comment={{ ...comment }} />)}
               </div>
+              <CommentForm order={order} />
             </div>
             <div className={styles.btn_part}>
-
+              <div className="button">Edit</div>
             </div>
           </div>
         </div>
