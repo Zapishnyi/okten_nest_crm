@@ -1,0 +1,31 @@
+.base {
+    width: 100%;
+    height: 50px;
+    position: sticky;
+    background: #a2ead9;
+    top: 0;
+    z-index: 10;
+
+
+    .container {
+        width: 90%;
+        height: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .logo {
+        }
+
+        .menu {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            list-style: none;
+        }
+    }
+
+}

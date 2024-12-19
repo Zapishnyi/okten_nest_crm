@@ -5,6 +5,7 @@ import { OrderEntity } from '../../../database/entities/order.entity';
 import { EntityManager } from 'typeorm';
 import { IsolationLevelService } from '../../transaction-isolation-level/isolation-level.service';
 import { CommentEntity } from '../../../database/entities/comment.entity';
+import { StatusEnum } from '../../order/enums/status.enum';
 
 @Injectable()
 export class CommentService {
@@ -23,9 +24,16 @@ export class CommentService {
       async (em) => {
         const orderRepositoryEM = em.getRepository(OrderEntity);
         const commentsRepositoryEM = em.getRepository(CommentEntity);
-        await orderRepositoryEM.update({ id: order.id }, { user });
+        await orderRepositoryEM.update(
+          { id: order.id },
+          { user, status: StatusEnum.IN_WORK },
+        );
         return commentsRepositoryEM.save(
-          commentsRepositoryEM.create({ ...dto, user, order }),
+          commentsRepositoryEM.create({
+            ...dto,
+            user,
+            order,
+          }),
         );
       },
     );

@@ -3,32 +3,36 @@ import { BaseModel } from './base/base.model';
 import { UserEntity } from './user.entity';
 import { GroupEntity } from './group.entity';
 import { CommentEntity } from './comment.entity';
+import { CourseTypeEum } from '../../modules/order/enums/course-type.enum';
+import { CourseFormatEnum } from '../../modules/order/enums/course-format.enum';
+import { CourseEnum } from '../../modules/order/enums/course.enum';
+import { StatusEnum } from '../../modules/order/enums/status.enum';
 
 @Entity('orders')
 export class OrderEntity extends BaseModel {
-  @Column('varchar', { length: 25 })
+  @Column('varchar', { length: 25, nullable: true })
   name: string;
 
-  @Column('varchar', { length: 25 })
+  @Column('varchar', { length: 25, nullable: true })
   surname: string;
 
-  @Column('varchar', { length: 100 })
+  @Column('varchar', { length: 100, nullable: true })
   email: string;
 
-  @Column('varchar', { length: 12 })
+  @Column('varchar', { length: 12, nullable: true })
   phone: string;
 
-  @Column('integer')
+  @Column('integer', { nullable: true })
   age: number;
 
-  @Column('varchar', { length: 10 })
-  course: string;
+  @Column('enum', { enum: CourseEnum, nullable: true })
+  course: CourseEnum;
 
-  @Column('varchar', { length: 15 })
-  course_format: string;
+  @Column('enum', { enum: CourseFormatEnum, nullable: true })
+  course_format: CourseFormatEnum;
 
-  @Column('varchar', { length: 100 })
-  course_type: string;
+  @Column('enum', { enum: CourseTypeEum, nullable: true })
+  course_type: CourseTypeEum;
 
   @Column('integer', { nullable: true })
   sum: number;
@@ -42,8 +46,8 @@ export class OrderEntity extends BaseModel {
   @Column('varchar', { length: 100, nullable: true })
   msg: string;
 
-  @Column('varchar', { length: 15, nullable: true })
-  status: string;
+  @Column('enum', { enum: StatusEnum, nullable: true })
+  status: StatusEnum;
 
   @ManyToOne(() => UserEntity, (entity) => entity.orders)
   user: UserEntity;

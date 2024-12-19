@@ -10,6 +10,7 @@ import { store } from '../redux/store';
 import { UserActions } from '../redux/Slices/userSlice';
 import ICommentResponse from '../interfaces/ICommentResponse';
 import IComment from '../interfaces/IComment';
+import IUser from '../interfaces/IUser';
 
 
 const axiosInstance = axios.create({
@@ -37,6 +38,7 @@ interface ICRMApiService {
     singIn: (body: IUserSignIn) => Promise<IAuthTokens>;
     refresh: () => Promise<IAuthTokens>;
     log_out: () => Promise<void>;
+    me: () => Promise<IUser>;
   };
   orders: {
     get: (query: Record<string, string>) => Promise<IOrderPaginated>;
@@ -53,6 +55,7 @@ export const CRMApi: ICRMApiService = {
       .then((response) => response.data),
     refresh: () => axiosInstance.post(urls.auth.refresh).then((response) => response.data),
     log_out: () => axiosInstance.post(urls.auth.log_out),
+    me: () => axiosInstance.get(urls.auth.me).then((response) => response.data),
   },
   orders: {
     get: (query) => axiosInstance
@@ -82,7 +85,7 @@ axiosInstance.interceptors.response.use((response) => response,
           cookie.deleteAuthTokens();
           dispatch(UserActions.setUser(null));
           console.error('Token refresh failed', error);
-          navigateTo('/sign-in');
+          navigateTo('/auth/sign-in');
         }
       }
       return Promise.reject(error);

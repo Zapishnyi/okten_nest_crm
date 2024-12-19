@@ -1,5 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CommentResDto } from '../../../comment/dto/res/comment.res.dto';
+import { CourseEnum } from '../../enums/course.enum';
+import { CourseFormatEnum } from '../../enums/course-format.enum';
+import { CourseTypeEum } from '../../enums/course-type.enum';
+import { StatusEnum } from '../../enums/status.enum';
 
 export class OrderResDto {
   @ApiProperty({ example: '245' })
@@ -14,12 +18,12 @@ export class OrderResDto {
   phone: string;
   @ApiProperty({ example: 24 })
   age: number;
-  @ApiProperty({ example: 'QACX' })
-  course: string;
-  @ApiProperty({ example: 'static' })
-  course_format: string;
-  @ApiProperty({ example: 'pro' })
-  course_type: string;
+  @ApiProperty({ example: CourseEnum.QACX })
+  course: CourseEnum;
+  @ApiProperty({ example: CourseFormatEnum.ONLINE })
+  course_format: CourseFormatEnum;
+  @ApiProperty({ example: CourseTypeEum.VIP })
+  course_type: CourseTypeEum;
   @ApiProperty({ example: '3353' })
   sum: number;
   @ApiProperty({ example: '3353' })
@@ -28,8 +32,8 @@ export class OrderResDto {
   utm: string;
   @ApiProperty({ example: null })
   msg: string;
-  @ApiProperty({ example: null })
-  status: string;
+  @ApiProperty({ example: StatusEnum.IN_WORK })
+  status: StatusEnum;
   @ApiProperty({ example: null })
   group: string;
   @ApiProperty({ example: null })

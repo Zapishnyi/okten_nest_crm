@@ -10,7 +10,6 @@ interface IProps {
 }
 
 const BodyRowExtension: FC<IProps> = ({ visibility, order }) => {
-  console.log('Created:', typeof order.comments[0]?.created_at);
   return (
     <tr className={[visibility ? styles.visible : styles.not_visible, styles.row_extension].join(' ')}>
       <td colSpan={15}>

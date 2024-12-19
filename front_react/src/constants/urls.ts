@@ -5,6 +5,7 @@ export const urls = {
     sing_in: '/auth/sign-in',
     refresh: '/auth/refresh',
     log_out: '/auth/sign-out',
+    me: '/auth/me',
   },
   orders: {
     get: '/orders',

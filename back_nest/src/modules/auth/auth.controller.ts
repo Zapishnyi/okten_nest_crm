@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiTags,
@@ -98,5 +98,23 @@ export class AuthController {
     @GetStoredUserDataFromResponse() userData: IUserData,
   ): Promise<void> {
     await this.authService.signOut(userData);
+  }
+
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    example: {
+      statusCode: 401,
+      messages: 'jwt expired',
+      timestamp: '2024-12-03T18:52:08.622Z',
+      path: '/auth/me',
+    },
+  })
+  @UseGuards(JwtAccessGuard)
+  @ApiBearerAuth('Access-Token')
+  @Get('me')
+  public async me(
+    @GetStoredUserDataFromResponse() { user }: IUserData,
+  ): Promise<UserResDto> {
+    return this.userPresenter.toResponseDto(user);
   }
 }

@@ -1,7 +1,11 @@
 .cell {
     overflow: hidden;
-    height: 50px;
+    height: 40px;
     user-select: none;
+    background: white;
+    position: sticky;
+    top: 50px;
+    border: 1px solid #919191;
 
     > :hover {
         background-color: #f4f4f4;
@@ -16,6 +20,8 @@
         width: 100%;
         height: 100%;
         cursor: pointer;
+        padding-bottom: 8px;
+
 
         input {
             display: none;

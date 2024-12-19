@@ -7,7 +7,6 @@ interface IProps {
 }
 
 const Comment: FC<IProps> = ({ comment }) => {
-  console.log('comment:', comment);
   return <div className={styles.comment}>
     <span>{comment.comment}</span>
     <span>{comment.author_name}</span>

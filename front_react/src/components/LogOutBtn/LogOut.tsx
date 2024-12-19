@@ -13,7 +13,7 @@ const LogOut: FC = () => {
       await CRMApi.auth.log_out();
       cookie.deleteAuthTokens();
       dispatch(UserActions.setUser(null));
-      navigate('/sign-in');
+      navigate('/auth/sign-in');
     } catch (err) {
       console.log(err);
     }

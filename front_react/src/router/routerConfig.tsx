@@ -2,36 +2,50 @@ import { createHashRouter, Navigate } from 'react-router-dom';
 import React from 'react';
 import SignIn from '../pages/SignIn/SignIn';
 import Orders from '../pages/Orders/Orders';
-import MainLayout from '../layouts/MainLayout';
+import MainLayout from '../layouts/MainLayout/MainLayout';
 import ErrorPage from '../pages/ErrorPage/ErrorPage';
+import AuthLayout from '../layouts/AuthLayout/AuthLayout';
+import Activate from '../pages/Activate/Activate';
+import Admin from '../pages/Admin/Admin';
 
 export const routerConfig = createHashRouter([
+  {
+    index: true,
+    element: <Navigate to={'/orders'} />,
+  },
+  {
+    path: 'auth',
+    element: <AuthLayout />,
+    children: [
+      {
+        path: 'sign-in',
+        element: <SignIn />,
+      },
+      {
+        path: 'activate',
+        element: <Activate />,
+      },
+
+    ],
+  },
   {
     path: '',
     element: <MainLayout />,
     children: [
       {
-        index: true,
-        element: <Navigate to={'/orders'} />,
-      },
-      {
-        path: '/sign-in',
-        element: <SignIn />,
-      },
-      {
-        path: '/orders',
+        path: 'orders',
         element: <Orders />,
       },
       {
-        path: '*',
-        element: <ErrorPage />,
+        path: 'admin',
+        element: <Admin />,
       },
-
 
     ],
   },
-  // {
-  //   path: '*',
-  //   element: <ErrorPage />,
-  // },
+  {
+    path: '*',
+    element: <ErrorPage />,
+  },
+
 ]);

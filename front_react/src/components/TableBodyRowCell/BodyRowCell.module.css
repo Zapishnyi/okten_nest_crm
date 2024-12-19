@@ -2,8 +2,8 @@
     overflow: hidden;
     text-wrap: nowrap;
     font-size: 16px;
-    border-left: 1px solid #bcbcbc;
-    border-right: 1px solid #bcbcbc;
+    border-left: none;
+    border-right: none;
     border-top: 1px solid #bcbcbc;
     border-bottom: none;
     user-select: none;

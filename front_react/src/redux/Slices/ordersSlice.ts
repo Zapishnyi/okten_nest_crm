@@ -27,7 +27,7 @@ const searchForOrders = createAsyncThunk(
     } catch (e) {
       const error = e as AxiosError<IErrorResponse>;
       if (error.status === 401) {
-        navigateTo('/sign-in');
+        navigateTo('/auth/sign-in');
       } else {
         navigateTo('/error');
       }
