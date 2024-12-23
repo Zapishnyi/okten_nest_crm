@@ -25,7 +25,28 @@
     text-indent: 3px;
 }
 
+.role {
+    text-align: center;
+}
+
+
+.active {
+    text-align: center;
+}
+
 .phone {
+    text-align: center;
+}
+
+.ban {
+    text-align: center;
+}
+
+.total_orders {
+    text-align: center;
+}
+
+.last_login {
     text-align: center;
 }
 
@@ -47,11 +68,11 @@
 }
 
 .sum {
-    text-indent: 3px;
+    text-align: center;
 }
 
 .alreadyPaid {
-    text-indent: 3px;
+    text-align: center;
 }
 
 .status {
@@ -59,7 +80,7 @@
 }
 
 .group {
-    text-indent: 3px;
+    text-align: center;
 }
 
 .created_at {
@@ -67,5 +88,5 @@
 }
 
 .manager {
-    text-indent: 3px;
+    text-align: center;
 }

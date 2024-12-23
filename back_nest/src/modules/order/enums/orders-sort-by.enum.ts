@@ -1,4 +1,4 @@
-export enum SortByEnum {
+export enum OrdersSortByEnum {
   ID = 'id',
   NAME = 'name',
   SURNAME = 'surname',
@@ -12,6 +12,8 @@ export enum SortByEnum {
   ALREADY_PAID = 'alreadyPaid',
   UTM = 'utm',
   MSG = 'msg',
+  MANAGER = 'manager',
+  GROUP = 'group',
   STATUS = 'status',
   CREATED_AT = 'created_at',
 }

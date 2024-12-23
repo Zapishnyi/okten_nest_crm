@@ -86,12 +86,14 @@ export class AuthService {
             'password',
             'active',
             'role',
+            'last_login',
             'created_at',
             'ban',
           ],
+          relations: ['orders'],
         });
-        // Is user exist?
-        if (!user) {
+        // Is user exist and active?
+        if (!user || !user.active) {
           throw new UnauthorizedException();
         }
         // Is password valid?

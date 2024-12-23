@@ -12,6 +12,8 @@ import { TokenService } from '../../auth/services/token.service';
 import { EntityManager } from 'typeorm';
 import { ActivateTokenEntity } from '../../../database/entities/activate-token.entity';
 import { IsolationLevelService } from '../../transaction-isolation-level/isolation-level.service';
+import { UsersQueryReqDto } from '../dto/req/users-query.req.dto';
+import IUserRaw from '../interfaces/IUserRaw';
 
 @Injectable()
 export class AdminService {
@@ -23,6 +25,15 @@ export class AdminService {
     private readonly entityManager: EntityManager,
     private readonly isolationLevel: IsolationLevelService,
   ) {}
+
+  public async getAllUsers(query: UsersQueryReqDto): Promise<IUserRaw[]> {
+    return await this.entityManager.transaction(
+      this.isolationLevel.set(),
+      async (em: EntityManager): Promise<IUserRaw[]> => {
+        return await this.usersRepository.getUsersByQuery(query, em);
+      },
+    );
+  }
 
   public async userCreate(dto: UserCreateByAdminReqDto): Promise<UserEntity> {
     await this.userService.isUserNotExistOrThrow(dto.email);

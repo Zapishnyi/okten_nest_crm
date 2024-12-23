@@ -1,15 +1,17 @@
 import React, { FC } from 'react';
-import styles from './BodyRowExtension.module.css';
-import IOrder from '../../interfaces/IOrder';
+import styles from './BodyRowUserExtension.module.css';
 import CommentForm from '../../forms/CommentForm/CommentForm';
 import Comment from '../Comment/Comment';
+import { useAppSelector } from '../../redux/store';
 
 interface IProps {
   visibility: boolean;
-  order: IOrder;
+  order_id: number;
 }
 
-const BodyRowExtension: FC<IProps> = ({ visibility, order }) => {
+const BodyRowUserExtension: FC<IProps> = ({ visibility, order_id }) => {
+  const { orders } = useAppSelector((state) => state.orders);
+  const order = orders?.filter((order) => order.id === order_id)[0];
   return (
     <tr className={[visibility ? styles.visible : styles.not_visible, styles.row_extension].join(' ')}>
       <td colSpan={15}>
@@ -38,4 +40,4 @@ const BodyRowExtension: FC<IProps> = ({ visibility, order }) => {
   );
 };
 
-export default BodyRowExtension;
+export default BodyRowUserExtension;

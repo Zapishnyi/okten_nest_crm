@@ -54,7 +54,13 @@ export class UserBaseResDto {
   public readonly role: UserRoleEnum;
 
   @ApiProperty({
-    description: 'Date nad time when record made',
+    description: 'Date nad time when user last login',
+    example: new Date(),
+  })
+  public readonly last_login: Date;
+
+  @ApiProperty({
+    description: 'Date nad time when user created',
     example: new Date(),
   })
   public readonly created_at: Date;

@@ -63,24 +63,28 @@
     width: 10vw;
 }
 
-.email {
-    width: 13vw;
-}
+/*.email {*/
+/*    width: 13vw;*/
+/*}*/
 
 .phone {
     width: 7vw;
 }
 
 .age {
-    width: 5vw;
+    width: 3vw;
 }
 
 .course {
+    width: 5vw;
+}
+
+.course_format {
     width: 7vw;
 }
 
 .course_type {
-    width: 6vw;
+    width: 7vw;
 }
 
 .sum {
@@ -100,7 +104,7 @@
 }
 
 .created_at {
-    width: 5vw;
+    width: 6vw;
 }
 
 .manager {

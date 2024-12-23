@@ -2,26 +2,30 @@ import React, { FC, useRef } from 'react';
 import HeadRowCell from '../TableHeadIRowCell/HeadRowCell';
 import BodyRow from '../TableBodyRow/BodyRow';
 import styles from './Table.module.css';
-import { orderToReduced } from '../../helpers/order-to-reduced';
-import { useAppSelector } from '../../redux/store';
+import IOrderReduced from '../../interfaces/IOrderReduced';
+import IUser from '../../interfaces/IUser';
+import { TableTypeEnum } from '../../enums/table-type.enum';
 
-const Table: FC = () => {
-  const { orders } = useAppSelector((state) => state.orders);
+interface IProps {
+  items: IOrderReduced[] | IUser[];
+  table_type: TableTypeEnum;
+}
+
+const Table: FC<IProps> = ({ items, table_type }) => {
+
   const chosenColumnRef = useRef<string>('id');
-  const titles = orders.length ? Object.keys(orderToReduced(orders[0])) : [];
-  return (
-    <table className={styles.table} border={1}>
-      <thead>
-      <tr>
-        {titles.map((e, i) => <HeadRowCell key={i} cellName={e}
-                                           chosenColumnRef={chosenColumnRef} />)}
-      </tr>
-      </thead>
-      <tbody>
-      {orders && orders.map((order, i) => <BodyRow key={i} order={order} />)}
-      </tbody>
-    </table>
-  );
+  const titles = Object.keys(items[0]);
+  return <table className={styles.table} border={1}>
+    <thead>
+    <tr>
+      {titles.map((e, i) => <HeadRowCell key={i} cellName={e}
+                                         chosenColumnRef={chosenColumnRef} />)}
+    </tr>
+    </thead>
+    <tbody>
+    {!!items.length && items.map((item, i) => <BodyRow key={i} item={item} table_type={table_type} />)}
+    </tbody>
+  </table>;
 };
 
 export default Table;

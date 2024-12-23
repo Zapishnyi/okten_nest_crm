@@ -29,6 +29,9 @@ export class UserEntity extends BaseModel {
   @Column('enum', { enum: UserRoleEnum })
   role: UserRoleEnum;
 
+  @Column('timestamp', { nullable: true })
+  last_login: Date;
+
   @OneToMany(() => AuthTokenEntity, (entity) => entity.user)
   auth_tokens?: AuthTokenEntity[];
 

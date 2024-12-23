@@ -1,4 +1,4 @@
-export enum OrderByEnum {
+export enum OrdersSortByEnum {
   ID = 'id',
   NAME = 'name',
   SURNAME = 'surname',

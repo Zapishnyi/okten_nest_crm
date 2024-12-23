@@ -44,15 +44,19 @@ export class JwtAccessGuard implements CanActivate {
         if (!accessTokenExist) {
           throw new UnauthorizedException();
         }
-
-        const user = await usersRepositoryEM.findOne({
-          where: {
-            id: user_id,
-          },
+        const userFound = await usersRepositoryEM.findOne({
+          where: { id: user_id },
+          relations: ['orders'],
         });
-        if (!user) {
+        if (!userFound) {
           throw new UnauthorizedException();
         }
+        let user = await usersRepositoryEM.save(
+          usersRepositoryEM.merge(userFound, {
+            last_login: new Date(),
+          }),
+        );
+        user = { ...user, orders: userFound.orders };
         request.user_data = {
           user,
           device,

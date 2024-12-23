@@ -8,12 +8,12 @@ import { navigateTo } from '../../helpers/navigate-to';
 
 interface IInitial {
   orders: IOrder[];
-  loadingState: boolean,
+  ordersLoadingState: boolean,
 }
 
 const initialState: IInitial = {
   orders: [],
-  loadingState: false,
+  ordersLoadingState: false,
 };
 
 const searchForOrders = createAsyncThunk(
@@ -23,7 +23,10 @@ const searchForOrders = createAsyncThunk(
       const ordersPaginated = await CRMApi.orders.get(searchQuery);
       const { page, pages, total, limit } = ordersPaginated;
       thunkAPI.dispatch(PaginationActions.setPaginationData({ page, pages, total, limit }));
-      return thunkAPI.fulfillWithValue(ordersPaginated.data);
+      return thunkAPI.fulfillWithValue(ordersPaginated.data.map(e => ({
+        ...e,
+        created_at: (new Date(e.created_at)).toLocaleDateString('en-GB'),
+      })));
     } catch (e) {
       const error = e as AxiosError<IErrorResponse>;
       if (error.status === 401) {
@@ -31,9 +34,7 @@ const searchForOrders = createAsyncThunk(
       } else {
         navigateTo('/error');
       }
-
       return thunkAPI.rejectWithValue(error.response?.data);
-
     } finally {
       thunkAPI.dispatch(OrdersActions.setLoadingState(false));
     }
@@ -46,7 +47,7 @@ export const ordersSlice = createSlice({
   initialState,
   reducers: {
     setLoadingState: (state, action: PayloadAction<boolean>) => {
-      state.loadingState = action.payload;
+      state.ordersLoadingState = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -65,7 +66,7 @@ export const ordersSlice = createSlice({
       .addMatcher(
         isPending(searchForOrders),
         (state) => {
-          state.loadingState = true;
+          state.ordersLoadingState = true;
         },
       );
   },

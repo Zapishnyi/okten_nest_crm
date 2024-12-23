@@ -44,7 +44,7 @@ export class OrderPresenterService {
       status: order.status,
       group: order.group ? order.group.name : null,
       created_at: order.created_at,
-      manager: order.user ? order.user.name : null,
+      manager: order.user ? order.user.surname : null,
       comments: !!order.comments
         ? order.comments?.map((comment) =>
             this.commentPresenter.toResponseDto(comment, order.user),

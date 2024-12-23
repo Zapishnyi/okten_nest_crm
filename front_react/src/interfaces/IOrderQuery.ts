@@ -1,10 +1,10 @@
-import { SortByEnum } from '../enums/sort-by.enum';
+import { OrdersSortByEnum } from '../enums/orders-sort-by.enum';
 import { SortEnum } from '../enums/sort.enum';
 
 
 export default interface IOrderQuery {
   page: number;
-  sortBy: SortByEnum;
+  sortBy: OrdersSortByEnum;
   sort: SortEnum;
 
 }

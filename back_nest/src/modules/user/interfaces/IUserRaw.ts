@@ -1,6 +1,6 @@
 import { UserRoleEnum } from '../enums/user-role.enum';
 
-export default interface IUser {
+export default interface IUserRaw {
   id: number;
   name: string;
   surname: string;
@@ -8,6 +8,7 @@ export default interface IUser {
   active: boolean;
   ban: boolean;
   role: UserRoleEnum;
-  last_login: string;
-  created_at: string;
+  total_orders: number;
+  last_login: Date;
+  created_at: Date;
 }

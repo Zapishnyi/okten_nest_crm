@@ -2,9 +2,12 @@
     width: 100%;
     height: 50px;
     position: sticky;
-    background: #a2ead9;
+    /*background: #a2ead9;*/
     top: 0;
     z-index: 10;
+    background: linear-gradient(45deg, #62edf9 0% 35%, #62bff9 50%, #62edf9 65% 100%);
+    background-size: 500% 500%;
+    animation: move-gradient 10s infinite;
 
 
     .container {
@@ -28,4 +31,14 @@
         }
     }
 
+}
+
+@keyframes move-gradient {
+    0% {
+        background-position: 0 50%;
+    }
+
+    100% {
+        background-position: 100% 50%;
+    }
 }

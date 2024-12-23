@@ -8,7 +8,7 @@ import { cookie } from '../../services/cookies.servise';
 import { AxiosError } from 'axios';
 import IErrorResponse from '../../interfaces/IErrorResponse';
 import { useAppDispatch } from '../../redux/store';
-import { UserActions } from '../../redux/Slices/userSlice';
+import { UsersActions } from '../../redux/Slices/usersSlice';
 
 
 const SignInForm = () => {
@@ -24,7 +24,7 @@ const SignInForm = () => {
       // storage.setRefreshToken(tokens.refresh);
       cookie.setAccessToken(tokens.access);
       cookie.setRefreshToken(tokens.refresh);
-      dispatch(UserActions.setUser(user));
+      dispatch(UsersActions.setUser(user));
       navigate(`/orders`);
     } catch (error) {
       const err = error as AxiosError<IErrorResponse>;

@@ -1,6 +1,6 @@
 import IOrder from './IOrder';
 import { SortEnum } from '../enums/sort.enum';
-import { SortByEnum } from '../enums/sort-by.enum';
+import { OrdersSortByEnum } from '../enums/orders-sort-by.enum';
 
 export default interface IOrderPaginated {
   data: IOrder[],
@@ -9,5 +9,5 @@ export default interface IOrderPaginated {
   page: number,
   pages: number,
   sort: SortEnum,
-  sortBy: SortByEnum,
+  sortBy: OrdersSortByEnum,
 }

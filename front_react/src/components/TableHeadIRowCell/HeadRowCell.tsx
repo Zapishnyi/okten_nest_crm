@@ -1,8 +1,9 @@
 import React, { ChangeEvent, FC, MouseEvent, MutableRefObject, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { sortToggle } from '../../helpers/sort-toggle';
 import { SortEnum } from '../../enums/sort.enum';
 import styles from './HeadRowCell.module.css';
+import { tableReset } from '../../helpers/table-reset';
 
 interface IProps {
   cellName: string;
@@ -12,20 +13,15 @@ interface IProps {
 const HeadRowCell: FC<IProps> = ({ cellName, chosenColumnRef }) => {
   console.log('.');
   useEffect(() => {
-    const radio = document.getElementsByName('orderBy') as NodeListOf<HTMLInputElement>;
-    radio.forEach(e => {
-      if (e.value === 'id') {
-        e.checked = true;
-      }
-    });
+    tableReset();
   }, []);
 
   const queryParams = useSearchParams();
-
+  const location = useLocation();
   const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
     const queryModified = {
       ...Object.fromEntries(queryParams[0].entries()),
-      page: '1',
+      ...(location.pathname.includes('orders') ? { page: '1' } : {}),
       sortBy: event.currentTarget.value,
     };
     queryParams[1](queryModified);
@@ -36,7 +32,8 @@ const HeadRowCell: FC<IProps> = ({ cellName, chosenColumnRef }) => {
     const sortDown = Array.from(document.getElementsByClassName(styles.down)) as HTMLParagraphElement[];
     if (chosenColumnRef.current === event.currentTarget.value) {
       const queryModified = {
-        ...Object.fromEntries(queryParams[0].entries()), page: '1',
+        ...Object.fromEntries(queryParams[0].entries()),
+        ...(location.pathname.includes('orders') ? { page: '1' } : {}),
         sort: sortToggle((queryParams[0].get('sort')) as SortEnum),
       };
       queryParams[1](queryModified);
@@ -50,7 +47,7 @@ const HeadRowCell: FC<IProps> = ({ cellName, chosenColumnRef }) => {
       <input className={'title'} onClick={clickHandle} onChange={changeHandle} type="radio"
              value={cellName} name={'orderBy'} /> {cellName}
       <p className={styles.up}>{'\u25BE'}</p>
-      <p className={[styles.down, styles.visible].join(' ')}>{'\u25B4'}</p>
+      <p className={styles.down}>{'\u25B4'}</p>
     </label>
   </th>;
 };

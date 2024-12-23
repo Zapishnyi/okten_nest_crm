@@ -1,5 +1,5 @@
-import { OrderEnum } from '../../enums/order.enum';
-import { OrderByEnum } from '../../enums/order-by.enum';
+import { SortEnum } from '../../enums/sort.enum';
+import { OrdersSortByEnum } from '../../enums/orders-sort-by.enum';
 import { OrderResDto } from './order.res.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -14,8 +14,8 @@ export class OrdersListResDto {
   page: number;
   @ApiProperty({ example: 3 })
   pages: number;
-  @ApiProperty({ enum: OrderEnum, example: OrderEnum.DESC })
-  sort: OrderEnum;
-  @ApiProperty({ enum: OrderByEnum, example: OrderByEnum.ID })
-  sortBy: OrderByEnum;
+  @ApiProperty({ enum: SortEnum, example: SortEnum.DESC })
+  sort: SortEnum;
+  @ApiProperty({ enum: OrdersSortByEnum, example: OrdersSortByEnum.ID })
+  sortBy: OrdersSortByEnum;
 }

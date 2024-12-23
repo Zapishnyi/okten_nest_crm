@@ -2,13 +2,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { ordersSlice } from './Slices/ordersSlice';
 import { paginationSlice } from './Slices/paginationSlice';
-import { userSlice } from './Slices/userSlice';
+import { usersSlice } from './Slices/usersSlice';
 
 export const store = configureStore({
   reducer: {
     orders: ordersSlice.reducer,
     pagination: paginationSlice.reducer,
-    user: userSlice.reducer,
+    users: usersSlice.reducer,
   },
 });
 

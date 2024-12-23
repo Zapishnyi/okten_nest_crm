@@ -7,10 +7,11 @@ import IAuthTokens from '../interfaces/IAuthTokens';
 import { cookie } from './cookies.servise';
 import { navigateTo } from '../helpers/navigate-to';
 import { store } from '../redux/store';
-import { UserActions } from '../redux/Slices/userSlice';
 import ICommentResponse from '../interfaces/ICommentResponse';
 import IComment from '../interfaces/IComment';
 import IUser from '../interfaces/IUser';
+import { IUserCreate } from '../interfaces/IUserCreate';
+import { UsersActions } from '../redux/Slices/usersSlice';
 
 
 const axiosInstance = axios.create({
@@ -44,6 +45,14 @@ interface ICRMApiService {
     get: (query: Record<string, string>) => Promise<IOrderPaginated>;
     add_comment: (order_id: number, body: IComment) => Promise<ICommentResponse>;
   };
+  admin: {
+    get_all_users: (query: Record<string, string>) => Promise<IUser[]>,
+    create_user: (dto: IUserCreate) => Promise<IUser>,
+    activate_user: (id: string) => Promise<IUser>,
+    ban_user: (id: string) => Promise<IUser>,
+    reinstate_user: (id: string) => Promise<IUser>,
+    delete_user: (id: string) => Promise<void>,
+  },
   health: () => Promise<IHealth>;
 
 }
@@ -62,6 +71,14 @@ export const CRMApi: ICRMApiService = {
       .get(urls.orders.get, { params: query })
       .then((response) => response.data),
     add_comment: (order_id: number, body) => axiosInstance.post(urls.orders.add_comment(order_id), body).then((response) => response.data),
+  },
+  admin: {
+    get_all_users: (query) => axiosInstance.get(urls.admin.get_all_users, { params: query }).then((response) => response.data),
+    create_user: (dto) => axiosInstance.post(urls.admin.create_user, dto).then((response) => response.data),
+    activate_user: (id: string) => axiosInstance.patch(urls.admin.activate_user(id)).then((response) => response.data),
+    ban_user: (id: string) => axiosInstance.patch(urls.admin.ban_user(id)).then((response) => response.data),
+    reinstate_user: (id: string) => axiosInstance.patch(urls.admin.reinstate_user(id)).then((response) => response.data),
+    delete_user: (id: string) => axiosInstance.delete(urls.admin.delete_user(id)),
   },
   health: () => axiosInstance.get(urls.health).then((response) => response.data),
 
@@ -83,7 +100,7 @@ axiosInstance.interceptors.response.use((response) => response,
           return axiosInstance(originalRequest);
         } catch (error) {
           cookie.deleteAuthTokens();
-          dispatch(UserActions.setUser(null));
+          dispatch(UsersActions.setUser(null));
           console.error('Token refresh failed', error);
           navigateTo('/auth/sign-in');
         }

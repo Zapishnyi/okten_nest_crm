@@ -9,5 +9,8 @@ export class UserResDto extends PickType(UserBaseResDto, [
   'role',
   'active',
   'ban',
+  'last_login',
   'created_at',
-]) {}
+]) {
+  total_orders: number;
+}

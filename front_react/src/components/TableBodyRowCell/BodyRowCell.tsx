@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import styles from './BodyRowCell.module.css';
 
-type Props<T> = {
-  cell: [string, T];
+interface IProps {
+  cell: [string, string];
 }
 
-const BodyRowCell: FC<Props<string | number>> = ({ cell }) => {
+const BodyRowCell: FC<IProps> = ({ cell }) => {
   return <td className={[styles.cell, styles[cell[0]]].join(' ')}>{cell[1]}</td>;
 };
 

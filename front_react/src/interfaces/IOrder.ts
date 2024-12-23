@@ -16,7 +16,7 @@ export default interface IOrder {
   msg: string,
   status: string,
   group: string
-  created_at: Date,
+  created_at: string,
   manager: string,
   comments: ICommentResponse[]
   manager_id: number,

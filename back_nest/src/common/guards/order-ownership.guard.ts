@@ -26,7 +26,6 @@ export class OrderOwnershipGuard implements CanActivate {
     if (order?.user?.id !== user?.id && order.user) {
       throw new UnauthorizedException();
     }
-
     request.order_data = {
       order,
     };

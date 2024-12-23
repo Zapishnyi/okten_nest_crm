@@ -20,7 +20,7 @@ export class OrderService {
     return await this.entityManager.transaction(
       this.isolationLevel.set(),
       async (em: EntityManager): Promise<[OrderEntity[], number]> => {
-        return await this.ordersRepository.getByQuery(query, em);
+        return await this.ordersRepository.getOrdersByQuery(query, em);
       },
     );
   }

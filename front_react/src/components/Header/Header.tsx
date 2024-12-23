@@ -10,14 +10,14 @@ import { UserRoleEnum } from '../../enums/user-role.enum';
 
 
 const Header: FC = () => {
-  const { user } = useAppSelector((state) => state.user);
+  const { userLogged } = useAppSelector((state) => state.users);
   return (
     <header className={styles.base}>
       <div className={styles.container}>
         <div className={styles.logo}><Logo /></div>
         <ul className={styles.menu}>
           <li><OrdersBtn /></li>
-          {user?.role === UserRoleEnum.ADMIN && <li><AdministratorBtn /></li>}
+          {userLogged?.role === UserRoleEnum.ADMIN && <li><AdministratorBtn /></li>}
           <li><SearchBtn /></li>
           <li><LogOut /></li>
         </ul>

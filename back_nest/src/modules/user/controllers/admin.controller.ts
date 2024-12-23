@@ -2,10 +2,12 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -24,6 +26,7 @@ import { AdminService } from '../services/admin.service';
 import { UserPresenterService } from '../services/user-presenter.service';
 import { UserValidateResDto } from '../dto/res/user-validate.res.dto';
 import { UserBanResDto } from '../dto/res/user-ban.res.dto';
+import { UsersQueryReqDto } from '../dto/req/users-query.req.dto';
 
 @ApiTags('2.Administrator')
 @Controller('/admin')
@@ -33,7 +36,28 @@ export class AdminController {
     private readonly userPresenter: UserPresenterService,
   ) {}
 
-  // Create -------------------------------------------------
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    example: {
+      statusCode: 401,
+      messages: 'Unauthorized',
+      timestamp: '2024-12-03T18:55:06.367Z',
+      path: '/user/get-all',
+    },
+  })
+  @ApiBearerAuth('Access-Token')
+  @Get('user/get-all')
+  @UseGuards(JwtAccessGuard, AdminRoleGuard)
+  public async getAllUsers(
+    @Query() query: UsersQueryReqDto,
+  ): Promise<UserResDto[]> {
+    const users = await this.adminService.getAllUsers(query);
+    return users.map((userRaw) =>
+      this.userPresenter.toResponseDtoFromRaw(userRaw),
+    );
+  }
+
+  // Add Manager -------------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -71,7 +95,7 @@ export class AdminController {
   public async userCreate(
     @Body() dto: UserCreateByAdminReqDto,
   ): Promise<UserResDto> {
-    return this.userPresenter.toResponseDto(
+    return this.userPresenter.toResponseDtoFromEntity(
       await this.adminService.userCreate(dto),
     );
   }
@@ -115,7 +139,7 @@ export class AdminController {
       token: {
         activate,
       },
-      user: this.userPresenter.toResponseDto(user),
+      user: this.userPresenter.toResponseDtoFromEntity(user),
     };
   }
 
@@ -135,7 +159,7 @@ export class AdminController {
   public async userBan(
     @Param('id', ParseIntPipe) user_id: number,
   ): Promise<UserBanResDto> {
-    return this.userPresenter.toResponseDto(
+    return this.userPresenter.toResponseDtoFromEntity(
       await this.adminService.userBan(user_id),
     );
   }
@@ -156,7 +180,7 @@ export class AdminController {
   public async userReinstate(
     @Param('id', ParseIntPipe) user_id: number,
   ): Promise<UserResDto> {
-    return this.userPresenter.toResponseDto(
+    return this.userPresenter.toResponseDtoFromEntity(
       await this.adminService.userReinstate(user_id),
     );
   }

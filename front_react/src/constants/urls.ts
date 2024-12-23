@@ -11,5 +11,13 @@ export const urls = {
     get: '/orders',
     add_comment: (order_id: number) => `/orders/${order_id}/comment`,
   },
+  admin: {
+    get_all_users: `/admin/user/get-all`,
+    create_user: `/admin/user/create`,
+    activate_user: (id: string) => `/admin/user/${id}/activate`,
+    ban_user: (id: string) => `/admin/user/${id}/ban`,
+    reinstate_user: (id: string) => `/admin/user/${id}/reinstate`,
+    delete_user: (id: string) => `/admin/user/${id}/delete`,
+  },
   health: '/health',
 };

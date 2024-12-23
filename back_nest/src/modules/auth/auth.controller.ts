@@ -40,7 +40,7 @@ export class AuthController {
     @Req() request: Request,
   ): Promise<AuthResDto> {
     const [user, tokens] = await this.authService.signIn(dto, request);
-    return { tokens, user: this.userPresenter.toResponseDto(user) };
+    return { tokens, user: this.userPresenter.toResponseDtoFromEntity(user) };
   }
 
   @ApiUnauthorizedResponse({
@@ -60,7 +60,7 @@ export class AuthController {
     @GetStoredUserDataFromResponse() userData: IUserData,
   ): Promise<UserResDto> {
     const user = await this.authService.activate(dto, userData);
-    return this.userPresenter.toResponseDto(user);
+    return this.userPresenter.toResponseDtoFromEntity(user);
   }
 
   @ApiUnauthorizedResponse({
@@ -79,7 +79,10 @@ export class AuthController {
     @GetStoredUserDataFromResponse() userData: IUserData,
   ): Promise<AuthResDto> {
     const tokens = await this.authService.refresh(userData);
-    return { tokens, user: userData.user };
+    return {
+      tokens,
+      user: this.userPresenter.toResponseDtoFromEntity(userData.user),
+    };
   }
 
   @ApiUnauthorizedResponse({
@@ -115,6 +118,6 @@ export class AuthController {
   public async me(
     @GetStoredUserDataFromResponse() { user }: IUserData,
   ): Promise<UserResDto> {
-    return this.userPresenter.toResponseDto(user);
+    return this.userPresenter.toResponseDtoFromEntity(user);
   }
 }

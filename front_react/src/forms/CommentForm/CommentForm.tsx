@@ -14,10 +14,10 @@ interface IProps {
 }
 
 const CommentForm: FC<IProps> = ({ order }) => {
-  const { user } = useAppSelector((state) => state.user);
+  const { userLogged } = useAppSelector((state) => state.users);
   const { register, handleSubmit, reset } = useForm<IComment>();
-  const order_ownership = user?.id === order.manager_id || order.manager === null;
- 
+  const order_ownership = userLogged?.id === order.manager_id || order.manager === null;
+
   const dispatch = useAppDispatch();
   const query = useSearchParams();
 
