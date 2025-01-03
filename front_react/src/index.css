@@ -20,6 +20,7 @@ html, body {
 
 .button {
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     background: #86ccff;
@@ -31,6 +32,7 @@ html, body {
     width: fit-content;
     user-select: none;
     padding: 5px 10px;
+    overflow: hidden;
 }
 
 .button:hover {

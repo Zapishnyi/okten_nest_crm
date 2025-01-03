@@ -30,15 +30,37 @@
         border: none;
         height: inherit;
 
+
         > div {
             height: inherit;
             display: flex;
             justify-content: flex-end;
             align-items: center;
             padding: 0 1vw;
-            gap: 1vw
+            gap: 1vw;
+
+            .response_fulfilled {
+                animation: fade-out 1s 2s ease-in forwards;
+            }
+
+            .response_error {
+                color: red;
+                display: flex;
+                flex-direction: column;
+                animation: fade-out 1s 2s ease-in forwards;
+
+            }
         }
 
     }
 }
 
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

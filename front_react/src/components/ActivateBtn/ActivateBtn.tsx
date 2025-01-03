@@ -1,30 +1,49 @@
-import React, { FC } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { useSearchParams } from 'react-router-dom';
+import React, { Dispatch, FC, useState } from 'react';
+import { useAppSelector } from '../../redux/store';
 import { CRMApi } from '../../services/crm.api.servise';
 import { errorHandle } from '../../helpers/error-handle';
+import { SyncLoader } from 'react-spinners';
+import styles from './ActivateBtn.module.css';
 
 interface IProps {
   user_id: number;
+  setActivateLink: Dispatch<string | null>;
+  setErrorMassage: Dispatch<string[] | null>;
 }
 
-const ActivateBtn: FC<IProps> = ({ user_id }) => {
-
+const ActivateBtn: FC<IProps> = ({ user_id, setActivateLink, setErrorMassage }) => {
+  const [isPending, setIsPending] = useState(false);
   const { users } = useAppSelector((state) => state.users);
   const user = users?.filter((user) => user.id === user_id)[0];
-  const query = useSearchParams();
-  const dispatch = useAppDispatch();
   const activate = async () => {
+    setIsPending(true);
+    setActivateLink(null);
+    setErrorMassage(null);
     try {
       const { activateToken } = await CRMApi.admin.activate_user(user_id.toString());
-      const activationLink = `${location.hostname}/#/auth/activate/${activateToken}`;
+      const activateLink = `${document.location.origin}/#/auth/activate/${activateToken}`;
+      setActivateLink(activateLink);
+      setErrorMassage(null);
+      await navigator.clipboard.writeText(activateLink);
     } catch (e) {
-      errorHandle(e);
+      setActivateLink(null);
+      setErrorMassage(errorHandle(e).message);
+    } finally {
+      setIsPending(false);
     }
 
   };
   return <div title="Activate link will be available in the clipboard" className="button"
-              onClick={activate}>{!user.active ? 'Activate' : 'Renew Password'}</div>;
+              onClick={activate}>
+    <p>{!user.active ? 'Activate' : 'Re-new Password'}</p>
+    {isPending && <div className={styles.loader_container}>
+      <SyncLoader
+        color={'#000303'}
+        loading={isPending}
+        size={8}
+      />
+    </div>}
+  </div>;
 };
 
 export default ActivateBtn;
