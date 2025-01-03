@@ -26,7 +26,7 @@ export class UserEntity extends BaseModel {
   @Column('boolean', { default: false })
   ban: boolean;
 
-  @Column('enum', { enum: UserRoleEnum })
+  @Column('enum', { enum: UserRoleEnum, default: UserRoleEnum.MANAGER })
   role: UserRoleEnum;
 
   @Column('timestamp', { nullable: true })

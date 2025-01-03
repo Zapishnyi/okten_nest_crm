@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice, isPending, isRejected, PayloadAction } from '@reduxjs/toolkit';
 import IUser from '../../interfaces/IUser';
 import { CRMApi } from '../../services/crm.api.servise';
-import { AxiosError } from 'axios';
-import IErrorResponse from '../../interfaces/IErrorResponse';
 import { navigateTo } from '../../helpers/navigate-to';
+import { errorHandle } from '../../helpers/error-handle';
 
 interface IInitial {
   userLogged: IUser | null;
@@ -20,6 +19,7 @@ const getAllUsers = createAsyncThunk(
   'users/getAllUsers',
   async (query: Record<string, string>, thunkAPI) => {
     try {
+      console.log('search for users');
       const users = await CRMApi.admin.get_all_users(query);
 
       return thunkAPI.fulfillWithValue(users.map(e => ({
@@ -37,13 +37,13 @@ const getAllUsers = createAsyncThunk(
           : 'null',
       })));
     } catch (e) {
-      const error = e as AxiosError<IErrorResponse>;
+      const error = errorHandle(e);
       if (error.status === 401) {
         navigateTo('/auth/sign-in');
       } else {
         navigateTo('/error');
       }
-      return thunkAPI.rejectWithValue(error.response?.data);
+      return thunkAPI.rejectWithValue(error.message);
     } finally {
       thunkAPI.dispatch(UsersActions.setLoadingState(false));
     }

@@ -5,5 +5,4 @@ export class UserCreateByAdminReqDto extends PickType(UserBaseReqDto, [
   'name',
   'surname',
   'email',
-  'role',
 ]) {}

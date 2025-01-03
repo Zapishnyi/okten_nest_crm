@@ -25,12 +25,12 @@ const MainLayout: FC = () => {
         }
       } catch (e) {
         const error = e as AxiosError;
-        console.log('Check failed with error:', error.message);
+        console.error('Logged user data receive sequence failed with error:', error.message);
       }
     };
     void getData();
 
-    //to make navigate function access globally
+    //to make navigate function access globally from any fu
     setNavigate(navigate);
 
   }, []);
@@ -39,6 +39,7 @@ const MainLayout: FC = () => {
   return <div className={styles.wrapper}>
     <Header />
     <Outlet />
+
     {
       (ordersLoadingState || usersLoadingState) &&
       <div className={styles.loader}>

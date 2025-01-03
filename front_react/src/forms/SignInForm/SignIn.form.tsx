@@ -1,22 +1,24 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import styles from './SignInForm.module.css';
 import IUserSignIn from '../../interfaces/IUserSignIn';
 import { CRMApi } from '../../services/crm.api.servise';
 import { cookie } from '../../services/cookies.servise';
-import { AxiosError } from 'axios';
-import IErrorResponse from '../../interfaces/IErrorResponse';
 import { useAppDispatch } from '../../redux/store';
 import { UsersActions } from '../../redux/Slices/usersSlice';
+import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
+import { initialOrdersQuery } from '../../constants/initialOrdersQuery';
+import { errorHandle } from '../../helpers/error-handle';
 
 
 const SignInForm = () => {
   console.log('.');
-  const [loginError, setLoginError] = useState<string[] | null>(null);
+  const [errorMessage, setErrorMassage] = useState<string[] | null>(null);
   const { register, handleSubmit, formState: { errors } } = useForm<IUserSignIn>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const query = useSearchParams();
   const SubmitHandler = async (credentials: IUserSignIn) => {
     try {
       const { tokens, user } = await CRMApi.auth.singIn(credentials);
@@ -26,15 +28,9 @@ const SignInForm = () => {
       cookie.setRefreshToken(tokens.refresh);
       dispatch(UsersActions.setUser(user));
       navigate(`/orders`);
-    } catch (error) {
-      const err = error as AxiosError<IErrorResponse>;
-      if (err.response?.data.messages) {
-        console.error('error details:', err.response?.data.messages);
-        setLoginError(err.response?.data.messages || null);
-      } else {
-        setLoginError([err.message]);
-      }
-
+      query[1](queryToSearchParams(initialOrdersQuery));
+    } catch (e) {
+      setErrorMassage(errorHandle(e).message);
     }
   };
   return (
@@ -63,7 +59,7 @@ const SignInForm = () => {
 
         </div>
         <button className="button">Login</button>
-        {loginError?.length && loginError.map((e, i) => <p key={i}>{e}</p>)}
+        {errorMessage?.length && errorMessage.map((e, i) => <p key={i}>{e}</p>)}
       </form>
 
     </div>

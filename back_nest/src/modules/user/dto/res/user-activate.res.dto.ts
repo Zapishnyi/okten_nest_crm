@@ -1,6 +1,6 @@
 import { UserResDto } from './user.res.dto';
 
-export class UserValidateResDto {
-  token: { activate: string };
+export class UserActivateResDto {
+  activateToken: string;
   user: UserResDto;
 }

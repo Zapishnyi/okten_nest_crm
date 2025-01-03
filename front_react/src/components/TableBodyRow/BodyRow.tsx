@@ -6,6 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import IOrderReduced from '../../interfaces/IOrderReduced';
 import { TableTypeEnum } from '../../enums/table-type.enum';
 import IUser from '../../interfaces/IUser';
+import BodyRowUserExtension from '../TableBodyRowUserExtension/BodyRowUserExtension';
 
 interface IProps {
   item: IOrderReduced | IUser;
@@ -29,6 +30,7 @@ const BodyRow: FC<IProps> = ({ item, table_type }) => {
                                                           cell={[cell[0], String(cell[1])]} />)}
     </tr>
     {table_type === TableTypeEnum.ORDER && <BodyRowOrderExtension visibility={visibility} order_id={item.id} />}
+    {table_type === TableTypeEnum.USER && <BodyRowUserExtension visibility={visibility} user_id={item.id} />}
 
   </>;
 };

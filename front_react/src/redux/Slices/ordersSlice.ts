@@ -1,10 +1,9 @@
 import { createAsyncThunk, createSlice, isPending, isRejected, PayloadAction } from '@reduxjs/toolkit';
 import IOrder from '../../interfaces/IOrder';
 import { CRMApi } from '../../services/crm.api.servise';
-import { AxiosError } from 'axios';
-import IErrorResponse from '../../interfaces/IErrorResponse';
 import { PaginationActions } from './paginationSlice';
 import { navigateTo } from '../../helpers/navigate-to';
+import { errorHandle } from '../../helpers/error-handle';
 
 interface IInitial {
   orders: IOrder[];
@@ -20,6 +19,7 @@ const searchForOrders = createAsyncThunk(
   'orders/searchForOrders',
   async (searchQuery: Record<string, string>, thunkAPI) => {
     try {
+      console.log('search for orders');
       const ordersPaginated = await CRMApi.orders.get(searchQuery);
       const { page, pages, total, limit } = ordersPaginated;
       thunkAPI.dispatch(PaginationActions.setPaginationData({ page, pages, total, limit }));
@@ -28,13 +28,13 @@ const searchForOrders = createAsyncThunk(
         created_at: (new Date(e.created_at)).toLocaleDateString('en-GB'),
       })));
     } catch (e) {
-      const error = e as AxiosError<IErrorResponse>;
+      const error = errorHandle(e);
       if (error.status === 401) {
         navigateTo('/auth/sign-in');
       } else {
         navigateTo('/error');
       }
-      return thunkAPI.rejectWithValue(error.response?.data);
+      return thunkAPI.rejectWithValue(error.message);
     } finally {
       thunkAPI.dispatch(OrdersActions.setLoadingState(false));
     }

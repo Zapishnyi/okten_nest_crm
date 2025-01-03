@@ -6,18 +6,24 @@ import { TableTypeEnum } from '../../enums/table-type.enum';
 import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
 import { useSearchParams } from 'react-router-dom';
 import { initialUsersQuery } from '../../constants/initialUsersQuery';
+import { cookie } from '../../services/cookies.servise';
 
 const Admin: FC = () => {
   const dispatch = useAppDispatch();
   const { users } = useAppSelector((state) => state.users);
   const [query, setQuery] = useSearchParams(queryToSearchParams(initialUsersQuery));
+  const accessExist = !!cookie.getAccessToken();
+
   useEffect(() => {
-    setQuery(queryToSearchParams(initialUsersQuery));
+
+    if (!users.length) {
+      setQuery(queryToSearchParams(initialUsersQuery));
+    }
   }, []);
 
   useEffect(() => {
     dispatch(UsersActions.getAllUsers(Object.fromEntries(query.entries())));
-  }, [query]);
+  }, [query.toString()]);
 
   return (
     <div>

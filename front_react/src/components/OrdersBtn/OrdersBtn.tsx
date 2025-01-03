@@ -16,13 +16,14 @@ const OrdersBtn: FC = () => {
     } else {
       setIsChosen(false);
     }
-  }, [query]);
+  }, [query[0].toString()]);
   const clickHandle = () => {
     if (location.pathname.includes('/orders')) {
       query[1](queryToSearchParams(initialOrdersQuery));
       tableReset();
     } else {
       navigate('/orders');
+      query[1](queryToSearchParams(initialOrdersQuery));
     }
 
   };

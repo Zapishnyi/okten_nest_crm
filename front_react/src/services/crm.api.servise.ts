@@ -12,6 +12,7 @@ import IComment from '../interfaces/IComment';
 import IUser from '../interfaces/IUser';
 import { IUserCreate } from '../interfaces/IUserCreate';
 import { UsersActions } from '../redux/Slices/usersSlice';
+import IActivateToken from '../interfaces/IActivateToken';
 
 
 const axiosInstance = axios.create({
@@ -48,7 +49,7 @@ interface ICRMApiService {
   admin: {
     get_all_users: (query: Record<string, string>) => Promise<IUser[]>,
     create_user: (dto: IUserCreate) => Promise<IUser>,
-    activate_user: (id: string) => Promise<IUser>,
+    activate_user: (id: string) => Promise<IActivateToken>,
     ban_user: (id: string) => Promise<IUser>,
     reinstate_user: (id: string) => Promise<IUser>,
     delete_user: (id: string) => Promise<void>,

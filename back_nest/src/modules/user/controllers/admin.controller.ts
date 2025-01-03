@@ -24,7 +24,7 @@ import { UserCreateByAdminReqDto } from '../dto/req/user-create-by-admin.req.dto
 import { UserResDto } from '../dto/res/user.res.dto';
 import { AdminService } from '../services/admin.service';
 import { UserPresenterService } from '../services/user-presenter.service';
-import { UserValidateResDto } from '../dto/res/user-validate.res.dto';
+import { UserActivateResDto } from '../dto/res/user-activate.res.dto';
 import { UserBanResDto } from '../dto/res/user-ban.res.dto';
 import { UsersQueryReqDto } from '../dto/req/users-query.req.dto';
 
@@ -133,12 +133,10 @@ export class AdminController {
   @UseGuards(JwtAccessGuard, AdminRoleGuard)
   public async userActivate(
     @Param('id', ParseIntPipe) user_id: number,
-  ): Promise<UserValidateResDto> {
+  ): Promise<UserActivateResDto> {
     const [{ activate }, user] = await this.adminService.userActivate(user_id);
     return {
-      token: {
-        activate,
-      },
+      activateToken: activate,
       user: this.userPresenter.toResponseDtoFromEntity(user),
     };
   }

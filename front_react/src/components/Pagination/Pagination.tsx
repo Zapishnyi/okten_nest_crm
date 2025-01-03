@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, memo, useEffect, useState } from 'react';
 import LeftArrow from './LeftArrow/LeftArrow';
 import RightArrow from './RightArrow/RightArrow';
 import styles from './Pagination.module.css';
@@ -9,7 +9,7 @@ interface IProps {
   pages: number;
 }
 
-const Pagination: FC<IProps> = ({ page, pages }) => {
+const Pagination: FC<IProps> = memo(({ page, pages }) => {
   console.log('.');
   const [pagination, setPagination] = useState<string[]>([]);
 
@@ -65,6 +65,6 @@ const Pagination: FC<IProps> = ({ page, pages }) => {
       <RightArrow pages={pages} />
     </div>
   );
-};
+});
 
 export default Pagination;

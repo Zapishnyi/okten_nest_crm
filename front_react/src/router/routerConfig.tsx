@@ -22,7 +22,7 @@ export const routerConfig = createHashRouter([
         element: <SignIn />,
       },
       {
-        path: 'activate',
+        path: 'activate/:activate_token',
         element: <Activate />,
       },
 

@@ -9,6 +9,6 @@ export const tableReset = () => {
       e.checked = true;
     }
   });
-  sortUp.forEach(e => e.classList.add(styles.visible));
-  sortDown.forEach(e => e.classList.remove(styles.visible));
+  sortUp.forEach(e => e.classList.remove(styles.visible));
+  sortDown.forEach(e => e.classList.add(styles.visible));
 };

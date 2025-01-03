@@ -1,6 +1,6 @@
 .base {
     width: 100%;
-    height: 50px;
+    height: 60px;
     position: sticky;
     /*background: #a2ead9;*/
     top: 0;
@@ -21,6 +21,17 @@
         .logo {
         }
 
+        .toolbox {
+            width: 60vw;
+            height: 90%;
+            border-radius: 10px;
+            border: 1px solid grey;
+            background: #f8f8f8;
+            display: flex;
+            align-items: center;
+            padding: 1vw;
+        }
+
         .menu {
             height: 100%;
             display: flex;
@@ -29,6 +40,8 @@
             gap: 10px;
             list-style: none;
         }
+
+
     }
 
 }

@@ -7,6 +7,7 @@ import { CRMApi } from '../../services/crm.api.servise';
 import IComment from '../../interfaces/IComment';
 import { OrdersActions } from '../../redux/Slices/ordersSlice';
 import { useSearchParams } from 'react-router-dom';
+import { errorHandle } from '../../helpers/error-handle';
 
 
 interface IProps {
@@ -23,18 +24,18 @@ const CommentForm: FC<IProps> = ({ order }) => {
 
   useEffect(() => {
     reset();
-  }, [query[0]]);
-
+  }, [query[0].toString()]);
 
   const submitHandle = async (formData: IComment) => {
     try {
       await CRMApi.orders.add_comment(order.id, formData);
       dispatch(OrdersActions.searchForOrders(Object.fromEntries(query[0].entries())));
       reset();
-    } catch (error) {
-      console.error(error);
+    } catch (e) {
+      errorHandle(e);
     }
   };
+
   return (
     <form className={styles.form} onSubmit={handleSubmit(submitHandle)}>
       <fieldset disabled={!order_ownership}>

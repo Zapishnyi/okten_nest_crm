@@ -36,3 +36,12 @@ html, body {
 .button:hover {
     background: #abd6fb;
 }
+
+.button:disabled {
+    cursor: initial;
+}
+
+.button:disabled:hover {
+    background: #86ccff;
+}
+

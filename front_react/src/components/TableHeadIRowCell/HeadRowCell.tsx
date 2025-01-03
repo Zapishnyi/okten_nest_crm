@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, MouseEvent, MutableRefObject, useEffect } from 'react';
+import React, { ChangeEvent, FC, memo, MouseEvent, MutableRefObject, useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { sortToggle } from '../../helpers/sort-toggle';
 import { SortEnum } from '../../enums/sort.enum';
@@ -10,7 +10,7 @@ interface IProps {
   chosenColumnRef: MutableRefObject<string>;
 }
 
-const HeadRowCell: FC<IProps> = ({ cellName, chosenColumnRef }) => {
+const HeadRowCell: FC<IProps> = memo(({ cellName, chosenColumnRef }) => {
   console.log('.');
   useEffect(() => {
     tableReset();
@@ -50,6 +50,6 @@ const HeadRowCell: FC<IProps> = ({ cellName, chosenColumnRef }) => {
       <p className={styles.down}>{'\u25B4'}</p>
     </label>
   </th>;
-};
+});
 
 export default HeadRowCell;

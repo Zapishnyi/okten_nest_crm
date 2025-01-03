@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import IUserSignIn from '../interfaces/IUserSignIn';
 
-const userValidator: Joi.ObjectSchema<IUserSignIn> = Joi.object({
+const userCreateValidator: Joi.ObjectSchema<IUserSignIn> = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .empty()
@@ -14,18 +14,24 @@ const userValidator: Joi.ObjectSchema<IUserSignIn> = Joi.object({
       'string.max': '100 characters max',
     }),
 
-  password: Joi.string()
-    .pattern(/^[^\s]+$/)
+  name: Joi.string()
     .required()
     .empty()
-    .min(5)
-    .max(16)
+    .min(3)
+    .max(25)
     .messages({
-      'string.pattern.base': 'any character except space',
       'string.min': '5 characters min',
       'string.max': '16 characters max',
     }),
-
+  surname: Joi.string()
+    .required()
+    .empty()
+    .min(3)
+    .max(25)
+    .messages({
+      'string.min': '3 characters min',
+      'string.max': '25 characters max',
+    }),
 });
 
-export default userValidator;
+export default userCreateValidator;
