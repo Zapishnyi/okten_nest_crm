@@ -1,5 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { ordersSlice } from './Slices/ordersSlice';
 import { paginationSlice } from './Slices/paginationSlice';
 import { usersSlice } from './Slices/usersSlice';

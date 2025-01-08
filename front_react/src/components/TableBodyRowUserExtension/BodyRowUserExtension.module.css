@@ -30,29 +30,44 @@
         border: none;
         height: inherit;
 
-
-        > div {
+        .cell_wrapper {
             height: inherit;
             display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 0 1vw;
-            gap: 1vw;
 
-            .response_fulfilled {
-                animation: fade-out 1s 2s ease-in forwards;
-            }
-
-            .response_error {
-                color: red;
+            .statistic_container {
                 display: flex;
-                flex-direction: column;
-                animation: fade-out 1s 2s ease-in forwards;
-
+                flex-basis: 60%;
+                height: inherit;
+                justify-content: center;
+                align-items: center;
             }
-        }
 
+            .action_container {
+                height: inherit;
+                display: flex;
+                flex-basis: 40%;
+                justify-content: flex-end;
+                align-items: center;
+                padding: 0 1vw;
+                gap: 1vw;
+
+                .response_fulfilled {
+                    animation: fade-out 1s 2s ease-in forwards;
+                }
+
+                .response_error {
+                    color: red;
+                    display: flex;
+                    flex-direction: column;
+                    animation: fade-out 1s 2s ease-in forwards;
+
+                }
+            }
+
+        }
     }
+
+
 }
 
 @keyframes fade-out {

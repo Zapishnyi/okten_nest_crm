@@ -4,18 +4,19 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { AuthService } from './services/auth.service';
 
+// eslint-disable-next-line max-len
 import { GetStoredUserDataFromResponse } from '../../common/custom_decorators/get-stored-user-data-from-response.decorator';
-import { AuthResDto } from './dto/res/auth.res.dto';
-import { UserPresenterService } from '../user/services/user-presenter.service';
+import { JwtAccessGuard } from '../../common/guards/jwt-access.guard';
 import { JwtActivateGuard } from '../../common/guards/jwt-activate.guard';
-import { IUserData } from './interfaces/IUserData';
+import { JwtRefreshGuard } from '../../common/guards/jwt-refresh.guard';
 import { UserValidateReqDto } from '../user/dto/req/user-validate.req.dto';
 import { UserResDto } from '../user/dto/res/user.res.dto';
-import { JwtRefreshGuard } from '../../common/guards/jwt-refresh.guard';
-import { JwtAccessGuard } from '../../common/guards/jwt-access.guard';
+import { UserPresenterService } from '../user/services/user-presenter.service';
 import { UserAuthReqDto } from './dto/req/user-auth.req.dto';
+import { AuthResDto } from './dto/res/auth.res.dto';
+import { IUserData } from './interfaces/IUserData';
+import { AuthService } from './services/auth.service';
 
 @ApiTags('1.Authorization')
 @Controller('auth')

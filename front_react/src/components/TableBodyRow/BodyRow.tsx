@@ -1,19 +1,19 @@
-import React, { FC, useEffect, useState } from 'react';
-import BodyRowCell from '../TableBodyRowCell/BodyRowCell';
-import styles from './BodyRow.module.css';
-import BodyRowOrderExtension from '../TableBodyRowOrderExtension/BodyRowOrderExtension';
+import React, { useEffect, useState } from 'react';
+
 import { useSearchParams } from 'react-router-dom';
-import IOrderReduced from '../../interfaces/IOrderReduced';
-import { TableTypeEnum } from '../../enums/table-type.enum';
-import IUser from '../../interfaces/IUser';
+
+import { TableType } from '../../types/TableType';
+import BodyRowCell from '../TableBodyRowCell/BodyRowCell';
+import BodyRowOrderExtension from '../TableBodyRowOrderExtension/BodyRowOrderExtension';
 import BodyRowUserExtension from '../TableBodyRowUserExtension/BodyRowUserExtension';
 
-interface IProps {
-  item: IOrderReduced | IUser;
-  table_type: TableTypeEnum;
+import styles from './BodyRow.module.css';
+
+interface IProps<T> {
+  item: T;
 }
 
-const BodyRow: FC<IProps> = ({ item, table_type }) => {
+const BodyRow = <T extends TableType>({ item }: IProps<T>) => {
   const [visibility, setVisibility] = useState<boolean>(false);
   const query = useSearchParams();
 
@@ -26,11 +26,11 @@ const BodyRow: FC<IProps> = ({ item, table_type }) => {
   };
   return <>
     <tr onClick={clickHandle} className={styles.order_row}>
-      {Object.entries(item).map((cell, i) => <BodyRowCell key={i}
-                                                          cell={[cell[0], String(cell[1])]} />)}
+      {Object.entries(item || {}).map((cell, i) => <BodyRowCell key={i}
+                                                                cell={[cell[0], String(cell[1])]} />)}
     </tr>
-    {table_type === TableTypeEnum.ORDER && <BodyRowOrderExtension visibility={visibility} order_id={item.id} />}
-    {table_type === TableTypeEnum.USER && <BodyRowUserExtension visibility={visibility} user_id={item.id} />}
+    {!!item && 'manager' in item && <BodyRowOrderExtension visibility={visibility} order_id={item.id} />}
+    {!!item && 'role' in item && <BodyRowUserExtension visibility={visibility} user_id={item.id} />}
 
   </>;
 };

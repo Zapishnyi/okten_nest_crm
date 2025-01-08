@@ -1,5 +1,5 @@
-import { UserRoleEnum } from '../modules/user/enums/user-role.enum';
 import { IsolationLevelsEnum } from '../modules/transaction-isolation-level/enums/isolationLevels.enum';
+import { UserRoleEnum } from '../modules/user/enums/user-role.enum';
 
 export type EnvConfigType = {
   app: AppConfigType;

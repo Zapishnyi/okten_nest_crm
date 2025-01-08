@@ -1,17 +1,17 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { RepositoryModule } from '../repository/repository.module';
 import { JwtModule } from '@nestjs/jwt';
+
+import { RepositoryModule } from '../repository/repository.module';
+import { IsolationLevelModule } from '../transaction-isolation-level/isolation-level.module';
+import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './services/auth.service';
 import { TokenService } from './services/token.service';
-import { UserModule } from '../user/user.module';
-import { IsolationLevelModule } from '../transaction-isolation-level/isolation-level.module';
 
 @Module({
   imports: [
     RepositoryModule,
     JwtModule,
-    RepositoryModule,
     forwardRef(() => UserModule),
     IsolationLevelModule,
   ],

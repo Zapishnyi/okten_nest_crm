@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
-import IErrorResponse from '../interfaces/IErrorResponse';
+
 import IErrorModified from '../interfaces/IErrorModified';
+import IErrorResponse from '../interfaces/IErrorResponse';
 
 export const errorHandle = (e: any): IErrorModified => {
   const error = e as AxiosError<IErrorResponse>;

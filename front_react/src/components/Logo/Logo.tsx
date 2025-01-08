@@ -1,15 +1,18 @@
 import React from 'react';
-import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
-import { initialOrdersQuery } from '../../constants/initialOrdersQuery';
-import { tableReset } from '../../helpers/table-reset';
+
 import { useNavigate, useSearchParams } from 'react-router-dom';
+
+import { initialOrdersQuery } from '../../constants/initialOrdersQuery';
+import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
+import { tableReset } from '../../helpers/table-reset';
+
 import styles from './Logo.module.css';
 
 const Logo = () => {
   const query = useSearchParams();
   const navigate = useNavigate();
   const clickHandle = () => {
-    if (location.pathname.includes('/orders')) {
+    if (document.location.pathname.includes('/orders')) {
       query[1](queryToSearchParams(initialOrdersQuery));
       tableReset();
     } else {

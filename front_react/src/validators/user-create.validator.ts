@@ -1,4 +1,5 @@
 import Joi from 'joi';
+
 import IUserSignIn from '../interfaces/IUserSignIn';
 
 const userCreateValidator: Joi.ObjectSchema<IUserSignIn> = Joi.object({

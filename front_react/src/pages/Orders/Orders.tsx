@@ -1,14 +1,17 @@
 import React, { FC, memo, useEffect } from 'react';
+
 import { useSearchParams } from 'react-router-dom';
-import styles from './Orders.module.css';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { initialOrdersQuery } from '../../constants/initialOrdersQuery';
-import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
-import { OrdersActions } from '../../redux/Slices/ordersSlice';
-import Table from '../../components/Table/Table';
-import { orderToReduced } from '../../helpers/order-to-reduced';
-import { TableTypeEnum } from '../../enums/table-type.enum';
+
 import Pagination from '../../components/Pagination/Pagination';
+import Table from '../../components/Table/Table';
+import { initialOrdersQuery } from '../../constants/initialOrdersQuery';
+import { orderToReduced } from '../../helpers/order-to-reduced';
+import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
+import IOrderReduced from '../../interfaces/IOrderReduced';
+import { OrdersActions } from '../../redux/Slices/ordersSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+
+import styles from './Orders.module.css';
 
 
 const Orders: FC = memo(() => {
@@ -31,7 +34,7 @@ const Orders: FC = memo(() => {
   return (
     <div className={styles.wrapper}>
       {!!orders.length && <>
-        <Table items={orders.map(order => orderToReduced(order))} table_type={TableTypeEnum.ORDER} />
+        <Table<IOrderReduced> items={orders.map(order => orderToReduced(order))} />
         <Pagination page={page} pages={pages} />
       </>
       }

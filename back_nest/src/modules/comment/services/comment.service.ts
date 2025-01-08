@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CommentReqDto } from '../dto/req/comment.req.dto';
-import { UserEntity } from '../../../database/entities/user.entity';
-import { OrderEntity } from '../../../database/entities/order.entity';
 import { EntityManager } from 'typeorm';
-import { IsolationLevelService } from '../../transaction-isolation-level/isolation-level.service';
+
 import { CommentEntity } from '../../../database/entities/comment.entity';
+import { OrderEntity } from '../../../database/entities/order.entity';
+import { UserEntity } from '../../../database/entities/user.entity';
 import { StatusEnum } from '../../order/enums/status.enum';
+import { IsolationLevelService } from '../../transaction-isolation-level/isolation-level.service';
+import { CommentReqDto } from '../dto/req/comment.req.dto';
 
 @Injectable()
 export class CommentService {
@@ -18,23 +19,29 @@ export class CommentService {
     dto: CommentReqDto,
     user: UserEntity,
     order: OrderEntity,
-  ): Promise<any> {
+  ): Promise<OrderEntity> {
     return await this.entityManager.transaction(
       this.isolationLevel.set(),
       async (em) => {
-        const orderRepositoryEM = em.getRepository(OrderEntity);
+        const ordersRepositoryEM = em.getRepository(OrderEntity);
         const commentsRepositoryEM = em.getRepository(CommentEntity);
-        await orderRepositoryEM.update(
-          { id: order.id },
-          { user, status: StatusEnum.IN_WORK },
-        );
-        return commentsRepositoryEM.save(
+        if (!order.status) {
+          await ordersRepositoryEM.update(
+            { id: order.id },
+            { user, status: StatusEnum.IN_WORK },
+          );
+        }
+        await commentsRepositoryEM.save(
           commentsRepositoryEM.create({
             ...dto,
             user,
             order,
           }),
         );
+        return await ordersRepositoryEM.findOne({
+          where: { id: order.id },
+          relations: ['user', 'group', 'comments'],
+        });
       },
     );
   }

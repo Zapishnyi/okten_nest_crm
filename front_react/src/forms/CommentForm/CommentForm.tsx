@@ -1,13 +1,15 @@
 import React, { FC, useEffect } from 'react';
+
 import { useForm } from 'react-hook-form';
-import styles from './CommentFrom.module.css';
-import IOrder from '../../interfaces/IOrder';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { CRMApi } from '../../services/crm.api.servise';
-import IComment from '../../interfaces/IComment';
-import { OrdersActions } from '../../redux/Slices/ordersSlice';
 import { useSearchParams } from 'react-router-dom';
-import { errorHandle } from '../../helpers/error-handle';
+
+import IComment from '../../interfaces/IComment';
+import IOrder from '../../interfaces/IOrder';
+import { OrdersActions } from '../../redux/Slices/ordersSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+
+
+import styles from './CommentFrom.module.css';
 
 
 interface IProps {
@@ -27,13 +29,8 @@ const CommentForm: FC<IProps> = ({ order }) => {
   }, [query[0].toString()]);
 
   const submitHandle = async (formData: IComment) => {
-    try {
-      await CRMApi.orders.add_comment(order.id, formData);
-      dispatch(OrdersActions.searchForOrders(Object.fromEntries(query[0].entries())));
-      reset();
-    } catch (e) {
-      errorHandle(e);
-    }
+    dispatch(OrdersActions.addComment({ order_id: order.id, comment: formData }));
+    reset();
   };
 
   return (

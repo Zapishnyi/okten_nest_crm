@@ -1,6 +1,4 @@
-import IUserSignIn from './IUserSignIn';
+import IUserActivateFormData from './IUserActivateFormData';
 
-export default interface IUserActivate extends IUserSignIn {
-  re_password: string;
-
+export default interface IUserActivate extends Pick<IUserActivateFormData, 'password'> {
 }

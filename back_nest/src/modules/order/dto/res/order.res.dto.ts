@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+
 import { CommentResDto } from '../../../comment/dto/res/comment.res.dto';
 import { CourseEnum } from '../../enums/course.enum';
 import { CourseFormatEnum } from '../../enums/course-format.enum';
@@ -7,41 +8,41 @@ import { StatusEnum } from '../../enums/status.enum';
 
 export class OrderResDto {
   @ApiProperty({ example: '245' })
-  id: number;
+  readonly id: number;
   @ApiProperty({ example: 'Joe' })
-  name: string;
+  readonly name: string;
   @ApiProperty({ example: 'Doe' })
-  surname: string;
+  readonly surname: string;
   @ApiProperty({ example: 'Joe.doe@example.com' })
-  email: string;
+  readonly email: string;
   @ApiProperty({ example: '+1200120012' })
-  phone: string;
+  readonly phone: string;
   @ApiProperty({ example: 24 })
-  age: number;
+  readonly age: number;
   @ApiProperty({ example: CourseEnum.QACX })
-  course: CourseEnum;
+  readonly course: CourseEnum;
   @ApiProperty({ example: CourseFormatEnum.ONLINE })
-  course_format: CourseFormatEnum;
+  readonly course_format: CourseFormatEnum;
   @ApiProperty({ example: CourseTypeEum.VIP })
-  course_type: CourseTypeEum;
+  readonly course_type: CourseTypeEum;
   @ApiProperty({ example: '3353' })
-  sum: number;
+  readonly sum: number;
   @ApiProperty({ example: '3353' })
-  alreadyPaid: number;
+  readonly alreadyPaid: number;
   @ApiProperty({ example: null })
-  utm: string;
+  readonly utm: string;
   @ApiProperty({ example: null })
-  msg: string;
+  readonly msg: string;
   @ApiProperty({ example: StatusEnum.IN_WORK })
-  status: StatusEnum;
+  readonly status: StatusEnum;
   @ApiProperty({ example: null })
-  group: string;
+  readonly group: string;
   @ApiProperty({ example: null })
-  manager: string;
+  readonly manager: string;
   @ApiProperty({ example: new Date() })
-  created_at: Date;
+  readonly created_at: Date;
   @ApiProperty()
-  comments: CommentResDto[];
+  readonly comments: CommentResDto[];
   @ApiProperty()
-  manager_id: number;
+  readonly manager_id: number;
 }

@@ -1,9 +1,12 @@
 import { createAsyncThunk, createSlice, isPending, isRejected, PayloadAction } from '@reduxjs/toolkit';
+
+import { errorHandle } from '../../helpers/error-handle';
+import { navigateTo } from '../../helpers/navigate-to';
+import IComment from '../../interfaces/IComment';
 import IOrder from '../../interfaces/IOrder';
 import { CRMApi } from '../../services/crm.api.servise';
+
 import { PaginationActions } from './paginationSlice';
-import { navigateTo } from '../../helpers/navigate-to';
-import { errorHandle } from '../../helpers/error-handle';
 
 interface IInitial {
   orders: IOrder[];
@@ -20,7 +23,7 @@ const searchForOrders = createAsyncThunk(
   async (searchQuery: Record<string, string>, thunkAPI) => {
     try {
       console.log('search for orders');
-      const ordersPaginated = await CRMApi.orders.get(searchQuery);
+      const ordersPaginated = await CRMApi.orders.get_all(searchQuery);
       const { page, pages, total, limit } = ordersPaginated;
       thunkAPI.dispatch(PaginationActions.setPaginationData({ page, pages, total, limit }));
       return thunkAPI.fulfillWithValue(ordersPaginated.data.map(e => ({
@@ -41,6 +44,60 @@ const searchForOrders = createAsyncThunk(
   },
 );
 
+const getOrder = createAsyncThunk(
+  'orders/getOrder',
+  async (order_id: number, thunkAPI) => {
+    try {
+      console.log('search for one order');
+      const order = await CRMApi.orders.get_one(order_id);
+      // thunkAPI.dispatch(PaginationActions.setPaginationData({ page, pages, total, limit }));
+      return thunkAPI.fulfillWithValue({
+        ...order,
+        created_at: (new Date(order.created_at)).toLocaleDateString('en-GB'),
+      });
+    } catch (e) {
+      const error = errorHandle(e);
+      if (error.status === 401) {
+        navigateTo('/auth/sign-in');
+      } else {
+        navigateTo('/error');
+      }
+      return thunkAPI.rejectWithValue(error.message);
+    } finally {
+      thunkAPI.dispatch(OrdersActions.setLoadingState(false));
+    }
+  },
+);
+
+interface ICommentProps {
+  order_id: number;
+  comment: IComment;
+}
+
+const addComment = createAsyncThunk(
+  'orders/addComment',
+  async ({ order_id, comment }: ICommentProps, thunkAPI) => {
+    try {
+      console.log('search for one order');
+      const order = await CRMApi.orders.add_comment(order_id, comment);
+      // thunkAPI.dispatch(PaginationActions.setPaginationData({ page, pages, total, limit }));
+      return thunkAPI.fulfillWithValue({
+        ...order,
+        created_at: (new Date(order.created_at)).toLocaleDateString('en-GB'),
+      });
+    } catch (e) {
+      const error = errorHandle(e);
+      if (error.status === 401) {
+        navigateTo('/auth/sign-in');
+      } else {
+        navigateTo('/error');
+      }
+      return thunkAPI.rejectWithValue(error.message);
+    } finally {
+      thunkAPI.dispatch(OrdersActions.setLoadingState(false));
+    }
+  },
+);
 
 export const ordersSlice = createSlice({
   name: 'orders',
@@ -55,8 +112,14 @@ export const ordersSlice = createSlice({
       .addCase(searchForOrders.fulfilled, (state, action) => {
         state.orders = action.payload;
       })
+      .addCase(getOrder.fulfilled, (state, action) => {
+        state.orders = state.orders.map(e => e.id === action.payload.id ? action.payload : e);
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        state.orders = state.orders.map(e => e.id === action.payload.id ? action.payload : e);
+      })
       .addMatcher(
-        isRejected(searchForOrders),
+        isRejected(searchForOrders, getOrder, addComment),
         (state, action) => {
           console.error(
             'Orders receive sequence failed with error:',
@@ -64,7 +127,7 @@ export const ordersSlice = createSlice({
           );
         })
       .addMatcher(
-        isPending(searchForOrders),
+        isPending(searchForOrders, getOrder, addComment),
         (state) => {
           state.ordersLoadingState = true;
         },
@@ -73,5 +136,5 @@ export const ordersSlice = createSlice({
 });
 
 export const OrdersActions = {
-  ...ordersSlice.actions, searchForOrders,
+  ...ordersSlice.actions, searchForOrders, getOrder, addComment,
 };

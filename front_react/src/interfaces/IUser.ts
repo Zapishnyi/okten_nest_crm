@@ -1,5 +1,7 @@
 import { UserRoleEnum } from '../enums/user-role.enum';
 
+import IOrdersStatusStatistic from './IOrdersStatusStatistic';
+
 export default interface IUser {
   id: number;
   name: string;
@@ -10,4 +12,5 @@ export default interface IUser {
   role: UserRoleEnum;
   last_login: string;
   created_at: string;
+  statistic: IOrdersStatusStatistic;
 }

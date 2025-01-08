@@ -1,10 +1,11 @@
 import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
-import { BaseModel } from './base/base.model';
-import { AuthTokenEntity } from './auth-token.entity';
-import { ActivateTokenEntity } from './activate-token.entity';
+
 import { UserRoleEnum } from '../../modules/user/enums/user-role.enum';
-import { OrderEntity } from './order.entity';
+import { ActivateTokenEntity } from './activate-token.entity';
+import { AuthTokenEntity } from './auth-token.entity';
+import { BaseModel } from './base/base.model';
 import { CommentEntity } from './comment.entity';
+import { OrderEntity } from './order.entity';
 
 @Entity('users')
 export class UserEntity extends BaseModel {

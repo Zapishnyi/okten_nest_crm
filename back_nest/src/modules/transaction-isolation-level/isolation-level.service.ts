@@ -1,10 +1,11 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { IsolationLevel } from 'typeorm/driver/types/IsolationLevel';
 import { plainToInstance } from 'class-transformer';
-import { isolationLevelsModel } from './model/levels.model';
+import { IsolationLevel } from 'typeorm/driver/types/IsolationLevel';
+
 import { MySQLConfigType } from '../../configs/envConfigType';
 import { IsolationLevelsEnum } from './enums/isolationLevels.enum';
+import { isolationLevelsModel } from './model/levels.model';
 
 @Injectable()
 export class IsolationLevelService {

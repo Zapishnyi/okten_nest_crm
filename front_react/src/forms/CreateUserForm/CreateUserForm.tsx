@@ -1,14 +1,17 @@
 import React, { Dispatch, FC, useState } from 'react';
-import styles from './CreateUserForm.module.css';
-import { useForm } from 'react-hook-form';
-import { IUserCreate } from '../../interfaces/IUserCreate';
+
 import { joiResolver } from '@hookform/resolvers/joi';
-import userCreateValidator from '../../validators/user-create.validator';
-import { CRMApi } from '../../services/crm.api.servise';
+import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'react-router-dom';
+
+import FormInput from '../../components/FormInput/FormInput';
+import { errorHandle } from '../../helpers/error-handle';
+import { IUserCreate } from '../../interfaces/IUserCreate';
 import { UsersActions } from '../../redux/Slices/usersSlice';
 import { useAppDispatch } from '../../redux/store';
-import { useSearchParams } from 'react-router-dom';
-import { errorHandle } from '../../helpers/error-handle';
+import { CRMApi } from '../../services/crm.api.servise';
+import userCreateValidator from '../../validators/user-create.validator';
+import styles from '../Form.module.css';
 
 interface IProps {
   setCreateUserFormVisible: Dispatch<boolean>;
@@ -32,33 +35,37 @@ const CreateUserForm: FC<IProps> = ({ setCreateUserFormVisible }) => {
       setErrorMassage(errorHandle(e).message);
     }
   };
-  const formExit = () => {
-    setCreateUserFormVisible(false);
-  };
-  return (
-    <div className={styles.wrapper}>
-      <form onSubmit={handleSubmit(formSubmit)}>
-        <label>Name:
-          <input type="text" {...register('name')} />
-          {errors.name && <p>{errors.name.message}</p>}
-        </label>
-        <label>Surname:
-          <input type="text" {...register('surname')} />
-          {errors.surname && <p>{errors.surname.message}</p>}
-        </label>
-        <label>Email:
-          <input type="text" {...register('email')} />
-          {errors.email && <p>{errors.email.message}</p>}
-        </label>
-        <div className={styles.buttons}>
-          <button className="button" disabled={!isValid}>Submit</button>
-          <div className="button" onClick={formExit}><span>Cancel</span></div>
-        </div>
-        {errorMessage?.length &&
-          <div className={styles.response_error}>{errorMessage.map((e, i) => <p key={i}>{e}</p>)}</div>}
-      </form>
+
+  return <form className={styles.form} onSubmit={handleSubmit(formSubmit)}>
+    <FormInput<IUserCreate>
+      register={register}
+      field_name={'name'}
+      field_label={'Name'}
+      error={errors.name?.message}
+    />
+    <FormInput<IUserCreate>
+      register={register}
+      field_name={'surname'}
+      field_label={'Surname'}
+      error={errors.surname?.message}
+    />
+    <FormInput<IUserCreate>
+      register={register}
+      field_name={'email'}
+      field_label={'Email'}
+      error={errors.email?.message}
+    />
+    <div className={styles.buttons}>
+      <button className="button" disabled={!isValid}>Submit</button>
+      <div className="button" onClick={() => setCreateUserFormVisible(false)}>
+        <span>Cancel</span>
+      </div>
     </div>
-  );
+    {errorMessage?.length &&
+      <div className={styles.response_error}>{errorMessage.map((e, i) => <p key={i}>{e}</p>)}</div>}
+  </form>;
+
+
 };
 
 export default CreateUserForm;

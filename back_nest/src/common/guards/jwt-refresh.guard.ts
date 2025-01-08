@@ -4,13 +4,13 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { EntityManager } from 'typeorm';
 
+import { UserEntity } from '../../database/entities/user.entity';
 import { TokenTypeEnum } from '../../modules/auth/enums/token-type.enum';
 import { TokenService } from '../../modules/auth/services/token.service';
 import { AuthTokensRepository } from '../../modules/repository/services/auth-tokens-repository.service';
-import { EntityManager } from 'typeorm';
 import { IsolationLevelService } from '../../modules/transaction-isolation-level/isolation-level.service';
-import { UserEntity } from '../../database/entities/user.entity';
 
 @Injectable()
 export class JwtRefreshGuard implements CanActivate {

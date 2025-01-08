@@ -1,19 +1,8 @@
 import Joi from 'joi';
+
 import IUserSignIn from '../interfaces/IUserSignIn';
 
 const userActivateValidator: Joi.ObjectSchema<IUserSignIn> = Joi.object({
-  email: Joi.string()
-    .email({ tlds: { allow: false } })
-    .empty()
-    .required()
-    .min(3)
-    .max(100)
-    .messages({
-      'string.email.base': 'must be valid email address',
-      'string.min': '3 characters min',
-      'string.max': '100 characters max',
-    }),
-
   password: Joi.string()
     .pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)\S*$/)
     .required()

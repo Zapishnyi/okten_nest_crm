@@ -5,13 +5,13 @@ export class CommentResDto {
   public readonly id: number;
 
   @ApiProperty()
-  comment: string;
+  public readonly comment: string;
 
   @ApiProperty()
-  author_name: string;
+  public readonly author_name: string;
 
   @ApiProperty()
-  author_surname: string;
+  public readonly author_surname: string;
 
   @ApiProperty({
     description: 'Date nad time when record made',

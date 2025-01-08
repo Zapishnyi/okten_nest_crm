@@ -1,5 +1,6 @@
-import { IsEnum, IsString } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { IsEnum, IsString } from 'class-validator';
+
 import { TransformHelper } from '../../../common/helpers/transform.helper';
 import { IsolationLevelsEnum } from '../enums/isolationLevels.enum';
 

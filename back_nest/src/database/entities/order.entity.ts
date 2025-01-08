@@ -1,12 +1,13 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { BaseModel } from './base/base.model';
-import { UserEntity } from './user.entity';
-import { GroupEntity } from './group.entity';
-import { CommentEntity } from './comment.entity';
-import { CourseTypeEum } from '../../modules/order/enums/course-type.enum';
-import { CourseFormatEnum } from '../../modules/order/enums/course-format.enum';
+
 import { CourseEnum } from '../../modules/order/enums/course.enum';
+import { CourseFormatEnum } from '../../modules/order/enums/course-format.enum';
+import { CourseTypeEum } from '../../modules/order/enums/course-type.enum';
 import { StatusEnum } from '../../modules/order/enums/status.enum';
+import { BaseModel } from './base/base.model';
+import { CommentEntity } from './comment.entity';
+import { GroupEntity } from './group.entity';
+import { UserEntity } from './user.entity';
 
 @Entity('orders')
 export class OrderEntity extends BaseModel {

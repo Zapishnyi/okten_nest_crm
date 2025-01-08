@@ -1,8 +1,11 @@
 import React, { FC } from 'react';
-import styles from './BodyRowOrderExtension.module.css';
+
 import CommentForm from '../../forms/CommentForm/CommentForm';
-import Comment from '../Comment/Comment';
 import { useAppSelector } from '../../redux/store';
+import BtnOrderEdit from '../BtnOrderEdit/BtnOrderEdit';
+import Comment from '../Comment/Comment';
+
+import styles from './BodyRowOrderExtension.module.css';
 
 interface IProps {
   visibility: boolean;
@@ -29,7 +32,7 @@ const BodyRowOrderExtension: FC<IProps> = ({ visibility, order_id }) => {
               <CommentForm order={order} />
             </div>
             <div className={styles.btn_part}>
-              <div className="button">Edit</div>
+              <BtnOrderEdit order={order} />
             </div>
           </div>
         </div>

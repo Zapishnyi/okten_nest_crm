@@ -18,15 +18,18 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { JwtAccessGuard } from '../../../common/guards/jwt-access.guard';
+
 import { AdminRoleGuard } from '../../../common/guards/admin-role.guard';
+import { JwtAccessGuard } from '../../../common/guards/jwt-access.guard';
+import { OrderService } from '../../order/services/order.service';
 import { UserCreateByAdminReqDto } from '../dto/req/user-create-by-admin.req.dto';
+import { UsersQueryReqDto } from '../dto/req/users-query.req.dto';
+import { OrderStatusStatisticResDto } from '../dto/res/order-status-statistic.res.dto';
 import { UserResDto } from '../dto/res/user.res.dto';
-import { AdminService } from '../services/admin.service';
-import { UserPresenterService } from '../services/user-presenter.service';
 import { UserActivateResDto } from '../dto/res/user-activate.res.dto';
 import { UserBanResDto } from '../dto/res/user-ban.res.dto';
-import { UsersQueryReqDto } from '../dto/req/users-query.req.dto';
+import { AdminService } from '../services/admin.service';
+import { UserPresenterService } from '../services/user-presenter.service';
 
 @ApiTags('2.Administrator')
 @Controller('/admin')
@@ -34,6 +37,7 @@ export class AdminController {
   constructor(
     private readonly adminService: AdminService,
     private readonly userPresenter: UserPresenterService,
+    private readonly ordersService: OrderService,
   ) {}
 
   @ApiUnauthorizedResponse({
@@ -52,9 +56,7 @@ export class AdminController {
     @Query() query: UsersQueryReqDto,
   ): Promise<UserResDto[]> {
     const users = await this.adminService.getAllUsers(query);
-    return users.map((userRaw) =>
-      this.userPresenter.toResponseDtoFromRaw(userRaw),
-    );
+    return users.map((e) => this.userPresenter.toResponseDtoFromRaw(e));
   }
 
   // Add Manager -------------------------------------------------
@@ -152,34 +154,13 @@ export class AdminController {
     },
   })
   @ApiBearerAuth('Access-Token')
-  @Patch('user/:id/ban')
+  @Patch('user/:id/ban-reinstate')
   @UseGuards(JwtAccessGuard, AdminRoleGuard)
-  public async userBan(
+  public async userBanReinstate(
     @Param('id', ParseIntPipe) user_id: number,
   ): Promise<UserBanResDto> {
     return this.userPresenter.toResponseDtoFromEntity(
-      await this.adminService.userBan(user_id),
-    );
-  }
-
-  //Reinstate-----------------------------------------------------
-  @ApiNotFoundResponse({
-    description: 'Not Found',
-    example: {
-      statusCode: 404,
-      messages: 'User with ID: 5 -  does not exist',
-      timestamp: '2024-12-03T20:40:32.905Z',
-      path: '/user/5/reinstate',
-    },
-  })
-  @ApiBearerAuth('Access-Token')
-  @Patch('user/:id/reinstate')
-  @UseGuards(JwtAccessGuard, AdminRoleGuard)
-  public async userReinstate(
-    @Param('id', ParseIntPipe) user_id: number,
-  ): Promise<UserResDto> {
-    return this.userPresenter.toResponseDtoFromEntity(
-      await this.adminService.userReinstate(user_id),
+      await this.adminService.userBanReinstate(user_id),
     );
   }
 
@@ -200,5 +181,22 @@ export class AdminController {
     @Param('id', ParseIntPipe) user_id: number,
   ): Promise<void> {
     await this.adminService.userDelete(user_id);
+  }
+
+  //Get Orders Statistic -------------------------------------
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    example: {
+      statusCode: 401,
+      messages: 'Unauthorized',
+      timestamp: '2024-12-03T18:38:15.306Z',
+      path: 'orders/statistic',
+    },
+  })
+  @ApiBearerAuth('Access-Token')
+  @UseGuards(JwtAccessGuard, AdminRoleGuard)
+  @Get('orders/statistic')
+  public async getOrdersStatusStatistic(): Promise<OrderStatusStatisticResDto> {
+    return await this.ordersService.getOrdersStatusStatistic();
   }
 }

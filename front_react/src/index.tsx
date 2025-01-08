@@ -1,10 +1,12 @@
 import React from 'react';
+
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { RouterProvider } from 'react-router-dom';
-import { routerConfig } from './router/routerConfig';
 import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
+
 import { store } from './redux/store';
+import { routerConfig } from './router/routerConfig';
 
 
 const root = ReactDOM.createRoot(

@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
+
 import ICommentResponse from '../../interfaces/ICommentResponse';
+
 import styles from './Comment.module.css';
 
 interface IProps {

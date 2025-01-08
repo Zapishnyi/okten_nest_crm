@@ -1,6 +1,8 @@
 import React from 'react';
-import styles from './Activate.module.css';
+
 import ActivateForm from '../../forms/ActivateForm/ActivateForm';
+
+import styles from './Activate.module.css';
 
 
 const Activate = () => {

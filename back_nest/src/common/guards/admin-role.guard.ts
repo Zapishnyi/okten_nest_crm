@@ -4,6 +4,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+
 import { UserRoleEnum } from '../../modules/user/enums/user-role.enum';
 
 @Injectable()

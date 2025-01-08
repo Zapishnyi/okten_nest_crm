@@ -1,16 +1,16 @@
-:global(body) .non_click {
+:global(html body ) .non_click {
     cursor: initial;
     user-select: none;
 }
 
-:global(body) .non_click:hover {
+:global(html body ) .non_click:hover {
     background: #e8e8e8;
 }
 
-:global(body) .current {
+:global(html body) .current_page {
     background: #c3c3c3;
 }
 
-:global(body) .current:hover {
+:global(html body) .current_page:hover {
     background: #c3c3c3;
 }

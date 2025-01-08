@@ -1,8 +1,9 @@
 import React, { FC, memo, useEffect, useState } from 'react';
-import LeftArrow from './LeftArrow/LeftArrow';
-import RightArrow from './RightArrow/RightArrow';
-import styles from './Pagination.module.css';
+
+import LeftArrow from './Arrows/LeftArrow';
+import RightArrow from './Arrows/RightArrow';
 import PageBubble from './PageBubble/PageBubble';
+import styles from './Pagination.module.css';
 
 interface IProps {
   page: number;
@@ -17,7 +18,7 @@ const Pagination: FC<IProps> = memo(({ page, pages }) => {
     const pageLimit = (pages / 2) < 3.5 ? Math.floor(pages / 2) : 3;
     const pagesToShowLeft = pages > 7 ? 7 : pages;
     const pagesToShowRight = pages > 6 ? 6 : pages - 1;
-    let paginationScheme: string[] = [];
+    const paginationScheme: string[] = [];
     let output: string[];
     const findPageLeft = (pageN: number): number => {
       const check = pageN - pageLimit;

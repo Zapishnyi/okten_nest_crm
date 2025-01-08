@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice, isPending, isRejected, PayloadAction } from '@reduxjs/toolkit';
+
+import { errorHandle } from '../../helpers/error-handle';
+import { navigateTo } from '../../helpers/navigate-to';
 import IUser from '../../interfaces/IUser';
 import { CRMApi } from '../../services/crm.api.servise';
-import { navigateTo } from '../../helpers/navigate-to';
-import { errorHandle } from '../../helpers/error-handle';
 
 interface IInitial {
   userLogged: IUser | null;
@@ -25,7 +26,7 @@ const getAllUsers = createAsyncThunk(
       return thunkAPI.fulfillWithValue(users.map(e => ({
         ...e,
         created_at: (new Date(e.created_at)).toLocaleDateString('uk-UA'),
-        last_login: !!e.last_login ? (new Date(e.last_login))
+        last_login: e.last_login ? (new Date(e.last_login))
             .toLocaleString('uk-UA', {
               year: 'numeric',
               month: '2-digit',
@@ -36,6 +37,41 @@ const getAllUsers = createAsyncThunk(
             })
           : 'null',
       })));
+    } catch (e) {
+      const error = errorHandle(e);
+      if (error.status === 401) {
+        navigateTo('/auth/sign-in');
+      } else {
+        navigateTo('/error');
+      }
+      return thunkAPI.rejectWithValue(error.message);
+    } finally {
+      thunkAPI.dispatch(UsersActions.setLoadingState(false));
+    }
+  },
+);
+
+const banReinstate = createAsyncThunk(
+  'users/banReinstate',
+  async (user_id: number, thunkAPI) => {
+    try {
+      console.log('search for users');
+      const user = await CRMApi.admin.ban_reinstate_user(user_id.toString());
+
+      return thunkAPI.fulfillWithValue({
+        ...user,
+        created_at: (new Date(user.created_at)).toLocaleDateString('uk-UA'),
+        last_login: user.last_login ? (new Date(user.last_login))
+            .toLocaleString('uk-UA', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              timeZone: 'Europe/Kyiv',
+            })
+          : 'null',
+      });
     } catch (e) {
       const error = errorHandle(e);
       if (error.status === 401) {
@@ -67,8 +103,11 @@ export const usersSlice = createSlice({
       .addCase(getAllUsers.fulfilled, (state, action) => {
         state.users = action.payload;
       })
+      .addCase(banReinstate.fulfilled, (state, action) => {
+        state.users = state.users.map(user => user.id === action.payload.id ? action.payload : user);
+      })
       .addMatcher(
-        isRejected(getAllUsers),
+        isRejected(getAllUsers, banReinstate),
         (state, action) => {
           console.error(
             'Users receive sequence failed with error:',
@@ -76,7 +115,7 @@ export const usersSlice = createSlice({
           );
         })
       .addMatcher(
-        isPending(getAllUsers),
+        isPending(getAllUsers, banReinstate),
         (state) => {
           state.usersLoadingState = true;
         },
@@ -85,5 +124,5 @@ export const usersSlice = createSlice({
 });
 
 export const UsersActions = {
-  ...usersSlice.actions, getAllUsers,
+  ...usersSlice.actions, getAllUsers, banReinstate,
 };

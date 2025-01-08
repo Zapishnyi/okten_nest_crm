@@ -9,7 +9,6 @@
     background-size: 500% 500%;
     animation: move-gradient 10s infinite;
 
-
     .container {
         width: 90%;
         height: 100%;
@@ -22,14 +21,11 @@
         }
 
         .toolbox {
-            width: 60vw;
-            height: 90%;
+            width: 50vw;
+            height: 98%;
             border-radius: 10px;
             border: 1px solid grey;
             background: #f8f8f8;
-            display: flex;
-            align-items: center;
-            padding: 1vw;
         }
 
         .menu {
@@ -43,6 +39,7 @@
 
 
     }
+
 
 }
 

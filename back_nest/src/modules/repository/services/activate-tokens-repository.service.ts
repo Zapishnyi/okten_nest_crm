@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, EntityManager, Repository } from 'typeorm';
+
 import { ActivateTokenEntity } from '../../../database/entities/activate-token.entity';
 
 @Injectable()

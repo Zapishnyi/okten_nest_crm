@@ -8,7 +8,12 @@ export default interface IUserRaw {
   active: boolean;
   ban: boolean;
   role: UserRoleEnum;
-  total_orders: number;
   last_login: Date;
   created_at: Date;
+  Total: number;
+  In_work: number;
+  New: number;
+  Agree: number;
+  Disagree: number;
+  Dubbing: number;
 }

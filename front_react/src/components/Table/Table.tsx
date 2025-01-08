@@ -1,20 +1,18 @@
-import React, { FC, useRef } from 'react';
-import HeadRowCell from '../TableHeadIRowCell/HeadRowCell';
-import BodyRow from '../TableBodyRow/BodyRow';
-import styles from './Table.module.css';
-import IOrderReduced from '../../interfaces/IOrderReduced';
-import IUser from '../../interfaces/IUser';
-import { TableTypeEnum } from '../../enums/table-type.enum';
+import React, { useRef } from 'react';
 
-interface IProps {
-  items: IOrderReduced[] | IUser[];
-  table_type: TableTypeEnum;
+import { TableType } from '../../types/TableType';
+import BodyRow from '../TableBodyRow/BodyRow';
+import HeadRowCell from '../TableHeadIRowCell/HeadRowCell';
+
+import styles from './Table.module.css';
+
+interface IProps<T> {
+  items: T[];
 }
 
-const Table: FC<IProps> = ({ items, table_type }) => {
-
+const Table = <T extends TableType>({ items }: IProps<T>) => {
   const chosenColumnRef = useRef<string>('id');
-  const titles = Object.keys(items[0]);
+  const titles = Object.keys(items[0] || {});
   return <table className={styles.table} border={1}>
     <thead>
     <tr>
@@ -23,7 +21,8 @@ const Table: FC<IProps> = ({ items, table_type }) => {
     </tr>
     </thead>
     <tbody>
-    {!!items.length && items.map((item, i) => <BodyRow key={i} item={item} table_type={table_type} />)}
+    {!!items.length && items
+      .map((item, i) => <BodyRow<T> key={i} item={item} />)}
     </tbody>
   </table>;
 };

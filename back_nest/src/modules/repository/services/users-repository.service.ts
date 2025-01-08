@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, EntityManager, Repository } from 'typeorm';
+
 import { UserEntity } from '../../../database/entities/user.entity';
 import { UsersQueryReqDto } from '../../user/dto/req/users-query.req.dto';
 import IUserRaw from '../../user/interfaces/IUserRaw';
@@ -24,8 +25,7 @@ export class UsersRepository extends Repository<UserEntity> {
     try {
       return await repository
         .createQueryBuilder('users')
-        .leftJoinAndSelect('users.orders', 'orders')
-        .groupBy('users.id')
+        .leftJoin('users.orders', 'orders') // Join the orders table
         .select([
           'users.id AS id',
           'users.name AS name',
@@ -36,9 +36,30 @@ export class UsersRepository extends Repository<UserEntity> {
           'users.role AS role',
           'users.last_login AS last_login',
           'users.created_at AS created_at',
-          'COUNT(orders.id) AS total_orders',
+          'COUNT(orders.id) AS Total', // Total orders count
         ])
-        .orderBy(sortBy, sort)
+        .addSelect(
+          `(SELECT COUNT(*) FROM orders WHERE orders.user = users.id AND orders.status = 'In work')`,
+          'In_work',
+        )
+        .addSelect(
+          `(SELECT COUNT(*) FROM orders WHERE orders.user = users.id AND orders.status = 'New')`,
+          'New',
+        )
+        .addSelect(
+          `(SELECT COUNT(*) FROM orders WHERE orders.user = users.id AND orders.status = 'Agree')`,
+          'Agree',
+        )
+        .addSelect(
+          `(SELECT COUNT(*) FROM orders WHERE orders.user = users.id AND orders.status = 'Disagree')`,
+          'Disagree',
+        )
+        .addSelect(
+          `(SELECT COUNT(*) FROM orders WHERE orders.user = users.id AND orders.status = 'Dubbing')`,
+          'Dubbing',
+        )
+        .groupBy('users.id')
+        .orderBy(`users.${sortBy}`, sort)
         .getRawMany();
     } catch (err) {
       throw new Error(err);

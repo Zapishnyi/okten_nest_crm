@@ -1,13 +1,17 @@
-import React, { ChangeEvent, FC, memo, MouseEvent, MutableRefObject, useEffect } from 'react';
+import React, { ChangeEvent, FC, memo, MouseEvent, RefObject, useEffect } from 'react';
+
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { sortToggle } from '../../helpers/sort-toggle';
+
 import { SortEnum } from '../../enums/sort.enum';
-import styles from './HeadRowCell.module.css';
+import { sortToggle } from '../../helpers/sort-toggle';
 import { tableReset } from '../../helpers/table-reset';
+
+import styles from './HeadRowCell.module.css';
+
 
 interface IProps {
   cellName: string;
-  chosenColumnRef: MutableRefObject<string>;
+  chosenColumnRef: RefObject<string>;
 }
 
 const HeadRowCell: FC<IProps> = memo(({ cellName, chosenColumnRef }) => {
@@ -44,8 +48,10 @@ const HeadRowCell: FC<IProps> = memo(({ cellName, chosenColumnRef }) => {
   };
   return <th className={[styles[cellName], styles.cell].join(' ')}>
     <label>
+
       <input className={'title'} onClick={clickHandle} onChange={changeHandle} type="radio"
-             value={cellName} name={'orderBy'} /> {cellName}
+             value={cellName} name={'orderBy'} />
+      {cellName}
       <p className={styles.up}>{'\u25BE'}</p>
       <p className={styles.down}>{'\u25B4'}</p>
     </label>

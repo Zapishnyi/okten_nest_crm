@@ -1,21 +1,24 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import styles from './SignInForm.module.css';
-import IUserSignIn from '../../interfaces/IUserSignIn';
-import { CRMApi } from '../../services/crm.api.servise';
-import { cookie } from '../../services/cookies.servise';
-import { useAppDispatch } from '../../redux/store';
-import { UsersActions } from '../../redux/Slices/usersSlice';
-import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
+
+import FormInput from '../../components/FormInput/FormInput';
 import { initialOrdersQuery } from '../../constants/initialOrdersQuery';
 import { errorHandle } from '../../helpers/error-handle';
+import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
+import IUserSignIn from '../../interfaces/IUserSignIn';
+import { UsersActions } from '../../redux/Slices/usersSlice';
+import { useAppDispatch } from '../../redux/store';
+import { cookie } from '../../services/cookies.servise';
+import { CRMApi } from '../../services/crm.api.servise';
+import styles from '../Form.module.css';
 
 
 const SignInForm = () => {
   console.log('.');
   const [errorMessage, setErrorMassage] = useState<string[] | null>(null);
-  const { register, handleSubmit, formState: { errors } } = useForm<IUserSignIn>();
+  const { register, handleSubmit } = useForm<IUserSignIn>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const query = useSearchParams();
@@ -33,37 +36,19 @@ const SignInForm = () => {
       setErrorMassage(errorHandle(e).message);
     }
   };
-  return (
-    <div className={styles.wrapper}>
-      <form className={styles.form} onSubmit={handleSubmit(SubmitHandler)}>
-        <div>
-          <label>
-            Email:{' '}
-            <input
-              type="text"
-              autoComplete="on"
-              {...register('email')}
-            />
-          </label>
-
-        </div>
-        <div>
-          <label>
-            Password:{' '}
-            <input
-              type="password"
-              autoComplete="on"
-              {...register('password')}
-            />
-          </label>
-
-        </div>
-        <button className="button">Login</button>
-        {errorMessage?.length && errorMessage.map((e, i) => <p key={i}>{e}</p>)}
-      </form>
-
-    </div>
-  );
+  return <form className={styles.form} onSubmit={handleSubmit(SubmitHandler)}>
+    <FormInput<IUserSignIn>
+      register={register}
+      field_name={'email'}
+      field_label={'Email'} />
+    <FormInput<IUserSignIn>
+      register={register}
+      field_name={'password'}
+      field_label={'Password'}
+      isPassword={true} />
+    <button className={['button', styles.form_button].join(' ')}>Login</button>
+    {errorMessage?.length && errorMessage.map((e, i) => <p key={i}>{e}</p>)}
+  </form>;
 };
 
 export default SignInForm;

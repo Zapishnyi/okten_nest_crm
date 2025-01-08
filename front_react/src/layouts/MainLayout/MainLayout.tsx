@@ -1,13 +1,17 @@
 import React, { FC, useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { CRMApi } from '../../services/crm.api.servise';
+
 import { AxiosError } from 'axios';
-import { setNavigate } from '../../helpers/navigate-to';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { UsersActions } from '../../redux/Slices/usersSlice';
-import Header from '../../components/Header/Header';
-import styles from './MainLayout.module.css';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { FadeLoader } from 'react-spinners';
+
+import Header from '../../components/Header/Header';
+import { setNavigate } from '../../helpers/navigate-to';
+import { UsersActions } from '../../redux/Slices/usersSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { CRMApi } from '../../services/crm.api.servise';
+
+import styles from './MainLayout.module.css';
+
 
 const MainLayout: FC = () => {
   console.log('.');

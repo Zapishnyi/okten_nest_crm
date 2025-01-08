@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import IPaginationData from '../../interfaces/IPaginationData';
 
 interface IInitial {

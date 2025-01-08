@@ -1,26 +1,21 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { UsersRepository } from '../../repository/services/users-repository.service';
-import { UserCreateByAdminReqDto } from '../dto/req/user-create-by-admin.req.dto';
-import { UserEntity } from '../../../database/entities/user.entity';
-import { UserService } from './user.service';
-import { ActivateTokensRepository } from '../../repository/services/activate-tokens-repository.service';
-import { TokenService } from '../../auth/services/token.service';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
+
 import { ActivateTokenEntity } from '../../../database/entities/activate-token.entity';
+import { UserEntity } from '../../../database/entities/user.entity';
+import { TokenService } from '../../auth/services/token.service';
+import { UsersRepository } from '../../repository/services/users-repository.service';
 import { IsolationLevelService } from '../../transaction-isolation-level/isolation-level.service';
+import { UserCreateByAdminReqDto } from '../dto/req/user-create-by-admin.req.dto';
 import { UsersQueryReqDto } from '../dto/req/users-query.req.dto';
 import IUserRaw from '../interfaces/IUserRaw';
+import { UserService } from './user.service';
 
 @Injectable()
 export class AdminService {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly userService: UserService,
-    private readonly activateTokenRepository: ActivateTokensRepository,
     private readonly tokenService: TokenService,
     private readonly entityManager: EntityManager,
     private readonly isolationLevel: IsolationLevelService,
@@ -59,10 +54,10 @@ export class AdminService {
           throw new NotFoundException(
             `User with ID: ${user_id} -  does not exist`,
           );
-        if (user.active)
-          throw new ConflictException(
-            `User with ID: ${user_id} - already activated`,
-          );
+        // if (user.active)
+        //   throw new ConflictException(
+        //     `User with ID: ${user_id} - already activated`,
+        //   );
         const activateToken = await this.tokenService.generateActivateToken({
           user_id,
           device: 'activate',
@@ -76,35 +71,20 @@ export class AdminService {
     );
   }
 
-  public async userBan(user_id: number): Promise<UserEntity> {
+  public async userBanReinstate(user_id: number): Promise<UserEntity> {
     return await this.entityManager.transaction(
       this.isolationLevel.set(),
       async (em) => {
         const usersRepositoryEM = em.getRepository(UserEntity);
         const user = await usersRepositoryEM.findOneBy({ id: user_id });
         if (!!user) {
-          return await usersRepositoryEM.save(
-            usersRepositoryEM.create({ ...user, ban: true }),
+          await usersRepositoryEM.save(
+            usersRepositoryEM.create({ ...user, ban: !user.ban }),
           );
-        } else {
-          throw new NotFoundException(
-            `User with ID: ${user_id} -  does not exist`,
-          );
-        }
-      },
-    );
-  }
-
-  public async userReinstate(user_id: number): Promise<UserEntity> {
-    return await this.entityManager.transaction(
-      this.isolationLevel.set(),
-      async (em) => {
-        const usersRepositoryEM = em.getRepository(UserEntity);
-        const user = await usersRepositoryEM.findOneBy({ id: user_id });
-        if (!!user) {
-          return await usersRepositoryEM.save(
-            usersRepositoryEM.create({ ...user, ban: false }),
-          );
+          return await usersRepositoryEM.findOne({
+            where: { id: user_id },
+            relations: ['orders'],
+          });
         } else {
           throw new NotFoundException(
             `User with ID: ${user_id} -  does not exist`,

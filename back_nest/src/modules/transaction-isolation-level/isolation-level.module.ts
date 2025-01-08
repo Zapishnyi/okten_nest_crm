@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+
 import { IsolationLevelService } from './isolation-level.service';
 
 @Module({

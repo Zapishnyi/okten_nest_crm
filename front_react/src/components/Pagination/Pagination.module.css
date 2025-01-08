@@ -28,7 +28,8 @@
         }
     }
 
-    > :hover {
+    div:hover {
         background: #d0e4fc;
     }
+
 }

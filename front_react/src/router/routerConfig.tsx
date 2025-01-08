@@ -1,12 +1,14 @@
-import { createHashRouter, Navigate } from 'react-router-dom';
 import React from 'react';
-import SignIn from '../pages/SignIn/SignIn';
-import Orders from '../pages/Orders/Orders';
-import MainLayout from '../layouts/MainLayout/MainLayout';
-import ErrorPage from '../pages/ErrorPage/ErrorPage';
+
+import { createHashRouter, Navigate } from 'react-router-dom';
+
 import AuthLayout from '../layouts/AuthLayout/AuthLayout';
+import MainLayout from '../layouts/MainLayout/MainLayout';
 import Activate from '../pages/Activate/Activate';
 import Admin from '../pages/Admin/Admin';
+import ErrorPage from '../pages/ErrorPage/ErrorPage';
+import Orders from '../pages/Orders/Orders';
+import SignIn from '../pages/SignIn/SignIn';
 
 export const routerConfig = createHashRouter([
   {

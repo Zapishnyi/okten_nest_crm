@@ -1,8 +1,8 @@
 import * as process from 'node:process';
 
-import { EnvConfigType } from './envConfigType';
-import { UserRoleEnum } from '../modules/user/enums/user-role.enum';
 import { IsolationLevelsEnum } from '../modules/transaction-isolation-level/enums/isolationLevels.enum';
+import { UserRoleEnum } from '../modules/user/enums/user-role.enum';
+import { EnvConfigType } from './envConfigType';
 
 export default (): EnvConfigType => ({
   app: {

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, EntityManager, Repository } from 'typeorm';
+
 import { AuthTokenEntity } from '../../../database/entities/auth-token.entity';
 
 @Injectable()

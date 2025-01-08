@@ -1,64 +1,52 @@
 import React, { FC, useState } from 'react';
-import styles from './ActivateForm.module.css';
-import { errorHandle } from '../../helpers/error-handle';
-import { useForm } from 'react-hook-form';
+
 import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import FormInput from '../../components/FormInput/FormInput';
+import { errorHandle } from '../../helpers/error-handle';
+import IUserActivateFormData from '../../interfaces/IUserActivateFormData';
+import { cookie } from '../../services/cookies.servise';
+import { CRMApi } from '../../services/crm.api.servise';
 import userActivateValidator from '../../validators/user-activate.validator';
-import IUserActivate from '../../interfaces/IUserActivate';
-import { Icon } from 'react-icons-kit';
-import { ic_visibility_outline } from 'react-icons-kit/md/ic_visibility_outline';
-import { ic_visibility_off_outline } from 'react-icons-kit/md/ic_visibility_off_outline';
+import styles from '../Form.module.css';
 
 const ActivateForm: FC = () => {
-  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false);
-  const [re_passwordVisibility, setRe_passwordVisibility] = useState<boolean>(false);
-  const { register, handleSubmit, formState: { errors, isValid } } = useForm<IUserActivate>({
+  const { activate_token } = useParams<Record<string, string | undefined>>();
+  const navigate = useNavigate();
+  const { register, handleSubmit, formState: { errors, isValid } } = useForm<IUserActivateFormData>({
     mode: 'all',
     resolver: joiResolver(userActivateValidator),
   });
   const [errorMessage, setErrorMassage] = useState<string[] | null>(null);
-  const formSubmit = async (formData: IUserActivate) => {
+  const formSubmit = async (formData: IUserActivateFormData) => {
     try {
-
+      cookie.setActivateToken(activate_token || '');
+      await CRMApi.auth.activate({ password: formData.password });
+      navigate('/auth/sign-in');
     } catch (e) {
       setErrorMassage(errorHandle(e).message);
+    } finally {
+      cookie.deleteActivateToken();
     }
   };
-  const re_PasswordVisibilityHandle = () => {
-    setRe_passwordVisibility(current => !current);
-  };
-  const passwordVisibilityHandle = () => {
-    setPasswordVisibility(current => !current);
-  };
+
   return (
     <form onSubmit={handleSubmit(formSubmit)} className={styles.form}>
-      <label>Email:
-        <input type="text" {...register('email')} />
-        {errors.email && <p>{errors.email.message}</p>}
-      </label>
-      <label>Password:
-        <input type="password" {...register('password')} />
-        {errors.password && <p>{errors.password.message}</p>}
-        <Icon
-          className={styles.eye}
-          onClick={passwordVisibilityHandle}
-          icon={passwordVisibility ? ic_visibility_outline : ic_visibility_off_outline}
-          size={25}
-        />
-      </label>
-      <label>
-        Confirm password:
-        <input type={re_passwordVisibility ? 'text' : 'password'} autoComplete="on" {...register('re_password')} />
-        {errors.re_password && <p>{errors.re_password.message}</p>}
-        <Icon
-          className={styles.eye}
-          onClick={re_PasswordVisibilityHandle}
-          icon={re_passwordVisibility ? ic_visibility_outline : ic_visibility_off_outline}
-          size={25}
-        />
-      </label>
-
-      <button className="button" disabled={!isValid}>Submit</button>
+      <FormInput<IUserActivateFormData>
+        register={register}
+        field_name={'password'}
+        field_label={'Password'}
+        isPassword={true}
+        error={errors.password?.message} />
+      <FormInput<IUserActivateFormData>
+        register={register}
+        field_name={'re_password'}
+        field_label={'Confirm password'}
+        isPassword={true}
+        error={errors.re_password?.message} />
+      <button className={['button', styles.form_button].join(' ')} disabled={!isValid}>Submit</button>
       {errorMessage?.length &&
         <div className={styles.response_error}>{errorMessage.map((e, i) => <p key={i}>{e}</p>)}</div>}
     </form>

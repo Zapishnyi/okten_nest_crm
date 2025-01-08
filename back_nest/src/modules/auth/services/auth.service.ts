@@ -8,19 +8,19 @@ import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { AdminConfigType, EnvConfigType } from '../../../configs/envConfigType';
-
-import { TokenService } from './token.service';
-import { UserEntity } from '../../../database/entities/user.entity';
-import { IUserData } from '../interfaces/IUserData';
-import { UserValidateReqDto } from '../../user/dto/req/user-validate.req.dto';
-import { UserSignInReqDto } from '../../user/dto/req/user-sign-in.req.dto';
 import { EntityManager } from 'typeorm';
-import { AuthTokenEntity } from '../../../database/entities/auth-token.entity';
+
+import { AdminConfigType, EnvConfigType } from '../../../configs/envConfigType';
 import { ActivateTokenEntity } from '../../../database/entities/activate-token.entity';
-import { AuthTokenPairResDto } from '../dto/res/auth-tokens-pair.res.dto';
-import { AdminSelfCreateReqDto } from '../../user/dto/req/admin-self-create.req.dto';
+import { AuthTokenEntity } from '../../../database/entities/auth-token.entity';
+import { UserEntity } from '../../../database/entities/user.entity';
 import { IsolationLevelService } from '../../transaction-isolation-level/isolation-level.service';
+import { AdminSelfCreateReqDto } from '../../user/dto/req/admin-self-create.req.dto';
+import { UserSignInReqDto } from '../../user/dto/req/user-sign-in.req.dto';
+import { UserValidateReqDto } from '../../user/dto/req/user-validate.req.dto';
+import { AuthTokenPairResDto } from '../dto/res/auth-tokens-pair.res.dto';
+import { IUserData } from '../interfaces/IUserData';
+import { TokenService } from './token.service';
 
 @Injectable()
 export class AuthService {
@@ -92,8 +92,8 @@ export class AuthService {
           ],
           relations: ['orders'],
         });
-        // Is user exist and active?
-        if (!user || !user.active) {
+        // Is user exist and active and not banned?
+        if (!user || !user.active || user.ban) {
           throw new UnauthorizedException();
         }
         // Is password valid?

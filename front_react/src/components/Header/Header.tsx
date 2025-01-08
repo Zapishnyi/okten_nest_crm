@@ -1,40 +1,42 @@
-import React, { FC, memo, useState } from 'react';
-import styles from './Header.module.css';
-import UsersBtn from '../UsersBtn/UsersBtn';
-import OrdersBtn from '../OrdersBtn/OrdersBtn';
+import React, { FC, memo } from 'react';
+
+import { useLocation } from 'react-router-dom';
+
 import { UserRoleEnum } from '../../enums/user-role.enum';
 import { useAppSelector } from '../../redux/store';
-import UserMenu from '../UserMenu/UserMenu';
-import { useLocation } from 'react-router-dom';
-import CreateUserBtn from '../CreateUserBtn/CreateUserBtn';
+import AdminTools from '../AdminTools/AdminTools';
+import BtnOrders from '../BtnOrders/BtnOrders';
+import BtnUsers from '../BtnUsers/BtnUsers';
 import Logo from '../Logo/Logo';
-import CreateUserForm from '../../forms/CreateUserForm/CreateUserForm';
+import UserMenu from '../UserMenu/UserMenu';
+
+import styles from './Header.module.css';
 
 
 const Header: FC = memo(() => {
   const location = useLocation();
   console.log('.');
   const { userLogged } = useAppSelector((state) => state.users);
-  const [createUserFormVisible, setCreateUserFormVisible] = useState<boolean>(false);
+
   return (
     <header className={styles.base}>
       <div className={styles.container}>
         <Logo />
         <div className={styles.toolbox}>
-          {location.pathname?.includes('/admin') &&
-            <CreateUserBtn setCreateUserFormVisible={setCreateUserFormVisible} />}
+          {location.pathname?.includes('/admin') && <AdminTools />
+          }
         </div>
         <ul className={styles.menu}>
           {userLogged?.role === UserRoleEnum.ADMIN &&
             <>
-              <li><OrdersBtn /></li>
-              <li><UsersBtn /></li>
+              <li><BtnOrders /></li>
+              <li><BtnUsers /></li>
             </>}
 
         </ul>
         <UserMenu />
       </div>
-      {createUserFormVisible && <CreateUserForm setCreateUserFormVisible={setCreateUserFormVisible} />}
+
     </header>
   );
 });

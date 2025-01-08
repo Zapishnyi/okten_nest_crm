@@ -1,0 +1,16 @@
+
+:global(html body ) .not_active {
+    cursor: initial;
+    user-select: none;
+    background: #e8e8e8;
+    color: #ababab;
+    transition: 0.3s;
+}
+
+:global(html body ) .not_active:hover {
+    background: #e8e8e8;
+
+}
+
+
+

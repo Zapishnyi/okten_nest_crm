@@ -1,9 +1,11 @@
-import { UserRoleEnum } from '../../enums/user-role.enum';
 import { ApiProperty } from '@nestjs/swagger';
+
+import { OrderResDto } from '../../../order/dto/res/order.res.dto';
+import { UserRoleEnum } from '../../enums/user-role.enum';
 
 export class UserBaseResDto {
   @ApiProperty({ description: 'User ID', format: 'int', example: 254 })
-  public readonly id: number;
+  readonly id: number;
 
   @ApiProperty({
     description: 'User name',
@@ -12,7 +14,7 @@ export class UserBaseResDto {
     maxLength: 25,
     example: 'John',
   })
-  public readonly name: string;
+  readonly name: string;
 
   @ApiProperty({
     description: 'User name',
@@ -21,7 +23,7 @@ export class UserBaseResDto {
     maxLength: 25,
     example: 'Doe',
   })
-  public readonly surname: string;
+  readonly surname: string;
 
   @ApiProperty({
     description: 'User email',
@@ -30,38 +32,43 @@ export class UserBaseResDto {
     maxLength: 100,
     example: 'john.doe@example.com',
   })
-  public readonly email: string;
+  readonly email: string;
 
   @ApiProperty({
     description: 'Is account activated?',
     example: 'false',
     default: false,
   })
-  public readonly active: boolean;
+  readonly active: boolean;
 
   @ApiProperty({
     description: 'Is account banned?',
     example: 'false',
     default: false,
   })
-  public readonly ban: boolean;
+  readonly ban: boolean;
 
   @ApiProperty({
     description: 'Role',
     example: UserRoleEnum.MANAGER,
     default: UserRoleEnum.MANAGER,
   })
-  public readonly role: UserRoleEnum;
+  readonly role: UserRoleEnum;
 
   @ApiProperty({
     description: 'Date nad time when user last login',
     example: new Date(),
   })
-  public readonly last_login: Date;
+  readonly last_login: Date;
 
   @ApiProperty({
     description: 'Date nad time when user created',
     example: new Date(),
   })
-  public readonly created_at: Date;
+  readonly created_at: Date;
+
+  @ApiProperty({
+    description: 'Orders which taken by user',
+  })
+  orders: OrderResDto[];
 }

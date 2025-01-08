@@ -1,17 +1,20 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { UserPresenterService } from './services/user-presenter.service';
-import { AdminController } from './controllers/admin.controller';
+
 import { AuthModule } from '../auth/auth.module';
+import { OrderModule } from '../order/order.module';
 import { RepositoryModule } from '../repository/repository.module';
-import { UserService } from './services/user.service';
-import { AdminService } from './services/admin.service';
 import { IsolationLevelModule } from '../transaction-isolation-level/isolation-level.module';
+import { AdminController } from './controllers/admin.controller';
+import { AdminService } from './services/admin.service';
+import { UserService } from './services/user.service';
+import { UserPresenterService } from './services/user-presenter.service';
 
 @Module({
   imports: [
     forwardRef(() => AuthModule),
     RepositoryModule,
     IsolationLevelModule,
+    OrderModule,
   ],
   controllers: [AdminController],
   providers: [UserPresenterService, UserService, AdminService],
