@@ -51,6 +51,7 @@ const getAllUsers = createAsyncThunk(
   },
 );
 
+
 const banReinstate = createAsyncThunk(
   'users/banReinstate',
   async (user_id: number, thunkAPI) => {

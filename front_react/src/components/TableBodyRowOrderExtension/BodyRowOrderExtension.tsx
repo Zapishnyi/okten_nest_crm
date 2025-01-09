@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import CommentForm from '../../forms/CommentForm/CommentForm';
 import { useAppSelector } from '../../redux/store';
@@ -15,6 +15,7 @@ interface IProps {
 const BodyRowOrderExtension: FC<IProps> = ({ visibility, order_id }) => {
   const { orders } = useAppSelector((state) => state.orders);
   const order = orders?.filter((order) => order.id === order_id)[0];
+  const [orderEditFormVisible, setOrderEditFormVisible] = useState<boolean>(false);
   return (
     <tr className={[visibility ? styles.visible : styles.not_visible, styles.row_extension].join(' ')}>
       <td colSpan={15}>
@@ -32,7 +33,8 @@ const BodyRowOrderExtension: FC<IProps> = ({ visibility, order_id }) => {
               <CommentForm order={order} />
             </div>
             <div className={styles.btn_part}>
-              <BtnOrderEdit order={order} />
+              <BtnOrderEdit order={order} setOrderEditFormVisible={setOrderEditFormVisible} />
+
             </div>
           </div>
         </div>

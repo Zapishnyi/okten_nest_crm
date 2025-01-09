@@ -1,7 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
 
-
-import CreateUserForm from '../../forms/CreateUserForm/CreateUserForm';
 import { errorHandle } from '../../helpers/error-handle';
 import IOrdersStatusStatistic from '../../interfaces/IOrdersStatusStatistic';
 import { useAppSelector } from '../../redux/store';
@@ -12,7 +10,7 @@ import OrdersStatistic from '../OrdersStatictic/OrdersStatistic';
 import styles from './AdminTools.module.css';
 
 const AdminTools: FC = () => {
-  const [createUserFormVisible, setCreateUserFormVisible] = useState<boolean>(false);
+
   const { orders } = useAppSelector(state => state.orders);
   const [statistic, setStatistic] = useState<IOrdersStatusStatistic | null>(null);
 
@@ -28,14 +26,11 @@ const AdminTools: FC = () => {
   }, [orders]);
   return (
     <div className={styles.admin_tools}>
-      <BtnCreateUser setCreateUserFormVisible={setCreateUserFormVisible} />
+      <BtnCreateUser />
       <div className={styles.statistic_container}>
         <OrdersStatistic statistic={statistic} />
       </div>
-      {createUserFormVisible &&
-        <div className={styles.modal_window_base}>
-          <CreateUserForm setCreateUserFormVisible={setCreateUserFormVisible} />
-        </div>}
+
     </div>);
 };
 

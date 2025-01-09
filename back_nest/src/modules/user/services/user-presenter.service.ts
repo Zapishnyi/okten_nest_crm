@@ -70,19 +70,24 @@ export class UserPresenterService {
       ban: !!ban,
       last_login,
       created_at,
-      statistic: orders
-        ? {
-            Total: orders?.length,
-            New: orders?.filter((e) => e.status === StatusEnum.NEW).length,
-            In_work: orders?.filter((e) => e.status === StatusEnum.IN_WORK)
-              .length,
-            Agree: orders?.filter((e) => e.status === StatusEnum.AGREE).length,
-            Disagree: orders?.filter((e) => e.status === StatusEnum.DISAGREE)
-              .length,
-            Dubbing: orders?.filter((e) => e.status === StatusEnum.DUBBING)
-              .length,
-          }
-        : undefined,
+      statistic: {
+        Total: orders ? orders?.length : 0,
+        New: orders
+          ? orders?.filter((e) => e.status === StatusEnum.NEW).length
+          : 0,
+        In_work: orders
+          ? orders?.filter((e) => e.status === StatusEnum.IN_WORK).length
+          : 0,
+        Agree: orders
+          ? orders?.filter((e) => e.status === StatusEnum.AGREE).length
+          : 0,
+        Disagree: orders
+          ? orders?.filter((e) => e.status === StatusEnum.DISAGREE).length
+          : 0,
+        Dubbing: orders
+          ? orders?.filter((e) => e.status === StatusEnum.DUBBING).length
+          : 0,
+      },
     };
   }
 }

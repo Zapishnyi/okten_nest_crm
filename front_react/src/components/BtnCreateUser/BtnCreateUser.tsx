@@ -1,12 +1,13 @@
-import React, { Dispatch, FC } from 'react';
+import React, { FC } from 'react';
 
-interface IProps {
-  setCreateUserFormVisible: Dispatch<boolean>;
-}
+import { VisibilityActions } from '../../redux/Slices/visabilitySlice';
+import { useAppDispatch } from '../../redux/store';
 
-const BtnCreateUser: FC<IProps> = ({ setCreateUserFormVisible }) => {
+
+const BtnCreateUser: FC = () => {
+  const dispatch = useAppDispatch();
   const clickHandle = () => {
-    setCreateUserFormVisible(true);
+    dispatch(VisibilityActions.editOrderFormVisible(true));
   };
   return <div className="button" onClick={clickHandle}><p>Create Manager</p></div>;
 };

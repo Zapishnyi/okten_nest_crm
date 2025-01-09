@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
@@ -8,16 +8,14 @@ import FormInput from '../../components/FormInput/FormInput';
 import { errorHandle } from '../../helpers/error-handle';
 import { IUserCreate } from '../../interfaces/IUserCreate';
 import { UsersActions } from '../../redux/Slices/usersSlice';
+import { VisibilityActions } from '../../redux/Slices/visabilitySlice';
 import { useAppDispatch } from '../../redux/store';
 import { CRMApi } from '../../services/crm.api.servise';
 import userCreateValidator from '../../validators/user-create.validator';
 import styles from '../Form.module.css';
 
-interface IProps {
-  setCreateUserFormVisible: Dispatch<boolean>;
-}
 
-const CreateUserForm: FC<IProps> = ({ setCreateUserFormVisible }) => {
+const CreateUserForm: FC = () => {
   const [errorMessage, setErrorMassage] = useState<string[] | null>(null);
   const dispatch = useAppDispatch();
   const query = useSearchParams();
@@ -25,11 +23,14 @@ const CreateUserForm: FC<IProps> = ({ setCreateUserFormVisible }) => {
     mode: 'all',
     resolver: joiResolver(userCreateValidator),
   });
+  const closeForm = () => {
+    dispatch(VisibilityActions.createUserFormVisible(false));
+  };
   const formSubmit = async (formData: IUserCreate) => {
     try {
       await CRMApi.admin.create_user(formData);
       dispatch(UsersActions.getAllUsers(Object.fromEntries(query[0].entries())));
-      setCreateUserFormVisible(false);
+      closeForm();
       setErrorMassage(null);
     } catch (e) {
       setErrorMassage(errorHandle(e).message);
@@ -57,7 +58,7 @@ const CreateUserForm: FC<IProps> = ({ setCreateUserFormVisible }) => {
     />
     <div className={styles.buttons}>
       <button className="button" disabled={!isValid}>Submit</button>
-      <div className="button" onClick={() => setCreateUserFormVisible(false)}>
+      <div className="button" onClick={() => closeForm()}>
         <span>Cancel</span>
       </div>
     </div>
