@@ -1,6 +1,6 @@
-import { UserResDto } from './user.res.dto';
+import { UserNoStatisticResDto } from './user-no-statistic.res.dto';
 
 export class UserActivateResDto {
   activateToken: string;
-  user: UserResDto;
+  user: UserNoStatisticResDto;
 }

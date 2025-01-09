@@ -19,7 +19,6 @@ const AdminTools: FC = () => {
   useEffect(() => {
     const getStatistic = async (): Promise<void> => {
       try {
-        console.log('get statistic');
         setStatistic(await CRMApi.admin.get_orders_status_statistic());
       } catch (e) {
         errorHandle(e);
@@ -31,7 +30,7 @@ const AdminTools: FC = () => {
     <div className={styles.admin_tools}>
       <BtnCreateUser setCreateUserFormVisible={setCreateUserFormVisible} />
       <div className={styles.statistic_container}>
-        <OrdersStatistic statistic={statistic} label={'General orders status statistic'} />
+        <OrdersStatistic statistic={statistic} />
       </div>
       {createUserFormVisible &&
         <div className={styles.modal_window_base}>

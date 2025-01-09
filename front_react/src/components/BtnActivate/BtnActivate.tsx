@@ -38,7 +38,7 @@ const BtnActivate: FC<IProps> = ({ user_id, setActivateLink, setErrorMassage }) 
   };
   return <div title="Activate link will be available in the clipboard" className="button"
               onClick={activate}>
-    <p>{!user.active ? 'Activate' : 'Re-new Password'}</p>
+    <p>{!user.active ? 'Activate' : 'Password recovery'}</p>
     {isPending && <div className={styles.loader_container}>
       <SyncLoader
         color={'#000303'}

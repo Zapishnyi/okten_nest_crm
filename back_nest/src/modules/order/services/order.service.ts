@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 
+import { GroupEntity } from '../../../database/entities/group.entity';
 import { OrderEntity } from '../../../database/entities/order.entity';
+import { UserEntity } from '../../../database/entities/user.entity';
 import { OrdersRepository } from '../../repository/services/orders-repository.service';
 import { IsolationLevelService } from '../../transaction-isolation-level/isolation-level.service';
 import { OrderStatusStatisticResDto } from '../../user/dto/res/order-status-statistic.res.dto';
+import { OrderReqDto } from '../dto/req/order.req.dto';
 import { OrdersQueryReqDto } from '../dto/req/orders-query.req.dto';
 
 @Injectable()
@@ -33,6 +36,32 @@ export class OrderService {
         const ordersRepositoryEM = em.getRepository(OrderEntity);
         return await ordersRepositoryEM.findOne({
           where: { id: order_id },
+          relations: ['user', 'group', 'comments'],
+        });
+      },
+    );
+  }
+
+  public async editOrderById(
+    user: UserEntity,
+    order: OrderEntity,
+    dto: OrderReqDto,
+  ): Promise<OrderEntity> {
+    return await this.entityManager.transaction(
+      this.isolationLevel.set(),
+      async (em: EntityManager): Promise<OrderEntity> => {
+        const ordersRepositoryEM = em.getRepository(OrderEntity);
+        const groupsRepositoryEM = em.getRepository(GroupEntity);
+        const { group, ...updateData } = dto;
+        const groupEntity = await groupsRepositoryEM.findOneBy({ name: group });
+        await ordersRepositoryEM.save(
+          ordersRepositoryEM.merge(order, {
+            ...updateData,
+            group: groupEntity,
+          }),
+        );
+        return await ordersRepositoryEM.findOne({
+          where: { id: order.id },
           relations: ['user', 'group', 'comments'],
         });
       },

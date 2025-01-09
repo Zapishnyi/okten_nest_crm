@@ -11,6 +11,7 @@ import { OrderModule } from './modules/order/order.module';
 import { RepositoryModule } from './modules/repository/repository.module';
 import { IsolationLevelModule } from './modules/transaction-isolation-level/isolation-level.module';
 import { UserModule } from './modules/user/user.module';
+import { GroupModule } from './modules/group/group.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { UserModule } from './modules/user/user.module';
     AuthModule,
     IsolationLevelModule,
     CommentModule,
+    GroupModule,
   ],
   controllers: [],
   providers: [

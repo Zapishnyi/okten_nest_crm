@@ -139,7 +139,7 @@ export class AdminController {
     const [{ activate }, user] = await this.adminService.userActivate(user_id);
     return {
       activateToken: activate,
-      user: this.userPresenter.toResponseDtoFromEntity(user),
+      user,
     };
   }
 

@@ -6,16 +6,22 @@ import GridCell from '../GridCell/GridCell';
 import styles from './OrdersStatistic.module.css';
 
 interface IProps {
-  label: string;
   statistic: IOrdersStatusStatistic | null;
 }
 
-const OrdersStatistic: FC<IProps> = ({ statistic, label }) => {
+const OrdersStatistic: FC<IProps> = ({ statistic }) => {
+  let titles: string[] = [];
+  let values: string[] = [];
+  if (statistic) {
+    titles = Object.keys(statistic);
+    titles.unshift('Status');
+    values = Object.values(statistic);
+    values.unshift('Statistic');
+  }
 
   return <div className={styles.statistic}>
-    <span className={styles.label}>{label}</span>
-    {!!statistic && Object.keys(statistic).map((e, i) => <GridCell key={i} cellContent={e} />)}
-    {!!statistic && Object.values(statistic).map((e, i) => <GridCell key={i} cellContent={e} />)}
+    {titles.map((e, i) => <GridCell key={i} cellContent={e} />)}
+    {values.map((e, i) => <GridCell key={i} cellContent={e} />)}
   </div>;
 
   // <Table<IOrdersStatusStatistic> items={statistic ? [statistic] : []} />;

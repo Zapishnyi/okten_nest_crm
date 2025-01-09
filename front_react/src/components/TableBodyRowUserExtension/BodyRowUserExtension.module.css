@@ -29,10 +29,12 @@
     td {
         border: none;
         height: inherit;
+        opacity: inherit;
 
         .cell_wrapper {
             height: inherit;
             display: flex;
+            opacity: inherit;
 
             .statistic_container {
                 display: flex;

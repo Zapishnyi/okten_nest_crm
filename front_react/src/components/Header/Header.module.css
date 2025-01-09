@@ -4,7 +4,7 @@
     position: sticky;
     /*background: #a2ead9;*/
     top: 0;
-    z-index: 10;
+    z-index: 25;
     background: linear-gradient(45deg, #62edf9 0% 35%, #62bff9 50%, #62edf9 65% 100%);
     background-size: 500% 500%;
     animation: move-gradient 10s infinite;

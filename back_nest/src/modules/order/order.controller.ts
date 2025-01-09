@@ -4,8 +4,8 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
-  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -25,9 +25,11 @@ import { OrderEntity } from '../../database/entities/order.entity';
 import { IUserData } from '../auth/interfaces/IUserData';
 import { CommentReqDto } from '../comment/dto/req/comment.req.dto';
 import { CommentService } from '../comment/services/comment.service';
+import { OrderReqDto } from './dto/req/order.req.dto';
 import { OrdersQueryReqDto } from './dto/req/orders-query.req.dto';
 import { OrderResDto } from './dto/res/order.res.dto';
 import { OrdersListResDto } from './dto/res/orders-list.res.dto';
+import IOrderData from './Interfaces/IOrderData';
 import { OrderService } from './services/order.service';
 import { OrderPresenterService } from './services/order-presenter.service';
 
@@ -86,18 +88,20 @@ export class OrderController {
       statusCode: 401,
       messages: 'Unauthorized',
       timestamp: '2024-12-03T18:38:15.306Z',
-      path: '/orders?page=1&order=DESC&orderBy=id',
+      path: '',
     },
   })
   @ApiBearerAuth('Access-Token')
-  @UseGuards(JwtAccessGuard)
-  @Put('/:id')
+  @UseGuards(JwtAccessGuard, OrderOwnershipGuard)
+  @Patch('/:id')
   public async editOrderById(
     @Param('id', ParseIntPipe) order_id: number,
-    @Body() dto: any,
+    @GetStoredOrderDataFromResponse() { order }: IOrderData,
+    @GetStoredUserDataFromResponse() { user }: IUserData,
+    @Body() dto: OrderReqDto,
   ): Promise<OrderResDto> {
     return this.ordersPresenter.toOrderResDto(
-      await this.orderService.getOrderById(order_id),
+      await this.orderService.editOrderById(user, order, dto),
     );
   }
 

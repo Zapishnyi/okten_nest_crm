@@ -1,46 +1,170 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
+import {
+  IsEmail,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+  Length,
+  Max,
+  Min,
+} from 'class-validator';
 
-import { CommentResDto } from '../../../comment/dto/res/comment.res.dto';
+import { TransformHelper } from '../../../../common/helpers/transform.helper';
 import { CourseEnum } from '../../enums/course.enum';
 import { CourseFormatEnum } from '../../enums/course-format.enum';
 import { CourseTypeEum } from '../../enums/course-type.enum';
 import { StatusEnum } from '../../enums/status.enum';
 
 export class OrderBaseReqDto {
-  @ApiProperty({ example: 'Joe' })
-  readonly name: string;
-  @ApiProperty({ example: 'Doe' })
-  readonly surname: string;
-  @ApiProperty({ example: 'Joe.doe@example.com' })
+  @ApiProperty({ example: '245' })
+  readonly id: number;
+
+  @IsOptional()
+  @IsString()
+  @Length(2, 25)
+  @Transform(TransformHelper.trim)
+  @ApiProperty({
+    minLength: 2,
+    maxLength: 25,
+    description: 'Name',
+    example: 'Joe',
+  })
+  readonly name?: string;
+
+  @IsOptional()
+  @IsString()
+  @Length(2, 25)
+  @Transform(TransformHelper.trim)
+  @ApiProperty({
+    minLength: 2,
+    maxLength: 25,
+    description: 'Surname',
+    example: 'Doe',
+  })
+  readonly surname?: string;
+
+  @IsOptional()
+  @IsString()
+  @IsEmail()
+  @Length(2, 100)
+  @Transform(TransformHelper.trim)
+  @ApiProperty({
+    minLength: 2,
+    maxLength: 100,
+    description: 'Email',
+    example: 'Joe.doe@example.com',
+  })
   readonly email: string;
-  @ApiProperty({ example: '+1200120012' })
-  readonly phone: string;
-  @ApiProperty({ example: 24 })
-  readonly age: number;
-  @ApiProperty({ example: CourseEnum.QACX })
-  readonly course: CourseEnum;
-  @ApiProperty({ example: CourseFormatEnum.ONLINE })
-  readonly course_format: CourseFormatEnum;
-  @ApiProperty({ example: CourseTypeEum.VIP })
-  readonly course_type: CourseTypeEum;
-  @ApiProperty({ example: '3353' })
-  readonly sum: number;
-  @ApiProperty({ example: '3353' })
-  readonly alreadyPaid: number;
+
+  @IsOptional()
+  @IsString()
+  @IsPhoneNumber('UA')
+  @Length(6, 13)
+  @Transform(TransformHelper.trim)
+  @ApiProperty({
+    minLength: 6,
+    maxLength: 13,
+    description: 'Phone',
+    example: '+380670000000',
+  })
+  readonly phone?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Transform(TransformHelper.trim)
+  @Min(16)
+  @Max(120)
+  @ApiProperty({
+    maximum: 120,
+    minimum: 16,
+    description: 'Age',
+    example: 24,
+  })
+  readonly age?: number;
+
+  @IsOptional()
+  @Transform(TransformHelper.trim)
+  @IsEnum(CourseEnum)
+  @ApiProperty({ enum: CourseEnum, example: CourseEnum.QACX })
+  readonly course?: CourseEnum;
+
+  @IsOptional()
+  @Transform(TransformHelper.trim)
+  @IsEnum(CourseFormatEnum)
+  @ApiProperty({ enum: CourseFormatEnum, example: CourseFormatEnum.ONLINE })
+  readonly course_format?: CourseFormatEnum;
+
+  @IsOptional()
+  @Transform(TransformHelper.trim)
+  @IsEnum(CourseTypeEum)
+  @ApiProperty({ enum: CourseTypeEum, example: CourseTypeEum.VIP })
+  readonly course_type?: CourseTypeEum;
+
+  @IsOptional()
+  @IsNumber()
+  @Transform(TransformHelper.trim)
+  @Min(0)
+  @ApiProperty({
+    minimum: 0,
+    description: 'Sum total',
+    example: 3353,
+  })
+  readonly sum?: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Transform(TransformHelper.trim)
+  @Min(0)
+  @ApiProperty({
+    minimum: 0,
+    description: 'Sum paid',
+    example: 3353,
+  })
+  readonly alreadyPaid?: number;
+
+  @IsOptional()
+  @IsString()
+  @Length(0, 100)
+  @Transform(TransformHelper.trim)
+  @ApiProperty({
+    minLength: 0,
+    maxLength: 100,
+    description: 'UTM codes',
+    example: 'html-2022-5-1_target-05-2022',
+  })
+  readonly utm?: string;
+
+  @IsOptional()
+  @IsString()
+  @Length(0, 100)
+  @Transform(TransformHelper.trim)
+  @ApiProperty({
+    minLength: 0,
+    maxLength: 100,
+    description: 'Message',
+    example: 'Any text here',
+  })
+  readonly msg?: string;
+
+  @IsOptional()
+  @Transform(TransformHelper.trim)
+  @IsEnum(StatusEnum)
+  @ApiProperty({ enum: StatusEnum, example: StatusEnum.IN_WORK })
+  readonly status?: StatusEnum;
+
+  @IsOptional()
+  @IsString()
+  @Length(3, 25)
+  @Transform(TransformHelper.trim)
+  @ApiProperty({
+    minLength: 3,
+    maxLength: 25,
+    description: 'Group name',
+    example: 'Jan2024',
+  })
   @ApiProperty({ example: null })
-  readonly utm: string;
-  @ApiProperty({ example: null })
-  readonly msg: string;
-  @ApiProperty({ example: StatusEnum.IN_WORK })
-  readonly status: StatusEnum;
-  @ApiProperty({ example: null })
-  readonly group: string;
-  @ApiProperty({ example: null })
-  readonly manager: string;
-  @ApiProperty({ example: new Date() })
-  readonly created_at: Date;
-  @ApiProperty()
-  readonly comments: CommentResDto[];
-  @ApiProperty()
-  readonly manager_id: number;
+  readonly group?: string;
 }

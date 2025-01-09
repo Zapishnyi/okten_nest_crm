@@ -2,9 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsEnum, IsInt, IsNotEmpty, Min } from 'class-validator';
 
-import { SortEnum } from '../../enums/sort.enum';
-import { OrdersSortByEnum } from '../../enums/orders-sort-by.enum';
 import { TransformHelper } from '../../../../common/helpers/transform.helper';
+import { OrdersSortByEnum } from '../../enums/orders-sort-by.enum';
+import { SortEnum } from '../../enums/sort.enum';
 
 export class OrdersQueryReqDto {
   @Type(() => Number)

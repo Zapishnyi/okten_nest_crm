@@ -18,7 +18,7 @@ export class OrderOwnershipGuard implements CanActivate {
     const { user } = request['user_data'] as IUserData;
     const order = await this.ordersRepository.findOne({
       where: { id: request.params.id },
-      relations: ['user'],
+      relations: ['user', 'comments'],
     });
 
     if (!order) {

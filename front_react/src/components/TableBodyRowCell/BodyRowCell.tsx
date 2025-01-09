@@ -7,7 +7,7 @@ interface IProps {
 }
 
 const BodyRowCell: FC<IProps> = ({ cell }) => {
-  return <td className={[styles.cell, styles[cell[0]]].join(' ')}>{cell[1]}</td>;
+  return <td title={cell[1]} className={[styles.cell, styles[cell[0]]].join(' ')}>{cell[1]}</td>;
 };
 
 export default BodyRowCell;

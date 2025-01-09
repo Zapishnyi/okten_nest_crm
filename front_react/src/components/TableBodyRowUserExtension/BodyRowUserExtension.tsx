@@ -14,17 +14,16 @@ interface IProps {
 
 const BodyRowUserExtension: FC<IProps> = ({ visibility, user_id }) => {
   const { users } = useAppSelector(state => state.users);
-  const statistic = users.filter(user => user.id !== user_id)[0].statistic;
-  console.log('statistic:', statistic);
-  console.log('users:', users);
+  const statistic = users.filter(user => user.id === user_id)[0].statistic;
   const [activateLink, setActivateLink] = useState<string | null>(null);
   const [errorMessage, setErrorMassage] = useState<string[] | null>(null);
+  console.log('error:', errorMessage);
   return (
     <tr className={[visibility ? styles.visible : styles.not_visible, styles.row_extension].join(' ')}>
       <td colSpan={9}>
         <div className={styles.cell_wrapper}>
           <div className={styles.statistic_container}>
-            <OrdersStatistic label={'Manager\'s orders status statistic'} statistic={statistic} />
+            <OrdersStatistic statistic={statistic} />
           </div>
           <div className={styles.action_container}>
             {!!activateLink && <p className={styles.response_fulfilled}>{`Activate link is in clipboard.`}</p>}

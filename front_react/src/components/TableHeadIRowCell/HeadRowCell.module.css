@@ -6,6 +6,7 @@
     position: sticky;
     top: 60px;
     border: 1px solid #919191;
+    z-index: 25;
 
     > :hover {
         background-color: #f4f4f4;

@@ -20,7 +20,7 @@ export class OrderEntity extends BaseModel {
   @Column('varchar', { length: 100, nullable: true })
   email: string;
 
-  @Column('varchar', { length: 12, nullable: true })
+  @Column('varchar', { length: 13, nullable: true })
   phone: string;
 
   @Column('integer', { nullable: true })
