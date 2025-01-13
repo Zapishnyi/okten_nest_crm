@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 
-import styles from './GridCell.module.css';
+import styles from './StatisticCell.module.css';
 
 interface IProps {
   cellContent: string;
 }
 
-const GridCell: FC<IProps> = ({ cellContent }) => {
+const StatisticCell: FC<IProps> = ({ cellContent }) => {
   return <span className={styles.cell}>{cellContent}</span>;
 };
 
-export default GridCell;
+export default StatisticCell;

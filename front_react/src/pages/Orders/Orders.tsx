@@ -33,10 +33,11 @@ const Orders: FC = memo(() => {
   }, [query.toString()]);
   return (
     <div className={styles.wrapper}>
-      {!!orders.length && <>
-        <Table<IOrderReduced> items={orders.map(order => orderToReduced(order))} />
-        <Pagination page={page} pages={pages} />
-      </>
+      {!!orders.length &&
+        <div className={styles.table_container}>
+          <Table<IOrderReduced> items={orders.map(order => orderToReduced(order))} />
+          <Pagination page={page} pages={pages} />
+        </div>
       }
     </div>
   );

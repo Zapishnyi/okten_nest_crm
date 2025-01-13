@@ -1,0 +1,12 @@
+.item_name {
+    width: 100%;
+    padding: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 18px;
+}
+
+.item_name:hover {
+    background: #f4f4f4;
+    transition: 0.2s;
+}

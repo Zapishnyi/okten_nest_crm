@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react';
 
-import { useAppSelector } from '../../redux/store';
-import BtnActivate from '../BtnActivate/BtnActivate';
-import BtnBan from '../BtnBan/BtnBan';
-import OrdersStatistic from '../OrdersStatictic/OrdersStatistic';
+import { useAppSelector } from '../../../../redux/store';
+import BtnActivate from '../../../BtnActivate/BtnActivate';
+import BtnBan from '../../../BtnBan/BtnBan';
+import OrdersStatistic from '../../../OrdersStatictic/OrdersStatistic';
 
 import styles from './BodyRowUserExtension.module.css';
 

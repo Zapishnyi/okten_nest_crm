@@ -21,7 +21,7 @@ import { GroupService } from './services/group.service';
 import { GroupPresenterService } from './services/group-presenter.service';
 
 @ApiTags('4.Groups')
-@Controller('groups')
+@Controller('group')
 export class GroupController {
   constructor(
     private readonly groupService: GroupService,
@@ -39,7 +39,7 @@ export class GroupController {
   })
   @ApiBearerAuth('Access-Token')
   @UseGuards(JwtAccessGuard)
-  @Get()
+  @Get('/all')
   public async getAllGroups(): Promise<GroupResDto[]> {
     const groups = await this.groupService.getAllGroups();
     return groups.map((entity) => this.groupPresenter.toResponseDto(entity));
@@ -51,7 +51,7 @@ export class GroupController {
       statusCode: 401,
       messages: 'Unauthorized',
       timestamp: '2024-12-03T18:38:15.306Z',
-      path: '/groups',
+      path: '/group',
     },
   })
   @ApiBearerAuth('Access-Token')

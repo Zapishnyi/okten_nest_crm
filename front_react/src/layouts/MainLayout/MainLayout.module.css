@@ -1,6 +1,9 @@
 .wrapper {
     position: relative;
     width: 100%;
+    height: 100%;
+    overflow: hidden;
+
 
     .loader {
         position: absolute;
@@ -19,6 +22,7 @@
     .modal_window_base {
         position: absolute;
         scrollbar-gutter: stable;
+        overflow: hidden;
         width: 100%;
         height: 100dvh;
         background: rgba(108, 108, 108, 0.59);

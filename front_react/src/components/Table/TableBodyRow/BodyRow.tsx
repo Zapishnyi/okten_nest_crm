@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 import { useSearchParams } from 'react-router-dom';
 
-import { TableType } from '../../types/TableType';
-import BodyRowCell from '../TableBodyRowCell/BodyRowCell';
-import BodyRowOrderExtension from '../TableBodyRowOrderExtension/BodyRowOrderExtension';
-import BodyRowUserExtension from '../TableBodyRowUserExtension/BodyRowUserExtension';
+import { TableType } from '../../../types/TableType';
 
 import styles from './BodyRow.module.css';
+import BodyRowCell from './TableBodyRowCell/BodyRowCell';
+import BodyRowOrderExtension from './TableBodyRowOrderExtension/BodyRowOrderExtension';
+import BodyRowUserExtension from './TableBodyRowUserExtension/BodyRowUserExtension';
+
 
 interface IProps<T> {
   item: T;

@@ -42,18 +42,21 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     /* extracts the request object from the
      HTTP context, allowing access to details about the HTTP request (e.g., the URL).*/
     let status: number;
-    let messages: string[] | string;
+    let messages: string[];
     switch (true) {
       // validation
       case exception instanceof BadRequestException:
         status = exception.getStatus();
         /*retrieves the HTTP status code from the HttpException.
       The status code could be something like 404 for Not Found, 500 for Internal Server Error, etc.*/
-        messages = (
-          exception.getResponse() as {
-            message: string[] | string;
-          }
-        ).message;
+
+        messages = [
+          (
+            exception.getResponse() as {
+              message: string;
+            }
+          ).message,
+        ];
         break;
 
       case exception instanceof HttpException:
@@ -63,7 +66,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
       case exception instanceof QueryFailedError:
         status = HttpStatus.CONFLICT;
-        messages = (exception as QueryFailedError).message;
+        messages = [(exception as QueryFailedError).message];
         break;
 
       case exception instanceof TokenExpiredError:
@@ -80,7 +83,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         Logger.error(exception);
         // console.log(exception);
         status = HttpStatus.INTERNAL_SERVER_ERROR;
-        messages = 'Internal server error';
+        messages = ['Internal server error'];
     }
     // Send the exception to Sentry
     // this.logger.error(exception);

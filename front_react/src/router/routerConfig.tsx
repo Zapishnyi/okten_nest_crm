@@ -46,6 +46,10 @@ export const routerConfig = createHashRouter([
     ],
   },
   {
+    path: 'error',
+    element: <ErrorPage />,
+  },
+  {
     path: '*',
     element: <ErrorPage />,
   },

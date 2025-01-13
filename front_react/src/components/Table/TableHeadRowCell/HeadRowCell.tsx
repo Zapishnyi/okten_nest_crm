@@ -2,9 +2,9 @@ import React, { ChangeEvent, FC, memo, MouseEvent, RefObject, useEffect } from '
 
 import { useLocation, useSearchParams } from 'react-router-dom';
 
-import { SortEnum } from '../../enums/sort.enum';
-import { sortToggle } from '../../helpers/sort-toggle';
-import { tableReset } from '../../helpers/table-reset';
+import { SortEnum } from '../../../enums/sort.enum';
+import { sortToggle } from '../../../helpers/sort-toggle';
+import { tableReset } from '../../../helpers/table-reset';
 
 import styles from './HeadRowCell.module.css';
 

@@ -6,7 +6,7 @@ import { FadeLoader } from 'react-spinners';
 
 import Header from '../../components/Header/Header';
 import CreateUserForm from '../../forms/CreateUserForm/CreateUserForm';
-import OrderEditForm from '../../forms/OrderEditForm/OrderEditForm';
+import EditOrderForm from '../../forms/EditOrderForm/EditOrderForm';
 import { setNavigate } from '../../helpers/navigate-to';
 import { UsersActions } from '../../redux/Slices/usersSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
@@ -64,7 +64,7 @@ const MainLayout: FC = () => {
       </div>}
     {editOrderFormVisible &&
       <div className={styles.modal_window_base}>
-        <OrderEditForm />
+        <EditOrderForm />
       </div>}
   </div>;
 

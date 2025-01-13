@@ -1,10 +1,11 @@
 import React, { useRef } from 'react';
 
 import { TableType } from '../../types/TableType';
-import BodyRow from '../TableBodyRow/BodyRow';
-import HeadRowCell from '../TableHeadIRowCell/HeadRowCell';
 
 import styles from './Table.module.css';
+import BodyRow from './TableBodyRow/BodyRow';
+import HeadRowCell from './TableHeadRowCell/HeadRowCell';
+
 
 interface IProps<T> {
   items: T[];

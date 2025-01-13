@@ -4,5 +4,4 @@ export enum StatusEnum {
   AGREE = 'Agree',
   DISAGREE = 'Disagree',
   DUBBING = 'Dubbing',
-  Null = 'null'
 }

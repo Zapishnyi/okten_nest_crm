@@ -1,4 +1,4 @@
-export enum CourseTypeEum {
+export enum CourseTypeEnum {
   PRO = 'pro',
   MINIMAL = 'minimal',
   PREMIUM = 'premium',

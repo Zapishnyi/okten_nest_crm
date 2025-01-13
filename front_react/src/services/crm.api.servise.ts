@@ -5,6 +5,8 @@ import { navigateTo } from '../helpers/navigate-to';
 import IActivateToken from '../interfaces/IActivateToken';
 import IAuthTokens from '../interfaces/IAuthTokens';
 import IComment from '../interfaces/IComment';
+import { IGroup } from '../interfaces/IGroup';
+import { IGroupCreate } from '../interfaces/IGroupCreate';
 import { IHealth } from '../interfaces/IHealth';
 import IOrder from '../interfaces/IOrder';
 import IOrderPaginated from '../interfaces/IOrderPaginated';
@@ -48,20 +50,26 @@ interface ICRMApiService {
     log_out: () => Promise<void>;
     activate: (body: IUserActivate) => Promise<IUser>;
     me: () => Promise<IUser>;
-  };
+  },
+  admin: {
+    get_all_users: (query: Record<string, string>) => Promise<IUser[]>,
+    create_user: (dto: IUserCreate) => Promise<IUser>,
+    activate_user: (user_id: number) => Promise<IActivateToken>,
+    ban_reinstate_user: (user_id: number) => Promise<IUser>,
+    delete_user: (user_id: number) => Promise<void>,
+    get_orders_status_statistic: () => Promise<IOrdersStatusStatistic>
+  },
   orders: {
     get_all: (query: Record<string, string>) => Promise<IOrderPaginated>;
     get_one: (order_id: number) => Promise<IOrder>
     add_comment: (order_id: number, body: IComment) => Promise<IOrder>;
-  };
-  admin: {
-    get_all_users: (query: Record<string, string>) => Promise<IUser[]>,
-    create_user: (dto: IUserCreate) => Promise<IUser>,
-    activate_user: (id: string) => Promise<IActivateToken>,
-    ban_reinstate_user: (id: string) => Promise<IUser>,
-    delete_user: (id: string) => Promise<void>,
-    get_orders_status_statistic: () => Promise<IOrdersStatusStatistic>
   },
+  groups: {
+    get_all: () => Promise<IGroup[]>;
+    create_group: (group: IGroupCreate) => Promise<IGroup>
+    delete_group: (group_id: number) => Promise<void>;
+  };
+
   health: () => Promise<IHealth>;
 
 }
@@ -78,23 +86,50 @@ export const CRMApi: ICRMApiService = {
       .then((response) => response.data),
     me: () => axiosInstance.get(urls.auth.me).then((response) => response.data),
   },
+  admin: {
+    get_all_users: (query) => axiosInstance
+      .get(urls.admin.get_all_users, { params: query })
+      .then((response) => response.data),
+    create_user: (user) => axiosInstance
+      .post(urls.admin.create_user, user)
+      .then((response) => response.data),
+    activate_user: (id) => axiosInstance
+      .patch(urls.admin.activate_user(id))
+      .then((response) => response.data),
+    ban_reinstate_user: (id) => axiosInstance
+      .patch(urls.admin.ban_reinstate_user(id))
+      .then((response) => response.data),
+    delete_user: (id: number) => axiosInstance
+      .delete(urls.admin.delete_user(id)),
+    get_orders_status_statistic: () => axiosInstance
+      .get(urls.admin.get_orders_status_statistic)
+      .then((response) => response.data),
+  },
   orders: {
     get_all: (query) => axiosInstance
       .get(urls.orders.get_all, { params: query })
       .then((response) => response.data),
-    get_one: (order_id: number) => axiosInstance.get(urls.orders.get_one(order_id)).then((response) => response.data),
-    add_comment: (order_id: number, body) => axiosInstance.post(urls.orders.add_comment(order_id), body).then((response) => response.data),
+    get_one: (order_id) => axiosInstance
+      .get(urls.orders.get_one(order_id))
+      .then((response) => response.data),
+    add_comment: (order_id, body) => axiosInstance
+      .post(urls.orders.add_comment(order_id), body)
+      .then((response) => response.data),
   },
-  admin: {
-    get_all_users: (query) => axiosInstance.get(urls.admin.get_all_users, { params: query }).then((response) => response.data),
-    create_user: (dto) => axiosInstance.post(urls.admin.create_user, dto).then((response) => response.data),
-    activate_user: (id: string) => axiosInstance.patch(urls.admin.activate_user(id)).then((response) => response.data),
-    ban_reinstate_user: (id: string) => axiosInstance.patch(urls.admin.ban_reinstate_user(id)).then((response) => response.data),
-    delete_user: (id: string) => axiosInstance.delete(urls.admin.delete_user(id)),
-    get_orders_status_statistic: () => axiosInstance.get(urls.admin.get_orders_status_statistic).then((response) => response.data),
+  groups: {
+    get_all: () => axiosInstance
+      .get(urls.group.get_all)
+      .then((response) => response.data),
+    create_group: (group) => axiosInstance
+      .post(urls.group.create, group)
+      .then((response) => response.data),
+    delete_group: (group_id) => axiosInstance
+      .delete(urls.group.delete(group_id))
+      .then((response) => response.data),
   },
-  health: () => axiosInstance.get(urls.health).then((response) => response.data),
-
+  health: () => axiosInstance
+    .get(urls.health)
+    .then((response) => response.data),
 };
 
 axiosInstance.interceptors.response.use((response) => response,

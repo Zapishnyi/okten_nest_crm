@@ -41,8 +41,6 @@ const getAllUsers = createAsyncThunk(
       const error = errorHandle(e);
       if (error.status === 401) {
         navigateTo('/auth/sign-in');
-      } else {
-        navigateTo('/error');
       }
       return thunkAPI.rejectWithValue(error.message);
     } finally {
@@ -57,7 +55,7 @@ const banReinstate = createAsyncThunk(
   async (user_id: number, thunkAPI) => {
     try {
       console.log('search for users');
-      const user = await CRMApi.admin.ban_reinstate_user(user_id.toString());
+      const user = await CRMApi.admin.ban_reinstate_user(user_id);
 
       return thunkAPI.fulfillWithValue({
         ...user,
@@ -77,8 +75,6 @@ const banReinstate = createAsyncThunk(
       const error = errorHandle(e);
       if (error.status === 401) {
         navigateTo('/auth/sign-in');
-      } else {
-        navigateTo('/error');
       }
       return thunkAPI.rejectWithValue(error.message);
     } finally {

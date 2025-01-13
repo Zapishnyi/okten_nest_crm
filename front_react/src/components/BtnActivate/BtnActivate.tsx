@@ -1,12 +1,9 @@
 import React, { Dispatch, FC, useState } from 'react';
 
-import { SyncLoader } from 'react-spinners';
-
 import { errorHandle } from '../../helpers/error-handle';
 import { useAppSelector } from '../../redux/store';
 import { CRMApi } from '../../services/crm.api.servise';
-
-import styles from './BtnActivate.module.css';
+import BtnLoader from '../BtnLoader/BtnLoader';
 
 interface IProps {
   user_id: number;
@@ -23,7 +20,7 @@ const BtnActivate: FC<IProps> = ({ user_id, setActivateLink, setErrorMassage }) 
     setActivateLink(null);
     setErrorMassage(null);
     try {
-      const { activateToken } = await CRMApi.admin.activate_user(user_id.toString());
+      const { activateToken } = await CRMApi.admin.activate_user(user_id);
       const activateLink = `${document.location.origin}/#/auth/activate/${activateToken}`;
       setActivateLink(activateLink);
       setErrorMassage(null);
@@ -39,13 +36,7 @@ const BtnActivate: FC<IProps> = ({ user_id, setActivateLink, setErrorMassage }) 
   return <div title="Activate link will be available in the clipboard" className="button"
               onClick={activate}>
     <p>{!user.active ? 'Activate' : 'Password recovery'}</p>
-    {isPending && <div className={styles.loader_container}>
-      <SyncLoader
-        color={'#000303'}
-        loading={isPending}
-        size={8}
-      />
-    </div>}
+    {isPending && <BtnLoader loadingState={isPending} />}
   </div>;
 };
 

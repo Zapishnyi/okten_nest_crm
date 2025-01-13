@@ -4,7 +4,10 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 
+import BtnLoader from '../../components/BtnLoader/BtnLoader';
+import ErrorsContainer from '../../components/ErrorsContainer/ErrorsContainer';
 import FormInput from '../../components/FormInput/FormInput';
+import { InputFieldTypeEnum } from '../../enums/input-field-type.enum';
 import { errorHandle } from '../../helpers/error-handle';
 import { IUserCreate } from '../../interfaces/IUserCreate';
 import { UsersActions } from '../../redux/Slices/usersSlice';
@@ -26,7 +29,9 @@ const CreateUserForm: FC = () => {
   const closeForm = () => {
     dispatch(VisibilityActions.createUserFormVisible(false));
   };
+  const [isPending, setIsPending] = useState<boolean>(false);
   const formSubmit = async (formData: IUserCreate) => {
+    setIsPending(true);
     try {
       await CRMApi.admin.create_user(formData);
       dispatch(UsersActions.getAllUsers(Object.fromEntries(query[0].entries())));
@@ -34,6 +39,8 @@ const CreateUserForm: FC = () => {
       setErrorMassage(null);
     } catch (e) {
       setErrorMassage(errorHandle(e).message);
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -42,28 +49,32 @@ const CreateUserForm: FC = () => {
       register={register}
       field_name={'name'}
       field_label={'Name'}
+      field_type={InputFieldTypeEnum.TEXT}
       error={errors.name?.message}
     />
     <FormInput<IUserCreate>
       register={register}
       field_name={'surname'}
       field_label={'Surname'}
+      field_type={InputFieldTypeEnum.TEXT}
       error={errors.surname?.message}
     />
     <FormInput<IUserCreate>
       register={register}
       field_name={'email'}
       field_label={'Email'}
+      field_type={InputFieldTypeEnum.TEXT}
       error={errors.email?.message}
     />
     <div className={styles.buttons}>
-      <button className="button" disabled={!isValid}>Submit</button>
+      <button className="button" disabled={!isValid}>Submit
+        {isPending && <BtnLoader loadingState={isPending} />}
+      </button>
       <div className="button" onClick={() => closeForm()}>
         <span>Cancel</span>
       </div>
     </div>
-    {errorMessage?.length &&
-      <div className={styles.response_error}>{errorMessage.map((e, i) => <p key={i}>{e}</p>)}</div>}
+    {errorMessage?.length && <ErrorsContainer errors={errorMessage} />}
   </form>;
 
 

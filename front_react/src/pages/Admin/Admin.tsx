@@ -9,6 +9,8 @@ import { UsersActions } from '../../redux/Slices/usersSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { UserNoStatisticType } from '../../types/UserNoStatisticType';
 
+import styles from './Admin.module.css';
+
 const Admin: FC = () => {
   const dispatch = useAppDispatch();
   const { users } = useAppSelector((state) => state.users);
@@ -30,8 +32,10 @@ const Admin: FC = () => {
 
   console.log('usersNoStatistic:', usersNoStatistic);
   return (
-    <div>
-      {!!usersNoStatistic.length && <Table<UserNoStatisticType> items={usersNoStatistic} />}
+    <div className={styles.wrapper}>
+      <div className={styles.table_container}>
+        {!!usersNoStatistic.length && <Table<UserNoStatisticType> items={usersNoStatistic} />}
+      </div>
     </div>
   );
 };

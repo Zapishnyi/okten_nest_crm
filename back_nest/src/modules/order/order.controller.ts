@@ -34,7 +34,7 @@ import { OrderService } from './services/order.service';
 import { OrderPresenterService } from './services/order-presenter.service';
 
 @ApiTags('3.Orders')
-@Controller('orders')
+@Controller('order')
 export class OrderController {
   constructor(
     private readonly orderService: OrderService,
@@ -53,7 +53,7 @@ export class OrderController {
   })
   @ApiBearerAuth('Access-Token')
   @UseGuards(JwtAccessGuard)
-  @Get()
+  @Get('/all')
   public async getOrdersByQuery(
     @Query() query: OrdersQueryReqDto,
   ): Promise<OrdersListResDto> {

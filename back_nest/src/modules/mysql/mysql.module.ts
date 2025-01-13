@@ -10,6 +10,7 @@ import { EnvConfigType, MySQLConfigType } from '../../configs/envConfigType';
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: async (envConfig: ConfigService<EnvConfigType>) => {
+        // try {
         const { host, password, database, username, port } =
           envConfig.get<MySQLConfigType>('mysql');
 
@@ -44,6 +45,9 @@ import { EnvConfigType, MySQLConfigType } from '../../configs/envConfigType';
           ],
           synchronize: false, // Don't use in production, it automatically syncs your DB schema
         };
+        // } catch (e) {
+        //   throw new Error(`Database connection failure with error:${e}`);
+        // }
       },
       inject: [ConfigService],
     }),

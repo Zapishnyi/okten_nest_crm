@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
+import { InputFieldTypeEnum } from '../../enums/input-field-type.enum';
 import { SvgEyeClosed } from '../SvgEyeClosed/SvgEyeClosed';
 import { SvgEyeOpen } from '../SvgEyeOpen/SvgEyeOpen';
 
@@ -12,28 +13,33 @@ interface IProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   field_name: Path<T>;
   field_label: string;
-  isPassword?: boolean;
+  field_type: InputFieldTypeEnum;
   error?: string;
 }
 
 const FormInput = <T extends FieldValues>({
                                             register,
                                             field_name,
-                                            isPassword = false,
+                                            field_type,
                                             field_label,
                                             error,
                                           }: IProps<T>) => {
-  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(!isPassword);
+  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(field_type !== InputFieldTypeEnum.PASSWORD);
+  const type =
+    field_type === InputFieldTypeEnum.PASSWORD
+      ? passwordVisibility
+        ? InputFieldTypeEnum.TEXT : InputFieldTypeEnum.PASSWORD
+      : field_type;
   return (
     <label className={styles.label}>
       {field_label}:{' '}
       <input
-        type={passwordVisibility ? 'text' : 'password'}
+        type={type}
         autoComplete="on"
         {...register(field_name)}
       />
       {!!error && <p>{error}</p>}
-      {isPassword &&
+      {field_type === InputFieldTypeEnum.PASSWORD &&
         <div
           className={styles.eye}
           onClick={() => setPasswordVisibility(current => !current)}

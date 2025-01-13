@@ -9,11 +9,13 @@ import { CRMApi } from '../../services/crm.api.servise';
 import { PaginationActions } from './paginationSlice';
 
 interface IInitial {
+  chosenOrder: IOrder | null;
   orders: IOrder[];
   ordersLoadingState: boolean,
 }
 
 const initialState: IInitial = {
+  chosenOrder: null,
   orders: [],
   ordersLoadingState: false,
 };
@@ -34,8 +36,6 @@ const searchForOrders = createAsyncThunk(
       const error = errorHandle(e);
       if (error.status === 401) {
         navigateTo('/auth/sign-in');
-      } else {
-        navigateTo('/error');
       }
       return thunkAPI.rejectWithValue(error.message);
     } finally {
@@ -59,8 +59,6 @@ const getOrder = createAsyncThunk(
       const error = errorHandle(e);
       if (error.status === 401) {
         navigateTo('/auth/sign-in');
-      } else {
-        navigateTo('/error');
       }
       return thunkAPI.rejectWithValue(error.message);
     } finally {
@@ -89,8 +87,6 @@ const addComment = createAsyncThunk(
       const error = errorHandle(e);
       if (error.status === 401) {
         navigateTo('/auth/sign-in');
-      } else {
-        navigateTo('/error');
       }
       return thunkAPI.rejectWithValue(error.message);
     } finally {
@@ -105,6 +101,9 @@ export const ordersSlice = createSlice({
   reducers: {
     setLoadingState: (state, action: PayloadAction<boolean>) => {
       state.ordersLoadingState = action.payload;
+    },
+    setChosenOrder: (state, action: PayloadAction<IOrder | null>) => {
+      state.chosenOrder = action.payload;
     },
   },
   extraReducers: (builder) => {

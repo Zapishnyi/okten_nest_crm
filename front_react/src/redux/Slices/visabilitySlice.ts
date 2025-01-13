@@ -19,7 +19,7 @@ export const visibilitySlice = createSlice({
       state.createUserFormVisible = action.payload;
     },
     editOrderFormVisible: (state, action: PayloadAction<boolean>) => {
-      state.createUserFormVisible = action.payload;
+      state.editOrderFormVisible = action.payload;
     },
   },
 

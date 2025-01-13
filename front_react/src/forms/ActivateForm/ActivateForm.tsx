@@ -4,7 +4,9 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import ErrorsContainer from '../../components/ErrorsContainer/ErrorsContainer';
 import FormInput from '../../components/FormInput/FormInput';
+import { InputFieldTypeEnum } from '../../enums/input-field-type.enum';
 import { errorHandle } from '../../helpers/error-handle';
 import IUserActivateFormData from '../../interfaces/IUserActivateFormData';
 import { cookie } from '../../services/cookies.servise';
@@ -38,17 +40,16 @@ const ActivateForm: FC = () => {
         register={register}
         field_name={'password'}
         field_label={'Password'}
-        isPassword={true}
+        field_type={InputFieldTypeEnum.PASSWORD}
         error={errors.password?.message} />
       <FormInput<IUserActivateFormData>
         register={register}
         field_name={'re_password'}
         field_label={'Confirm password'}
-        isPassword={true}
+        field_type={InputFieldTypeEnum.PASSWORD}
         error={errors.re_password?.message} />
       <button className={['button', styles.form_button].join(' ')} disabled={!isValid}>Submit</button>
-      {errorMessage?.length &&
-        <div className={styles.response_error}>{errorMessage.map((e, i) => <p key={i}>{e}</p>)}</div>}
+      {errorMessage?.length && <ErrorsContainer errors={errorMessage} />}
     </form>
   );
 };

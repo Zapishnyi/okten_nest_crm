@@ -1,4 +1,4 @@
-import styles from '../components/TableHeadIRowCell/HeadRowCell.module.css';
+import styles from '../components/Table/TableHeadRowCell/HeadRowCell.module.css';
 
 export const tableReset = () => {
   const radio = document.getElementsByName('orderBy') as NodeListOf<HTMLInputElement>;

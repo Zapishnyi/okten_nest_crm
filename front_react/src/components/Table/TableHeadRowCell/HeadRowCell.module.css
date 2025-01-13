@@ -4,7 +4,7 @@
     user-select: none;
     background: white;
     position: sticky;
-    top: 60px;
+    top: 0;
     border: 1px solid #919191;
     z-index: 15;
 

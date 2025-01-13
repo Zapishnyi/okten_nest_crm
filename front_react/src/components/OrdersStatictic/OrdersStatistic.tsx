@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import IOrdersStatusStatistic from '../../interfaces/IOrdersStatusStatistic';
-import GridCell from '../GridCell/GridCell';
+import StatisticCell from '../StatisticCell/StatisticCell';
 
 import styles from './OrdersStatistic.module.css';
 
@@ -20,8 +20,8 @@ const OrdersStatistic: FC<IProps> = ({ statistic }) => {
   }
 
   return <div className={styles.statistic}>
-    {titles.map((e, i) => <GridCell key={i} cellContent={e} />)}
-    {values.map((e, i) => <GridCell key={i} cellContent={e} />)}
+    {titles.map((e, i) => <StatisticCell key={i} cellContent={e} />)}
+    {values.map((e, i) => <StatisticCell key={i} cellContent={e} />)}
   </div>;
 
   // <Table<IOrdersStatusStatistic> items={statistic ? [statistic] : []} />;

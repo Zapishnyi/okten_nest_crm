@@ -1,5 +1,19 @@
-import IOrder from './IOrder';
-/* eslint-disable @typescript-eslint/no-empty-interface */
-export default interface IOrderEdit extends Omit<IOrder, 'comments' | 'manager_id' | 'id' | 'manager' | 'utm' | 'msg' | 'created_at'> {
+import { CourseFormatEnum } from '../enums/course-format.enum';
+import { CourseTypeEnum } from '../enums/course-type.enum';
+import { CourseEnum } from '../enums/course.enum';
+import { StatusEnum } from '../enums/status.enum';
 
+export default interface IOrderEdit {
+  name: string,
+  surname: string,
+  email: string,
+  phone: string,
+  age: number,
+  course: CourseEnum,
+  course_format: CourseFormatEnum,
+  course_type: CourseTypeEnum,
+  sum: number,
+  alreadyPaid: number,
+  status: StatusEnum,
+  group: string
 }
