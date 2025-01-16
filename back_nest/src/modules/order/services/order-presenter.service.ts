@@ -12,7 +12,7 @@ export class OrderPresenterService {
 
   public toOrderListDto(
     orderList: OrderEntity[],
-    { page, sortBy, sort }: OrdersQueryReqDto,
+    { page, sortBy, sort, name }: OrdersQueryReqDto,
     total: number,
   ): OrdersListResDto {
     return {
@@ -23,6 +23,7 @@ export class OrderPresenterService {
       pages: Math.ceil(total / 25),
       sortBy,
       sort,
+      name,
     };
   }
 

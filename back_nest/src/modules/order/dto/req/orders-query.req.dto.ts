@@ -22,7 +22,7 @@ export class OrdersQueryReqDto {
   @Type(() => Number)
   @IsInt()
   @Min(1)
-  @ApiProperty()
+  @ApiProperty({ description: 'Page' })
   public readonly page: number = 1;
 
   @Transform(TransformHelper.trim)
@@ -48,7 +48,7 @@ export class OrdersQueryReqDto {
   @Transform(TransformHelper.trim)
   @ApiProperty({
     description: 'Name',
-    example: 'Joe',
+    // example: 'Joe',
   })
   readonly name?: string;
 
@@ -57,7 +57,6 @@ export class OrdersQueryReqDto {
   @Transform(TransformHelper.trim)
   @ApiProperty({
     description: 'Surname',
-    example: 'Doe',
   })
   readonly surname?: string;
 
@@ -66,7 +65,6 @@ export class OrdersQueryReqDto {
   @Transform(TransformHelper.trim)
   @ApiProperty({
     description: 'Email',
-    example: 'Joe.doe@example.com',
   })
   readonly email?: string;
 
@@ -75,40 +73,39 @@ export class OrdersQueryReqDto {
   @Transform(TransformHelper.trim)
   @ApiProperty({
     description: 'Phone',
-    example: '+380670000000',
   })
   readonly phone?: string;
 
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   @ApiProperty({
     description: 'Age',
-    example: 24,
   })
   readonly age?: number;
 
   @IsOptional()
   @Transform(TransformHelper.trim)
   @IsEnum(CourseEnum)
-  @ApiProperty({ enum: CourseEnum, example: CourseEnum.QACX })
+  @ApiProperty({ description: 'Course name abbreviation', enum: CourseEnum })
   readonly course?: CourseEnum;
 
   @IsOptional()
   @Transform(TransformHelper.trim)
   @IsEnum(CourseFormatEnum)
-  @ApiProperty({ enum: CourseFormatEnum, example: CourseFormatEnum.ONLINE })
+  @ApiProperty({ description: 'Course format', enum: CourseFormatEnum })
   readonly course_format?: CourseFormatEnum;
 
   @IsOptional()
   @Transform(TransformHelper.trim)
   @IsEnum(CourseTypeEum)
-  @ApiProperty({ enum: CourseTypeEum, example: CourseTypeEum.VIP })
+  @ApiProperty({ description: 'Course type', enum: CourseTypeEum })
   readonly course_type?: CourseTypeEum;
 
   @IsOptional()
   @Transform(TransformHelper.trim)
   @IsEnum(StatusEnum)
-  @ApiProperty({ enum: StatusEnum, example: StatusEnum.IN_WORK })
+  @ApiProperty({ description: 'Status of order', enum: StatusEnum })
   readonly status?: StatusEnum;
 
   @IsOptional()
@@ -118,7 +115,6 @@ export class OrdersQueryReqDto {
     minLength: 3,
     maxLength: 25,
     description: 'Group name',
-    example: 'Jan2024',
   })
   readonly group?: string;
 }
