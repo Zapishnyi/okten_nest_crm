@@ -65,4 +65,5 @@ Database is built and running on http://owu.linkpc.net/, available without pre-s
 * Add orders filtering logic
 * Add filtering by logged user
 * Add function of 'save table to EXEL file'
+* Add response examples and comments in swagger
 * Add tests

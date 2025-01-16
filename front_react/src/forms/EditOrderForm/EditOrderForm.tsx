@@ -21,24 +21,6 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import orderEditValidator from '../../validators/order-edit.validator';
 import styles from '../Form.module.css';
 
-// const orderEditMapper = (order: IOrder): IOrderEdit => {
-//   return {
-//     name: order.name,
-//     surname: order.surname,
-//     email: order.email,
-//     phone: order.phone?order.phone:,
-//     age: number,
-//     course: CourseEnum,
-//     course_format: CourseFormatEnum,
-//     course_type: CourseTypeEnum,
-//     sum: number,
-//     alreadyPaid: number,
-//     status: StatusEnum,
-//     group: string,
-//     manager: string,
-//   };
-// };
-
 const EditOrderForm: FC = () => {
 
 
