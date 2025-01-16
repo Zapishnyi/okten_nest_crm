@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 
+import { input } from '@testing-library/user-event/event/input';
 import { FieldValues, Path, UseFormRegister } from 'react-hook-form';
 import { ClipLoader } from 'react-spinners';
 
-import { IItemActionResponse } from '../../interfaces/IItemActionResponse';
 import { groupValidator } from '../../validators/group.validator';
 import { SvgArrowDownDropDown } from '../SvgArrowDownDropDown/SgArrowDownDropDown';
 import { SvgArrowUpDropDown } from '../SvgArrowUpDropDown/SvgArrowUpDropDown';
+import { SvgCross } from '../SvgCross/SvgCross';
 import { SvgPlus } from '../SvgPlus/SvgPlus';
 
 import DropDownItem from './DropDownItem/DropDownItem';
@@ -17,8 +18,9 @@ interface IProps<T extends FieldValues> {
   field_name: Path<T>;
   field_label: string;
   items: string[];
-  addItemAction: (value: string) => Promise<IItemActionResponse>;
+  addItemAction: (value: string) => void;
   loadingState: boolean;
+  setFormIsValid: Dispatch<boolean>;
   error?: string;
 }
 
@@ -28,12 +30,14 @@ const FormDropDownInput = <T extends FieldValues>({
                                                     error,
                                                     register,
                                                     items,
-                                                    addItemAction, loadingState,
+                                                    addItemAction,
+                                                    setFormIsValid,
+                                                    loadingState,
                                                   }: IProps<T>) => {
   const [listVisibility, setListVisibility] = useState<boolean>(false);
   const [itemChosen, setItemChosen] = useState<string>('');
   const dropDownInput = document.getElementsByClassName(styles.drop_down_input)[0] as HTMLInputElement;
-
+  const [addItemVisibility, setAddItemVisibility] = useState<boolean>(false);
   const [groupError, setGroupError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
@@ -54,12 +58,13 @@ const FormDropDownInput = <T extends FieldValues>({
         dropDownInput.readOnly = true;
       }
     }
+    setFormIsValid(true);
     // setGroupError(undefined);
   }, [itemChosen]);
 
   const [mouseOver, setMouseOver] = useState<boolean>(false);
-  useEffect(() => {
 
+  useEffect(() => {
     const handleBlur = () => {
       if (!mouseOver) {
         setListVisibility(false);
@@ -68,27 +73,41 @@ const FormDropDownInput = <T extends FieldValues>({
     if (dropDownInput) {
       dropDownInput.addEventListener('blur', handleBlur);
     }
-
     return () => {
       if (dropDownInput) {
         dropDownInput.removeEventListener('blur', handleBlur);
       }
     };
-
   }, [mouseOver]);
 
-  const addItem = async () => {
-    const response = await addItemAction(dropDownInput.value);
-    if (response.itemName) {
-      setItemChosen(response.itemName);
-    }
+  const addItem = () => {
+    const currentValue = dropDownInput.value;
+    addItemAction(currentValue);
+    setItemChosen(currentValue);
     setListVisibility(false);
   };
 
   const validate = () => {
     const currentValue = dropDownInput.value;
+    if (currentValue) {
+      setFormIsValid(false);
+      setAddItemVisibility(true);
+    } else {
+      setFormIsValid(true);
+      setAddItemVisibility(false);
+    }
+
     setGroupError(groupValidator.validate(currentValue).error?.message);
   };
+
+  const clearInput = () => {
+    setItemChosen('');
+  };
+  if (dropDownInput) {
+    console.log('dropDownInput.value:', dropDownInput.value);
+  } else {
+    console.log('dropDownInput.value - none');
+  }
   return (
     <label className={styles.label}>
       {field_label}:{' '}
@@ -102,9 +121,13 @@ const FormDropDownInput = <T extends FieldValues>({
       {!!groupError && itemChosen === 'add new item...' && <p>{groupError}</p>}
       <div className={styles.control_buttons}>
         {loadingState && <ClipLoader size={18} />}
-        {(itemChosen === 'add new item...') && !groupError && !loadingState &&
-          <div className={styles.svg_base} onClick={addItem}>
+        {(itemChosen === 'add new item...') && addItemVisibility && !groupError && !loadingState &&
+          <div className={styles.svg_base} title={'Add item'} onClick={addItem}>
             <SvgPlus />
+          </div>}
+        {(itemChosen !== 'add new item...') && itemChosen && !loadingState &&
+          <div className={styles.svg_base} title={'Clear'} onClick={clearInput}>
+            <SvgCross />
           </div>}
         <div className={styles.svg_base} onClick={() => setListVisibility(current => !current)}>
           {listVisibility ? <SvgArrowUpDropDown /> : <SvgArrowDownDropDown />}

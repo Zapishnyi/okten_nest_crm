@@ -19,7 +19,7 @@ const ErrorPage: FC = () => {
       <div className={styles.content}>
         <h1>Ups, something went wrong!</h1>
         <div onClick={clickHandle} className="button"><p>Return to main page</p></div>
-        {!!errors && <ErrorsContainer errors={errors} />}
+        {!!errors.length && <ErrorsContainer errors={errors} />}
       </div>
 
 

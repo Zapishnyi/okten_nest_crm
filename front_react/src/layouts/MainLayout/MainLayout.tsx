@@ -45,7 +45,7 @@ const MainLayout: FC = () => {
 
 
   return <div className={styles.wrapper}>
-    <Header />
+    {userLogged && <Header />}
     <Outlet />
     {
       (ordersLoadingState || usersLoadingState) &&

@@ -11,6 +11,7 @@ export const urls = {
   orders: {
     get_all: '/order/all',
     get_one: (order_id: number) => `/order/${order_id}`,
+    edit_one: (order_id: number) => `/order/${order_id}`,
     add_comment: (order_id: number) => `/order/${order_id}/comment`,
   },
   admin: {

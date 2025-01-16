@@ -15,20 +15,21 @@ const SignIn: FC = () => {
   const query = useSearchParams();
   const navigate = useNavigate();
   const accessExist = !!cookie.getAccessToken();
+  const refreshExist = !!cookie.getRefreshToken();
   useEffect(() => {
-    if (accessExist) {
+
+    if (accessExist || refreshExist) {
       navigate('/orders');
       query[1](queryToSearchParams(initialOrdersQuery));
     }
   }, []);
 
 
-  return <>
-    {!accessExist && <div className={styles.wrapper}>
-      <SignInForm />
-    </div>
-    }
-  </>;
+  return <div className={styles.wrapper}>
+    <SignInForm />
+  </div>;
+
+
 };
 
 export default SignIn;

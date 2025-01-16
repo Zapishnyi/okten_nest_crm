@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, isPending, isRejected, PayloadAction } from '@reduxjs/toolkit';
 
 import { errorHandle } from '../../helpers/error-handle';
-import { navigateTo } from '../../helpers/navigate-to';
 import IUser from '../../interfaces/IUser';
 import { CRMApi } from '../../services/crm.api.servise';
 
@@ -39,9 +38,9 @@ const getAllUsers = createAsyncThunk(
       })));
     } catch (e) {
       const error = errorHandle(e);
-      if (error.status === 401) {
-        navigateTo('/auth/sign-in');
-      }
+      // if (error.status === 401) {
+      //   navigateTo('/auth/sign-in');
+      // }
       return thunkAPI.rejectWithValue(error.message);
     } finally {
       thunkAPI.dispatch(UsersActions.setLoadingState(false));
@@ -73,9 +72,9 @@ const banReinstate = createAsyncThunk(
       });
     } catch (e) {
       const error = errorHandle(e);
-      if (error.status === 401) {
-        navigateTo('/auth/sign-in');
-      }
+      // if (error.status === 401) {
+      //   navigateTo('/auth/sign-in');
+      // }
       return thunkAPI.rejectWithValue(error.message);
     } finally {
       thunkAPI.dispatch(UsersActions.setLoadingState(false));

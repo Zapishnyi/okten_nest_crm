@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseIntPipe,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiTags,
@@ -61,23 +52,5 @@ export class GroupController {
     return this.groupPresenter.toResponseDto(
       await this.groupService.addGroup(dto),
     );
-  }
-
-  @ApiUnauthorizedResponse({
-    description: 'Unauthorized',
-    example: {
-      statusCode: 401,
-      messages: 'Unauthorized',
-      timestamp: '2024-12-03T18:38:15.306Z',
-      path: '/groups/:id',
-    },
-  })
-  @ApiBearerAuth('Access-Token')
-  @UseGuards(JwtAccessGuard)
-  @Delete('/:id')
-  public async deleteGroup(
-    @Param('id', ParseIntPipe) group_id: number,
-  ): Promise<void> {
-    await this.groupService.deleteGroup(group_id);
   }
 }

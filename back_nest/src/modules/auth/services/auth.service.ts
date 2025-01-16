@@ -92,8 +92,8 @@ export class AuthService {
           ],
           relations: ['orders'],
         });
-        // Is user exist and active and not banned?
-        if (!user || !user.active || user.ban) {
+        // Is user exist, password exist and active and not banned ?
+        if (!user || !user.active || user.ban || !user.password) {
           throw new UnauthorizedException();
         }
         // Is password valid?

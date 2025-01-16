@@ -9,8 +9,12 @@
 
     .statistic_container {
         display: flex;
+        justify-content: center;
+        align-items: center;
         height: 100%;
+        width: 36vw;
         padding: 8px 0;
+
     }
 
 

@@ -7,10 +7,10 @@
 	},
 	"item": [
 		{
-			"name": "Auth",
+			"name": "Authorization",
 			"item": [
 				{
-					"name": "Sing-in",
+					"name": "Sign-in",
 					"event": [
 						{
 							"listen": "test",
@@ -112,16 +112,19 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"// Parse the response body to JSON\r",
 									"const responseBody = pm.response.json();\r",
-									"// Extract the token \r",
+									"try{\r",
 									"const access = responseBody.tokens.access;\r",
 									"const refresh = responseBody.tokens.refresh;\r",
 									"if (access||refresh) {\r",
 									"    // Set the token in the environment\r",
 									"    pm.environment.set('access', access);\r",
 									"    pm.environment.set('refresh', refresh);\r",
-									"       } "
+									"       } \r",
+									"}catch(err){\r",
+									"console.log(err)\r",
+									"}\r",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -162,6 +165,568 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Activate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{activate}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "",
+									"description": " Password must contain  a digit, a lowercase letter, a uppercase letter, a special character, no space, 5 characters min,16 characters max",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/auth/activate",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refresh}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{host}}/auth/me",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Administartor",
+			"item": [
+				{
+					"name": "Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Cool",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "Manager",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test@crowed.com",
+									"type": "text"
+								},
+								{
+									"key": "role",
+									"value": "manager",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/admin/user/get-all?sort=DESC&sortBy=id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"admin",
+								"user",
+								"get-all"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "DESC",
+									"description": "Available values : ASC, DESC"
+								},
+								{
+									"key": "sortBy",
+									"value": "id",
+									"description": "Available values : id, name, surname, email, ban, active, role, last_login, total_orders, created_at"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User activate token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseBody = pm.response.json();\r",
+									"try{\r",
+									"const activate = responseBody.activateToken;\r",
+									"if (activate) {\r",
+									"    // Set the token in the environment\r",
+									"    pm.environment.set('activate', activate);\r",
+									"           } \r",
+									"}catch(err){\r",
+									"console.log(err)\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{host}}/admin/user/:id/activate",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"admin",
+								"user",
+								":id",
+								"activate"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Orders statistic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Cool",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "Manager",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test@crowed.com",
+									"type": "text"
+								},
+								{
+									"key": "role",
+									"value": "manager",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/admin/user/get-all?sort=DESC&sortBy=id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"admin",
+								"user",
+								"get-all"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "DESC",
+									"description": "Available values : ASC, DESC"
+								},
+								{
+									"key": "sortBy",
+									"value": "id",
+									"description": "Available values : id, name, surname, email, ban, active, role, last_login, total_orders, created_at"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseBody = pm.response.json();\r",
+									"try{\r",
+									"const access = responseBody.tokens.access;\r",
+									"const refresh = responseBody.tokens.refresh;\r",
+									"if (access||refresh) {\r",
+									"    // Set the token in the environment\r",
+									"    pm.environment.set('access', access);\r",
+									"    pm.environment.set('refresh', refresh);\r",
+									"       } \r",
+									"}catch(err){\r",
+									"console.log(err)\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Cool",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "Manager",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "test@crowed.com",
+									"type": "text"
+								},
+								{
+									"key": "role",
+									"value": "manager",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/admin/user/create",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"admin",
+								"user",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User ban-reinstate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{host}}/admin/user/:id/ban-reinstane",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"admin",
+								"user",
+								":id",
+								"ban-reinstane"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{host}}/admin/user/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"admin",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{host}}/admin/user/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"admin",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -170,6 +735,260 @@
 			"item": [
 				{
 					"name": "Orders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/order/all?page=1&sort=DESC&sortBy=id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								"all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "sort",
+									"value": "DESC"
+								},
+								{
+									"key": "sortBy",
+									"value": "id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/order/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "356"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order edit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "age",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "course",
+									"value": "",
+									"description": "FS, QACX, JSX, JSCX, FE, PCX",
+									"type": "text"
+								},
+								{
+									"key": "course_format",
+									"value": "",
+									"description": "static, online",
+									"type": "text"
+								},
+								{
+									"key": "course_type",
+									"value": "",
+									"description": "pro, minimal, premium, incubator, vip",
+									"type": "text"
+								},
+								{
+									"key": "sum",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "alreadyPaid",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "",
+									"description": "In work, New, Agree, Disagree, Dubbing",
+									"type": "text"
+								},
+								{
+									"key": "group",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/order/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "354"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add comment to order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "comment",
+									"value": "",
+									"description": "1 - 60 charasters",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/order/:id/comment",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"order",
+								":id",
+								"comment"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "354"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Groups",
+			"item": [
+				{
+					"name": "Group names",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -220,16 +1039,59 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Add group name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "",
+									"description": "3-25 charasters",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/group",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"group"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
 			"name": "Health",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
+			"item": [
+				{
+					"name": "Health",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

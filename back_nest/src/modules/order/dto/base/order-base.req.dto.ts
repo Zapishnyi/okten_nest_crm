@@ -57,7 +57,7 @@ export class OrderBaseReqDto {
     description: 'Email',
     example: 'Joe.doe@example.com',
   })
-  readonly email: string;
+  readonly email?: string;
 
   @IsOptional()
   @IsString()
@@ -74,7 +74,6 @@ export class OrderBaseReqDto {
 
   @IsOptional()
   @IsNumber()
-  @Transform(TransformHelper.trim)
   @Min(16)
   @Max(120)
   @ApiProperty({
@@ -105,7 +104,6 @@ export class OrderBaseReqDto {
 
   @IsOptional()
   @IsNumber()
-  @Transform(TransformHelper.trim)
   @Min(0)
   @ApiProperty({
     minimum: 0,
@@ -116,7 +114,6 @@ export class OrderBaseReqDto {
 
   @IsOptional()
   @IsNumber()
-  @Transform(TransformHelper.trim)
   @Min(0)
   @ApiProperty({
     minimum: 0,
@@ -165,6 +162,5 @@ export class OrderBaseReqDto {
     description: 'Group name',
     example: 'Jan2024',
   })
-  @ApiProperty({ example: null })
   readonly group?: string;
 }

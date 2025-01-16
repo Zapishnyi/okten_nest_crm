@@ -4,6 +4,7 @@ import { errorHandle } from '../../helpers/error-handle';
 import { navigateTo } from '../../helpers/navigate-to';
 import IComment from '../../interfaces/IComment';
 import IOrder from '../../interfaces/IOrder';
+import IOrderEdit from '../../interfaces/IOrderEdit';
 import { CRMApi } from '../../services/crm.api.servise';
 
 import { PaginationActions } from './paginationSlice';
@@ -34,9 +35,9 @@ const searchForOrders = createAsyncThunk(
       })));
     } catch (e) {
       const error = errorHandle(e);
-      if (error.status === 401) {
-        navigateTo('/auth/sign-in');
-      }
+      // if (error.status === 401) {
+      //   navigateTo('/auth/sign-in');
+      // }
       return thunkAPI.rejectWithValue(error.message);
     } finally {
       thunkAPI.dispatch(OrdersActions.setLoadingState(false));
@@ -57,9 +58,9 @@ const getOrder = createAsyncThunk(
       });
     } catch (e) {
       const error = errorHandle(e);
-      if (error.status === 401) {
-        navigateTo('/auth/sign-in');
-      }
+      // if (error.status === 401) {
+      //   navigateTo('/auth/sign-in');
+      // }
       return thunkAPI.rejectWithValue(error.message);
     } finally {
       thunkAPI.dispatch(OrdersActions.setLoadingState(false));
@@ -76,7 +77,6 @@ const addComment = createAsyncThunk(
   'orders/addComment',
   async ({ order_id, comment }: ICommentProps, thunkAPI) => {
     try {
-      console.log('search for one order');
       const order = await CRMApi.orders.add_comment(order_id, comment);
       // thunkAPI.dispatch(PaginationActions.setPaginationData({ page, pages, total, limit }));
       return thunkAPI.fulfillWithValue({
@@ -88,6 +88,32 @@ const addComment = createAsyncThunk(
       if (error.status === 401) {
         navigateTo('/auth/sign-in');
       }
+      return thunkAPI.rejectWithValue(error.message);
+    } finally {
+      thunkAPI.dispatch(OrdersActions.setLoadingState(false));
+    }
+  },
+);
+
+interface IProps {
+  order_id: number,
+  orderEdited: IOrderEdit
+}
+
+const editOrder = createAsyncThunk(
+  'orders/editOrder',
+  async ({ order_id, orderEdited }: IProps, thunkAPI) => {
+    try {
+      const orderReceived = await CRMApi.orders.edit_one(order_id, { ...orderEdited });
+      return thunkAPI.fulfillWithValue({
+        ...orderReceived,
+        created_at: (new Date(orderReceived.created_at)).toLocaleDateString('en-GB'),
+      });
+    } catch (e) {
+      const error = errorHandle(e);
+      // if (error.status === 401) {
+      //   navigateTo('/auth/sign-in');
+      // }
       return thunkAPI.rejectWithValue(error.message);
     } finally {
       thunkAPI.dispatch(OrdersActions.setLoadingState(false));
@@ -117,8 +143,11 @@ export const ordersSlice = createSlice({
       .addCase(addComment.fulfilled, (state, action) => {
         state.orders = state.orders.map(e => e.id === action.payload.id ? action.payload : e);
       })
+      .addCase(editOrder.fulfilled, (state, action) => {
+        state.orders = state.orders.map(e => e.id === action.payload.id ? action.payload : e);
+      })
       .addMatcher(
-        isRejected(searchForOrders, getOrder, addComment),
+        isRejected(searchForOrders, getOrder, addComment, editOrder),
         (state, action) => {
           console.error(
             'Orders receive sequence failed with error:',
@@ -126,7 +155,7 @@ export const ordersSlice = createSlice({
           );
         })
       .addMatcher(
-        isPending(searchForOrders, getOrder, addComment),
+        isPending(searchForOrders, getOrder, addComment, editOrder),
         (state) => {
           state.ordersLoadingState = true;
         },
@@ -135,5 +164,5 @@ export const ordersSlice = createSlice({
 });
 
 export const OrdersActions = {
-  ...ordersSlice.actions, searchForOrders, getOrder, addComment,
+  ...ordersSlice.actions, searchForOrders, getOrder, addComment, editOrder,
 };

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 
 import CommentForm from '../../../../forms/CommentForm/CommentForm';
 import { useAppSelector } from '../../../../redux/store';
@@ -12,7 +12,7 @@ interface IProps {
   order_id: number;
 }
 
-const BodyRowOrderExtension: FC<IProps> = ({ visibility, order_id }) => {
+const BodyRowOrderExtension: FC<IProps> = memo(({ visibility, order_id }) => {
   const { orders } = useAppSelector((state) => state.orders);
   const order = orders?.filter((order) => order.id === order_id)[0];
   return (
@@ -20,8 +20,20 @@ const BodyRowOrderExtension: FC<IProps> = ({ visibility, order_id }) => {
       <td colSpan={15}>
         <div className={styles.order_edit}>
           <div className={styles.message_container}>
-            <p>Message: <span>{order.msg}</span></p>
-            <p>UTM: <span>{order.utm}</span></p>
+            <div className={styles.message}>
+              <p>Message:</p>
+              <div>
+                <span>{order.msg}</span>
+              </div>
+            </div>
+            <div className={styles.utm}>
+              <p>UTM: </p>
+              <div>
+                <span>{order.utm}</span>
+              </div>
+            </div>
+
+
           </div>
           <div className={styles.edit_container}>
             <div className={styles.comments_part}>
@@ -44,6 +56,6 @@ const BodyRowOrderExtension: FC<IProps> = ({ visibility, order_id }) => {
       </td>
     </tr>
   );
-};
+});
 
 export default BodyRowOrderExtension;

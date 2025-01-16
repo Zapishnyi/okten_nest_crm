@@ -11,7 +11,9 @@ export class ActivateTokenEntity extends BaseModel {
   @Column('int', { nullable: false })
   user_id: number;
 
-  @OneToOne(() => UserEntity, (entity) => entity.activate_token)
+  @OneToOne(() => UserEntity, (entity) => entity.activate_token, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 }

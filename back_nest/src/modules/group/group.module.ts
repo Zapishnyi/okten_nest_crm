@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 
 import { AuthModule } from '../auth/auth.module';
 import { RepositoryModule } from '../repository/repository.module';
@@ -8,8 +8,13 @@ import { GroupService } from './services/group.service';
 import { GroupPresenterService } from './services/group-presenter.service';
 
 @Module({
-  imports: [IsolationLevelModule, AuthModule, RepositoryModule],
+  imports: [
+    forwardRef(() => IsolationLevelModule),
+    AuthModule,
+    RepositoryModule,
+  ],
   providers: [GroupService, GroupPresenterService],
   controllers: [GroupController],
+  exports: [GroupService, GroupPresenterService],
 })
 export class GroupModule {}

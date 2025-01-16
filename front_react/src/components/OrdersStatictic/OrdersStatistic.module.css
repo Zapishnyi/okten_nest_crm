@@ -1,20 +1,30 @@
 .statistic {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, 4vw);
     grid-template-rows: auto;
     text-align: center;
     font-size: 16px;
     line-height: 19px;
-    column-gap: 10px;
+    column-gap: 1vw;
     border: 1px solid #a1a1a1;
     border-radius: 10px;
     padding: 0 10px;
     background: #ffffff;
     box-shadow: 0 0 10px rgba(235, 235, 235, 0.77);
     transition: 0.3s;
+    animation: opacity_control 0.3s forwards;
 
     .label {
         grid-column: 1 / -1;
         border-bottom: 1px solid #a2a2a2;
+    }
+}
+
+@keyframes opacity_control {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
     }
 }

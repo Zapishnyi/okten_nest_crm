@@ -1,3 +1,8 @@
+import { CourseFormatEnum } from '../enums/course-format.enum';
+import { CourseTypeEnum } from '../enums/course-type.enum';
+import { CourseEnum } from '../enums/course.enum';
+import { StatusEnum } from '../enums/status.enum';
+
 import ICommentResponse from './ICommentResponse';
 
 export default interface IOrder {
@@ -7,14 +12,14 @@ export default interface IOrder {
   email: string,
   phone: string,
   age: number,
-  course: string,
-  course_format: string,
-  course_type: string,
+  course: CourseEnum,
+  course_format: CourseFormatEnum,
+  course_type: CourseTypeEnum,
   sum: number,
   alreadyPaid: number,
   utm: string,
   msg: string,
-  status: string,
+  status: StatusEnum,
   group: string
   created_at: string,
   manager: string,

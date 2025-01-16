@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 
+import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 
 import BtnLoader from '../../components/BtnLoader/BtnLoader';
@@ -8,74 +9,89 @@ import FormDropDownInput from '../../components/FormDropDownInput/FormDropDownIn
 import FormInput from '../../components/FormInput/FormInput';
 import FormSelect from '../../components/FormSelect/FormSelect';
 import { CourseFormatEnum } from '../../enums/course-format.enum';
-import { CourseTypeEum } from '../../enums/course-type.enum';
+import { CourseTypeEnum } from '../../enums/course-type.enum';
 import { CourseEnum } from '../../enums/course.enum';
 import { InputFieldTypeEnum } from '../../enums/input-field-type.enum';
 import { StatusEnum } from '../../enums/status.enum';
-import { errorHandle } from '../../helpers/error-handle';
-import { IItemActionResponse } from '../../interfaces/IItemActionResponse';
+import IOrder from '../../interfaces/IOrder';
 import IOrderEdit from '../../interfaces/IOrderEdit';
+import { GroupsActions } from '../../redux/Slices/groupsSlice';
+import { OrdersActions } from '../../redux/Slices/ordersSlice';
 import { VisibilityActions } from '../../redux/Slices/visabilitySlice';
-import { useAppDispatch } from '../../redux/store';
-import { CRMApi } from '../../services/crm.api.servise';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import orderEditValidator from '../../validators/order-edit.validator';
 import styles from '../Form.module.css';
 
+// const orderEditMapper = (order: IOrder): IOrderEdit => {
+//   return {
+//     name: order.name,
+//     surname: order.surname,
+//     email: order.email,
+//     phone: order.phone?order.phone:,
+//     age: number,
+//     course: CourseEnum,
+//     course_format: CourseFormatEnum,
+//     course_type: CourseTypeEnum,
+//     sum: number,
+//     alreadyPaid: number,
+//     status: StatusEnum,
+//     group: string,
+//     manager: string,
+//   };
+// };
 
 const EditOrderForm: FC = () => {
+
   const [errorMessage, setErrorMassage] = useState<string[] | null>(null);
+  const [formIsValid, setFormIsValid] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const [loadingState, setLoadingState] = useState<boolean>(false);
-  const [isPending, setIsPending] = useState(false);
-  const { register, handleSubmit, formState: { errors, isValid } } = useForm<IOrderEdit>({
-    mode: 'all',
-    // resolver: joiResolver(),
-  });
+  const { chosenOrder, ordersLoadingState } = useAppSelector((state) => state.orders);
+  const { groupsLoadingState, groups } = useAppSelector(state => state.groups);
+  const { utm, manager, msg, id, comments, manager_id, created_at, ...initialFormValue } = chosenOrder as IOrder;
+
+  if (!initialFormValue.status) {
+    initialFormValue.status = StatusEnum.IN_WORK;
+  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } =
+    useForm<IOrderEdit>({
+      mode: 'all',
+      resolver: joiResolver(orderEditValidator),
+      defaultValues: initialFormValue,
+    });
+
   const formSubmit = async (formData: IOrderEdit) => {
-
-    //   try {
-    //     await CRMApi.admin.create_user(formData);
-    //     dispatch(UsersActions.getAllUsers(Object.fromEntries(query[0].entries())));
-    //     setOrderEditFormVisible(false);
-    //     setErrorMassage(null);
-    //   } catch (e) {
-    //     setErrorMassage(errorHandle(e).message);
-    //   }
-  };
-  const [groups, setGroups] = useState<string[]>([]);
-
-  const closeForm = () => {
-    dispatch(VisibilityActions.editOrderFormVisible(false));
-
-  };
-  // Group names get and set logic
-  useEffect(() => {
-    const groupsFetch = async () => {
-      setLoadingState(true);
-      try {
-        setGroups((await CRMApi.groups.get_all()).map(e => e.name));
-      } catch (e) {
-        errorHandle(e);
-      } finally {
-        setLoadingState(false);
+    const filteredData: IOrderEdit = {};
+    for (const [key, value] of Object.entries(formData)) {
+      if (value) {
+        filteredData[key as keyof IOrderEdit] = value;
       }
-
-    };
-    void groupsFetch();
-  }, []);
-  const addItemAction = async (value: string): Promise<IItemActionResponse> => {
-    setLoadingState(true);
-    try {
-      const newGroup = await CRMApi.groups.create_group({ name: value });
-      setGroups(current => [...current, newGroup.name]);
-      return { itemName: newGroup.name, error: [] };
-    } catch (e) {
-      return { itemName: null, error: errorHandle(e).message };
-    } finally {
-      setLoadingState(false);
+    }
+    if (chosenOrder) {
+      dispatch(OrdersActions.editOrder({
+        order_id: chosenOrder.id,
+        orderEdited: filteredData,
+      }));
+      dispatch(VisibilityActions.editOrderFormVisible(false));
     }
   };
 
+  const closeForm = () => {
+    dispatch(VisibilityActions.editOrderFormVisible(false));
+  };
 
+  // Group names get and set logic
+  useEffect(() => {
+    dispatch(GroupsActions.getGroups());
+  }, []);
+  const addItemAction = (value: string): void => {
+    dispatch(GroupsActions.addGroup({ name: value }));
+  };
+
+  console.log('errors:', errors);
   return <form className={styles.form} onSubmit={handleSubmit(formSubmit)}>
     <div className={styles.inputs}>
       <FormDropDownInput<IOrderEdit>
@@ -84,8 +100,9 @@ const EditOrderForm: FC = () => {
         field_label={'Group'}
         items={groups}
         addItemAction={addItemAction}
+        loadingState={groupsLoadingState}
+        setFormIsValid={setFormIsValid}
         error={errors.group?.message}
-        loadingState={loadingState}
       />
 
       <FormInput<IOrderEdit>
@@ -159,14 +176,14 @@ const EditOrderForm: FC = () => {
         register={register}
         field_name={'course_type'}
         field_label={'Course type'}
-        enum_type={CourseTypeEum}
+        enum_type={CourseTypeEnum}
       />
     </div>
 
     <div className={styles.buttons}>
-      <button className="button" disabled={!isValid}>
+      <button className="button" disabled={!isValid || !formIsValid || groupsLoadingState}>
         Submit
-        {isPending && <BtnLoader loadingState={isPending} />}</button>
+        {ordersLoadingState && <BtnLoader loadingState={ordersLoadingState} />}</button>
       <div className="button" onClick={closeForm}>
         <span>Cancel</span>
       </div>

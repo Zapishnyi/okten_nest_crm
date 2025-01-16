@@ -7,9 +7,11 @@
     flex-direction: column;
     background: linear-gradient(45deg, #62edf9 0% 35%, #62bff9 50%, #62edf9 65% 100%);
     background-size: 500% 500%;
-    animation: move-gradient 10s infinite;
+    animation: form_opacity 0.2s forwards, move-gradient 10s infinite;
+
     align-items: center;
     gap: 20px;
+
 
     .inputs {
         display: flex;
@@ -47,5 +49,14 @@
 
     100% {
         background-position: 100% 50%;
+    }
+}
+
+@keyframes form_opacity {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
     }
 }

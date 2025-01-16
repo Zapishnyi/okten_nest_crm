@@ -25,17 +25,17 @@ export class CommentService {
       async (em) => {
         const ordersRepositoryEM = em.getRepository(OrderEntity);
         const commentsRepositoryEM = em.getRepository(CommentEntity);
-        if (!order.status) {
+        if (!order.status || !order.user?.id) {
           await ordersRepositoryEM.update(
             { id: order.id },
-            { user, status: StatusEnum.IN_WORK },
+            { user: { id: user.id }, status: StatusEnum.IN_WORK },
           );
         }
         await commentsRepositoryEM.save(
           commentsRepositoryEM.create({
             ...dto,
-            user,
-            order,
+            user: { id: user.id },
+            order: { id: order.id },
           }),
         );
         return await ordersRepositoryEM.findOne({

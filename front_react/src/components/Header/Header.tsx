@@ -4,9 +4,8 @@ import { useLocation } from 'react-router-dom';
 
 import { UserRoleEnum } from '../../enums/user-role.enum';
 import { useAppSelector } from '../../redux/store';
+import AdminMenu from '../AdminMenu/AdminMenu';
 import AdminTools from '../AdminTools/AdminTools';
-import BtnOrders from '../BtnOrders/BtnOrders';
-import BtnUsers from '../BtnUsers/BtnUsers';
 import Logo from '../Logo/Logo';
 import UserMenu from '../UserMenu/UserMenu';
 
@@ -26,14 +25,8 @@ const Header: FC = memo(() => {
           {location.pathname?.includes('/admin') && <AdminTools />
           }
         </div>
-        <ul className={styles.menu}>
-          {userLogged?.role === UserRoleEnum.ADMIN &&
-            <>
-              <li><BtnOrders /></li>
-              <li><BtnUsers /></li>
-            </>}
-
-        </ul>
+        {userLogged?.role === UserRoleEnum.ADMIN &&
+          <AdminMenu />}
         <UserMenu />
       </div>
 

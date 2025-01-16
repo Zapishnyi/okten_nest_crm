@@ -10,9 +10,9 @@ import { GetStoredUserDataFromResponse } from '../../common/custom_decorators/ge
 import { JwtAccessGuard } from '../../common/guards/jwt-access.guard';
 import { JwtActivateGuard } from '../../common/guards/jwt-activate.guard';
 import { JwtRefreshGuard } from '../../common/guards/jwt-refresh.guard';
-import { UserValidateReqDto } from '../user/dto/req/user-validate.req.dto';
 import { UserResDto } from '../user/dto/res/user.res.dto';
 import { UserPresenterService } from '../user/services/user-presenter.service';
+import { ActivateReqDto } from './dto/req/activate.req.dto';
 import { UserAuthReqDto } from './dto/req/user-auth.req.dto';
 import { AuthResDto } from './dto/res/auth.res.dto';
 import { IUserData } from './interfaces/IUserData';
@@ -57,7 +57,7 @@ export class AuthController {
   @ApiBearerAuth('Activate-Token')
   @Post('activate')
   public async activate(
-    @Body() dto: UserValidateReqDto,
+    @Body() dto: ActivateReqDto,
     @GetStoredUserDataFromResponse() userData: IUserData,
   ): Promise<UserResDto> {
     const user = await this.authService.activate(dto, userData);

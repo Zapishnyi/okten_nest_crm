@@ -1,0 +1,53 @@
+.menu {
+    position: relative;
+    user-select: none;
+
+    ul {
+        list-style: none;
+        display: flex;
+        gap: 15px;
+
+        li {
+            cursor: pointer;
+
+            span {
+                font-size: 18px;
+                font-family: "Arial Black", sans-serif;
+                transition: transform 0.2s;
+            }
+
+
+        }
+
+        li:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s;
+        }
+
+        .orders {
+
+        }
+
+        .managers {
+        }
+    }
+
+    .underline {
+        position: absolute;
+        width: 70px;
+        height: 3px;
+        border-radius: 10px;
+        background: black;
+        left: 0;
+        transition: transform 0.3s;
+        transform: translateX(0);
+
+    }
+
+    .under_managers {
+
+        width: 100px;
+        transform: translateX(80px);
+        transition: transform 0.3s;
+    }
+}

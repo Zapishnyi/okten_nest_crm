@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    animation: opacity_control 0.3s forwards;
 
     div {
         cursor: pointer;
@@ -32,4 +33,13 @@
         background: #d0e4fc;
     }
 
+}
+
+@keyframes opacity_control {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
 }

@@ -9,7 +9,9 @@ export class CommentEntity extends BaseModel {
   @Column('varchar', { length: 100 })
   comment: string;
 
-  @ManyToOne(() => OrderEntity, (entity) => entity.comments)
+  @ManyToOne(() => OrderEntity, (entity) => entity.comments, {
+    onDelete: 'CASCADE', // Ensures that this comment is deleted if the related order is deleted
+  })
   order: OrderEntity;
 
   @ManyToOne(() => UserEntity, (group) => group.comments)

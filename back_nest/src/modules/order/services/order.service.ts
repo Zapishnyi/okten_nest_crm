@@ -53,13 +53,15 @@ export class OrderService {
         const ordersRepositoryEM = em.getRepository(OrderEntity);
         const groupsRepositoryEM = em.getRepository(GroupEntity);
         const { group, ...updateData } = dto;
-        const groupEntity = await groupsRepositoryEM.findOneBy({ name: group });
-        await ordersRepositoryEM.save(
-          ordersRepositoryEM.merge(order, {
-            ...updateData,
-            group: groupEntity,
-          }),
-        );
+        const groupEntity = group
+          ? await groupsRepositoryEM.findOneBy({ name: group })
+          : undefined;
+        const orderMerged = ordersRepositoryEM.merge(order, {
+          ...updateData,
+          group: groupEntity,
+          user,
+        });
+        await ordersRepositoryEM.save(orderMerged);
         return await ordersRepositoryEM.findOne({
           where: { id: order.id },
           relations: ['user', 'group', 'comments'],

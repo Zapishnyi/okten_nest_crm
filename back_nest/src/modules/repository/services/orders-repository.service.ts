@@ -28,7 +28,7 @@ export class OrdersRepository extends Repository<OrderEntity> {
         sortByMod = `orders.${sortBy}`;
     }
     try {
-      const [orderIds, total] = await repository
+      const ordersCounted = await repository
         .createQueryBuilder('orders')
         .select('orders.id')
         .leftJoinAndSelect('orders.user', 'user')
@@ -43,12 +43,12 @@ export class OrdersRepository extends Repository<OrderEntity> {
         .leftJoinAndSelect('orders.group', 'group')
         .leftJoinAndSelect('orders.comments', 'comments')
         .where('orders.id IN (:...orderIds)', {
-          orderIds: orderIds.map((order) => order.id),
+          orderIds: ordersCounted[0].map((order) => order.id),
         })
         .orderBy(sortByMod, sort)
         .getMany();
 
-      return [currentPage, total];
+      return [currentPage, ordersCounted[1]];
     } catch (err) {
       throw new Error(err);
     }

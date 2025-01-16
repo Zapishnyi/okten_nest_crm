@@ -6,7 +6,7 @@ Front - React
 
 Database - MySQL
 
-Developed as per technical assigment, up to list item N:6
+Developed as per technical assigment
 
 ### Running DEV mode
 
@@ -62,5 +62,7 @@ Database is built and running on http://owu.linkpc.net/, available without pre-s
 
 ### Need to add:
 
+* Add orders filtering logic
+* Add filtering by logged user
+* Add function of 'save table to EXEL file'
 * Add tests
-* Add functionality as per technical assignment

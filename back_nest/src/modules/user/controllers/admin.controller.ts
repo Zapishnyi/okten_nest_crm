@@ -59,6 +59,64 @@ export class AdminController {
     return users.map((e) => this.userPresenter.toResponseDtoFromRaw(e));
   }
 
+  //Activate--------------------------------------------
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    example: {
+      statusCode: 401,
+      messages: 'Unauthorized',
+      timestamp: '2024-12-03T18:55:06.367Z',
+      path: '/user/2/activate',
+    },
+  })
+  @ApiNotFoundResponse({
+    description: 'Not Found',
+    example: {
+      statusCode: 404,
+      messages: 'User with ID: 5 -  does not exist',
+      timestamp: '2024-12-03T20:40:32.905Z',
+      path: '/user/5/activate',
+    },
+  })
+  @ApiConflictResponse({
+    description: 'Conflict',
+    example: {
+      statusCode: 409,
+      messages: 'User with ID: 2 - already activated',
+      timestamp: '2024-12-03T19:13:05.162Z',
+      path: '/user/2/activate',
+    },
+  })
+  @ApiBearerAuth('Access-Token')
+  @Get('user/:id/activate')
+  @UseGuards(JwtAccessGuard, AdminRoleGuard)
+  public async userActivate(
+    @Param('id', ParseIntPipe) user_id: number,
+  ): Promise<UserActivateResDto> {
+    const [{ activate }, user] = await this.adminService.userActivate(user_id);
+    return {
+      activateToken: activate,
+      user,
+    };
+  }
+
+  //Get Orders Statistic -------------------------------------
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    example: {
+      statusCode: 401,
+      messages: 'Unauthorized',
+      timestamp: '2024-12-03T18:38:15.306Z',
+      path: 'orders/statistic',
+    },
+  })
+  @ApiBearerAuth('Access-Token')
+  @UseGuards(JwtAccessGuard, AdminRoleGuard)
+  @Get('orders/statistic')
+  public async getOrdersStatusStatistic(): Promise<OrderStatusStatisticResDto> {
+    return await this.ordersService.getOrdersStatusStatistic();
+  }
+
   // Add Manager -------------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
@@ -102,47 +160,6 @@ export class AdminController {
     );
   }
 
-  //Activate--------------------------------------------
-  @ApiUnauthorizedResponse({
-    description: 'Unauthorized',
-    example: {
-      statusCode: 401,
-      messages: 'Unauthorized',
-      timestamp: '2024-12-03T18:55:06.367Z',
-      path: '/user/2/activate',
-    },
-  })
-  @ApiNotFoundResponse({
-    description: 'Not Found',
-    example: {
-      statusCode: 404,
-      messages: 'User with ID: 5 -  does not exist',
-      timestamp: '2024-12-03T20:40:32.905Z',
-      path: '/user/5/activate',
-    },
-  })
-  @ApiConflictResponse({
-    description: 'Conflict',
-    example: {
-      statusCode: 409,
-      messages: 'User with ID: 2 - already activated',
-      timestamp: '2024-12-03T19:13:05.162Z',
-      path: '/user/2/activate',
-    },
-  })
-  @ApiBearerAuth('Access-Token')
-  @Patch('user/:id/activate')
-  @UseGuards(JwtAccessGuard, AdminRoleGuard)
-  public async userActivate(
-    @Param('id', ParseIntPipe) user_id: number,
-  ): Promise<UserActivateResDto> {
-    const [{ activate }, user] = await this.adminService.userActivate(user_id);
-    return {
-      activateToken: activate,
-      user,
-    };
-  }
-
   // Ban---------------------------------------------------
   @ApiNotFoundResponse({
     description: 'Not Found',
@@ -171,11 +188,11 @@ export class AdminController {
       statusCode: 404,
       messages: 'User with ID: 5 -  does not exist',
       timestamp: '2024-12-03T20:40:32.905Z',
-      path: '/user/5/delete',
+      path: '/user/5',
     },
   })
   @ApiBearerAuth('Access-Token')
-  @Delete('user/:id/delete')
+  @Delete('user/:id')
   @UseGuards(JwtAccessGuard, AdminRoleGuard)
   public async userDelete(
     @Param('id', ParseIntPipe) user_id: number,
@@ -183,20 +200,22 @@ export class AdminController {
     await this.adminService.userDelete(user_id);
   }
 
-  //Get Orders Statistic -------------------------------------
+  // Delete Group --------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
       statusCode: 401,
       messages: 'Unauthorized',
       timestamp: '2024-12-03T18:38:15.306Z',
-      path: 'orders/statistic',
+      path: 'admin/group/:id',
     },
   })
   @ApiBearerAuth('Access-Token')
   @UseGuards(JwtAccessGuard, AdminRoleGuard)
-  @Get('orders/statistic')
-  public async getOrdersStatusStatistic(): Promise<OrderStatusStatisticResDto> {
-    return await this.ordersService.getOrdersStatusStatistic();
+  @Delete('group/:id')
+  public async deleteGroup(
+    @Param('id', ParseIntPipe) group_id: number,
+  ): Promise<void> {
+    await this.adminService.deleteGroup(group_id);
   }
 }

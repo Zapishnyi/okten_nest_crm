@@ -47,9 +47,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       // validation
       case exception instanceof BadRequestException:
         status = exception.getStatus();
-        /*retrieves the HTTP status code from the HttpException.
-      The status code could be something like 404 for Not Found, 500 for Internal Server Error, etc.*/
-
+        /*retrieves the HTTP status code from the HttpException.*/
         messages = [
           (
             exception.getResponse() as {
@@ -77,6 +75,10 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       case exception instanceof JsonWebTokenError:
         status = HttpStatus.UNAUTHORIZED;
         messages = [(exception as JsonWebTokenError).message];
+        break;
+      case exception instanceof TypeError:
+        status = HttpStatus.BAD_REQUEST;
+        messages = [(exception as TypeError).message];
         break;
 
       default:

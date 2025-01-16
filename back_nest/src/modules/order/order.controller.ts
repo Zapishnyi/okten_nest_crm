@@ -21,7 +21,6 @@ import { GetStoredOrderDataFromResponse } from '../../common/custom_decorators/g
 import { GetStoredUserDataFromResponse } from '../../common/custom_decorators/get-stored-user-data-from-response.decorator';
 import { JwtAccessGuard } from '../../common/guards/jwt-access.guard';
 import { OrderOwnershipGuard } from '../../common/guards/order-ownership.guard';
-import { OrderEntity } from '../../database/entities/order.entity';
 import { IUserData } from '../auth/interfaces/IUserData';
 import { CommentReqDto } from '../comment/dto/req/comment.req.dto';
 import { CommentService } from '../comment/services/comment.service';
@@ -118,7 +117,7 @@ export class OrderController {
   @UseGuards(JwtAccessGuard, OrderOwnershipGuard)
   @Post('/:id/comment')
   public async addComment(
-    @GetStoredOrderDataFromResponse() order: OrderEntity,
+    @GetStoredOrderDataFromResponse() { order }: IOrderData,
     @GetStoredUserDataFromResponse() { user }: IUserData,
     @Body() dto: CommentReqDto,
   ): Promise<OrderResDto> {

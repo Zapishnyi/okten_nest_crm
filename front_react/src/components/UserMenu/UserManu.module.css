@@ -20,8 +20,8 @@
             transform: translateX(-50%);
             text-wrap: nowrap;
             transition: opacity 0.3s;
+            font-family: "Arial Black", Arial, sans-serif;
         }
-    ;
 
 
         .user_name {
@@ -41,10 +41,12 @@
 .user_container:hover {
     .user_context {
         .user_name {
+            transition: opacity 0.3s;
             opacity: 0;
         }
 
         .logout {
+            transition: opacity 0.3s;
             opacity: 1;
         }
 

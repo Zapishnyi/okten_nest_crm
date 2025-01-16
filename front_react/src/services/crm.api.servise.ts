@@ -9,6 +9,7 @@ import { IGroup } from '../interfaces/IGroup';
 import { IGroupCreate } from '../interfaces/IGroupCreate';
 import { IHealth } from '../interfaces/IHealth';
 import IOrder from '../interfaces/IOrder';
+import IOrderEdit from '../interfaces/IOrderEdit';
 import IOrderPaginated from '../interfaces/IOrderPaginated';
 import IOrdersStatusStatistic from '../interfaces/IOrdersStatusStatistic';
 import IUser from '../interfaces/IUser';
@@ -38,7 +39,11 @@ axiosInstance.interceptors.request.use((request) => {
       break;
     default :
       token = cookie.getAccessToken();
+      if (!token) {
+        navigateTo('/auth/sign-in');
+      }
   }
+
   request.headers.Authorization = `Bearer ${token}`;
   return request;
 });
@@ -62,6 +67,7 @@ interface ICRMApiService {
   orders: {
     get_all: (query: Record<string, string>) => Promise<IOrderPaginated>;
     get_one: (order_id: number) => Promise<IOrder>
+    edit_one: (order_id: number, order: IOrderEdit) => Promise<IOrder>
     add_comment: (order_id: number, body: IComment) => Promise<IOrder>;
   },
   groups: {
@@ -94,7 +100,7 @@ export const CRMApi: ICRMApiService = {
       .post(urls.admin.create_user, user)
       .then((response) => response.data),
     activate_user: (id) => axiosInstance
-      .patch(urls.admin.activate_user(id))
+      .get(urls.admin.activate_user(id))
       .then((response) => response.data),
     ban_reinstate_user: (id) => axiosInstance
       .patch(urls.admin.ban_reinstate_user(id))
@@ -111,6 +117,9 @@ export const CRMApi: ICRMApiService = {
       .then((response) => response.data),
     get_one: (order_id) => axiosInstance
       .get(urls.orders.get_one(order_id))
+      .then((response) => response.data),
+    edit_one: (order_id, order) => axiosInstance
+      .patch(urls.orders.edit_one(order_id), order)
       .then((response) => response.data),
     add_comment: (order_id, body) => axiosInstance
       .post(urls.orders.add_comment(order_id), body)
@@ -138,7 +147,6 @@ axiosInstance.interceptors.response.use((response) => response,
     const originalRequest = error.config;
 
     if (error.status) {
-
       if (error.response.status === 401 && !originalRequest._retry && cookie.getRefreshToken() && originalRequest.url !== '/auth/refresh') {
         originalRequest._retry = true;
         try {

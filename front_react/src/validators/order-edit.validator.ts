@@ -1,34 +1,39 @@
 import Joi from 'joi';
 
+import { CourseFormatEnum } from '../enums/course-format.enum';
+import { CourseTypeEnum } from '../enums/course-type.enum';
+import { CourseEnum } from '../enums/course.enum';
+import { StatusEnum } from '../enums/status.enum';
+
 const orderEditValidator: Joi.ObjectSchema = Joi.object({
   name: Joi.string()
-    .pattern(/^[A-Za-z]+$/)
+    .allow(null, '')
+    .optional()
+    .pattern(/^[a-zA-Zа-яА-ЯёЁїЇіІєЄґҐ]+$/)
     .max(25)
     .min(3)
-    .required()
     .messages({
-      'string.empty': 'Name is required',
       'string.pattern.base': 'Name must contain only letters',
       'string.min': 'Name must be at least 3 characters long',
       'string.max': 'Name must not exceed 25 characters',
     }),
 
   surname: Joi.string()
-    .pattern(/^[A-Za-z]+$/)
+    .allow(null, '')
+    .optional()
+    .pattern(/^[a-zA-Zа-яА-ЯёЁїЇіІєЄґҐ]+$/)
     .max(25)
     .min(3)
-    .required()
     .messages({
-      'string.empty': 'Surname is required',
       'string.pattern.base': 'Surname must contain only letters',
       'string.min': 'Surname must be at least 3 characters long',
       'string.max': 'Surname must not exceed 25 characters',
     }),
 
   email: Joi.string()
+    .allow(null, '')
+    .optional()
     .email({ tlds: { allow: false } })
-    .empty()
-    .required()
     .min(3)
     .max(100)
     .messages({
@@ -37,24 +42,60 @@ const orderEditValidator: Joi.ObjectSchema = Joi.object({
       'string.max': '100 characters max',
     }),
   phone: Joi.string()
-    .pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/) // Regex for phone numbers
-    .required()
+    .allow(null, '')
+    .optional()
+    .pattern(/^(?:\+380)?\d{9,}$/)
     .messages({
-      'string.empty': 'Phone number is required',
-      'string.pattern.base': 'Phone number must be 10-15 digits long and can start with a +',
+      'string.pattern.base': 'Ukrainian local or international ',
     }),
 
   age: Joi.number()
+    .allow(null, '')
+    .optional()
     .integer()
-    .min(18)
+    .min(16)
     .max(120)
-    .required()
     .messages({
       'number.base': 'Age must be a number',
       'number.min': 'You must be at least 16 years old',
       'number.max': 'Age must not exceed 120 years',
-      'any.required': 'Age is required',
     }),
+
+  course: Joi.string()
+    .valid(...Object.values(CourseEnum)),
+
+  course_format: Joi.string()
+    .valid(...Object.values(CourseFormatEnum)),
+
+  course_type: Joi.string()
+    .valid(...Object.values(CourseTypeEnum)),
+
+  sum: Joi.number()
+    .allow(null, '')
+    .optional()
+    .integer()
+    .positive()
+    .messages({
+      'number.base': 'Sum must be a number',
+      'number.positive': 'Sum must be positive',
+    }),
+
+  alreadyPaid: Joi.number()
+    .allow(null, '')
+    .optional()
+    .integer()
+    .positive()
+    .messages({
+      'number.base': 'Sum must be a number',
+      'number.positive': 'Sum must be positive',
+    }),
+
+  status: Joi.string()
+    .valid(...Object.values(StatusEnum)),
+
+  group: Joi.string()
+    .allow(null, '')
+    .optional(),
 });
 
 export default orderEditValidator;

@@ -30,7 +30,6 @@ const Admin: FC = () => {
     dispatch(UsersActions.getAllUsers(Object.fromEntries(query.entries())));
   }, [query.toString()]);
 
-  console.log('usersNoStatistic:', usersNoStatistic);
   return (
     <div className={styles.wrapper}>
       <div className={styles.table_container}>
