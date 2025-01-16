@@ -16,7 +16,7 @@ import styles from './Orders.module.css';
 
 const Orders: FC = memo(() => {
   // console.log('.');
-  const { orders, ordersLoadingState } = useAppSelector((state) => state.orders);
+  const { orders } = useAppSelector((state) => state.orders);
   const { pages, page } = useAppSelector((state) => state.pagination.paginationData);
   const dispatch = useAppDispatch();
   const [query, setQuery] = useSearchParams(queryToSearchParams(initialOrdersQuery));

@@ -4,7 +4,6 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
 
 import BtnLoader from '../../components/BtnLoader/BtnLoader';
-import ErrorsContainer from '../../components/ErrorsContainer/ErrorsContainer';
 import FormDropDownInput from '../../components/FormDropDownInput/FormDropDownInput';
 import FormInput from '../../components/FormInput/FormInput';
 import FormSelect from '../../components/FormSelect/FormSelect';
@@ -42,7 +41,7 @@ import styles from '../Form.module.css';
 
 const EditOrderForm: FC = () => {
 
-  const [errorMessage, setErrorMassage] = useState<string[] | null>(null);
+
   const [formIsValid, setFormIsValid] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { chosenOrder, ordersLoadingState } = useAppSelector((state) => state.orders);
@@ -187,7 +186,7 @@ const EditOrderForm: FC = () => {
         <span>Cancel</span>
       </div>
     </div>
-    {errorMessage?.length && <ErrorsContainer errors={errorMessage} />}
+    {/*{errorMessage?.length && <ErrorsContainer errors={errorMessage} />}*/}
   </form>;
 
 
