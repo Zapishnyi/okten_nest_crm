@@ -15,7 +15,7 @@ interface IProps {
 }
 
 const HeadRowCell: FC<IProps> = memo(({ cellName, chosenColumnRef }) => {
-  console.log('.');
+  // console.log('.');
   useEffect(() => {
     tableReset();
   }, []);

@@ -11,7 +11,7 @@ import styles from './SignIn.module.css';
 
 
 const SignIn: FC = () => {
-  console.log('.');
+  // console.log('.');
   const query = useSearchParams();
   const navigate = useNavigate();
   const accessExist = !!cookie.getAccessToken();

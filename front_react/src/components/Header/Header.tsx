@@ -14,7 +14,7 @@ import styles from './Header.module.css';
 
 const Header: FC = memo(() => {
   const location = useLocation();
-  console.log('.');
+  // console.log('.');
   const { userLogged } = useAppSelector((state) => state.users);
 
   return (

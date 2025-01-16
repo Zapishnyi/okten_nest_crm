@@ -19,7 +19,7 @@ const getAllUsers = createAsyncThunk(
   'users/getAllUsers',
   async (query: Record<string, string>, thunkAPI) => {
     try {
-      console.log('search for users');
+      // console.log('search for users');
       const users = await CRMApi.admin.get_all_users(query);
 
       return thunkAPI.fulfillWithValue(users.map(e => ({
@@ -53,7 +53,7 @@ const banReinstate = createAsyncThunk(
   'users/banReinstate',
   async (user_id: number, thunkAPI) => {
     try {
-      console.log('search for users');
+      // console.log('search for users');
       const user = await CRMApi.admin.ban_reinstate_user(user_id);
 
       return thunkAPI.fulfillWithValue({

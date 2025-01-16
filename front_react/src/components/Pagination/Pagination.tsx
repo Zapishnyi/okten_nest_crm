@@ -11,7 +11,7 @@ interface IProps {
 }
 
 const Pagination: FC<IProps> = memo(({ page, pages }) => {
-  console.log('.');
+  // console.log('.');
   const [pagination, setPagination] = useState<string[]>([]);
 
   useEffect(() => {

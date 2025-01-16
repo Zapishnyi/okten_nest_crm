@@ -19,7 +19,7 @@ import styles from '../Form.module.css';
 
 
 const SignInForm = () => {
-  console.log('.');
+  // console.log('.');
   const [errorMessage, setErrorMassage] = useState<string[] | null>(null);
   const { register, handleSubmit } = useForm<IUserSignIn>();
   const navigate = useNavigate();

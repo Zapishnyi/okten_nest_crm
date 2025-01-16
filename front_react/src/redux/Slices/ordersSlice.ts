@@ -25,7 +25,7 @@ const searchForOrders = createAsyncThunk(
   'orders/searchForOrders',
   async (searchQuery: Record<string, string>, thunkAPI) => {
     try {
-      console.log('search for orders');
+      // console.log('search for orders');
       const ordersPaginated = await CRMApi.orders.get_all(searchQuery);
       const { page, pages, total, limit } = ordersPaginated;
       thunkAPI.dispatch(PaginationActions.setPaginationData({ page, pages, total, limit }));
@@ -49,7 +49,7 @@ const getOrder = createAsyncThunk(
   'orders/getOrder',
   async (order_id: number, thunkAPI) => {
     try {
-      console.log('search for one order');
+      // console.log('search for one order');
       const order = await CRMApi.orders.get_one(order_id);
       // thunkAPI.dispatch(PaginationActions.setPaginationData({ page, pages, total, limit }));
       return thunkAPI.fulfillWithValue({

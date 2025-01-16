@@ -91,7 +91,6 @@ const EditOrderForm: FC = () => {
     dispatch(GroupsActions.addGroup({ name: value }));
   };
 
-  console.log('errors:', errors);
   return <form className={styles.form} onSubmit={handleSubmit(formSubmit)}>
     <div className={styles.inputs}>
       <FormDropDownInput<IOrderEdit>
