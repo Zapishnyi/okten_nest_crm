@@ -3,6 +3,7 @@ import React, { FC, memo } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { UserRoleEnum } from '../../enums/user-role.enum';
+import OrderFilterForm from '../../forms/OrderFilterForm/OrderFilterForm';
 import { useAppSelector } from '../../redux/store';
 import AdminMenu from '../AdminMenu/AdminMenu';
 import AdminTools from '../AdminTools/AdminTools';
@@ -24,7 +25,7 @@ const Header: FC = memo(() => {
         <div className={styles.toolbox}>
           {location.pathname?.includes('/admin') && userLogged?.role === UserRoleEnum.ADMIN && <AdminTools />
           }
-          {location.pathname?.includes('/order') && userLogged?.role === UserRoleEnum.ADMIN && <AdminTools />
+          {location.pathname?.includes('/order') && <OrderFilterForm />
           }
         </div>
         {userLogged?.role === UserRoleEnum.ADMIN &&

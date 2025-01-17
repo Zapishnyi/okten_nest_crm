@@ -21,7 +21,8 @@
         }
 
         .toolbox {
-            width: 50vw;
+            width: 60vw;
+            /*max-width: 70vw;*/
             height: 98%;
             border-radius: 10px;
             border: 1px solid grey;

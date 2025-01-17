@@ -9,8 +9,9 @@ interface IProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   field_name: Path<T>;
   field_label: string;
-  error?: string;
   enum_type: Record<string, string>;
+  error?: string;
+  required?: boolean;
 
 }
 
@@ -20,12 +21,13 @@ const FormSelect = <T extends FieldValues>({
                                              field_label,
                                              error,
                                              enum_type,
+                                             required,
                                            }: IProps<T>) => {
 
   return (
     <label className={styles.label}>
       {field_label}:{' '}
-      <select  {...register(field_name)}>
+      <select  {...register(field_name, { required: required || true })}>
         {Object.values(enum_type).map((item, i) =>
           <option key={i} value={item}>{item}</option>,
         )

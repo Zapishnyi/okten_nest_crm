@@ -11,6 +11,7 @@ import IOrderEdit from '../../interfaces/IOrderEdit';
 import orderEditValidator from '../../validators/order-edit.validator';
 
 import FilterFormSelect from './FormSelect/FilterFormSelect';
+import styles from './OrderFilterForm.module.css';
 
 const OrderFilterForm: FC = () => {
 
@@ -31,12 +32,12 @@ const OrderFilterForm: FC = () => {
   };
 
 
-  return <form onSubmit={handleSubmit(formSubmit)}>
-    <input type="text" {...register('name')} />
-    <input type="text" {...register('surname')} />
-    <input type="text" {...register('email')} />
-    <input type="text" {...register('phone')} />
-    <input type="number" {...register('age')} />
+  return <form className={styles.form} onSubmit={handleSubmit(formSubmit)}>
+    <input type="text" {...register('name')} placeholder={'Name'} />
+    <input type="text" {...register('surname')} placeholder={'Surname'} />
+    <input type="text" {...register('email')} placeholder={'Email'} />
+    <input type="text" {...register('phone')} placeholder={'Phone'} />
+    <input type="number" {...register('age')} placeholder={'Age'} />
     <FilterFormSelect register={register} field_name={'course'} enum_type={CourseEnum}
                       not_selected_value={'all courses'} />
     <FilterFormSelect register={register} field_name={'course_format'} enum_type={CourseFormatEnum}
@@ -45,7 +46,7 @@ const OrderFilterForm: FC = () => {
                       not_selected_value={'all course types'} />
     <FilterFormSelect register={register} field_name={'status'} enum_type={StatusEnum}
                       not_selected_value={'all order statuses'} />
-    <input type="text" {...register('group')} />
+    <input type="text" {...register('group')} placeholder={'Group'} />
   </form>;
 
 

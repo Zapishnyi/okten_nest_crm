@@ -22,6 +22,7 @@ interface IProps<T extends FieldValues> {
   loadingState: boolean;
   setFormIsValid: Dispatch<boolean>;
   error?: string;
+  required?: boolean;
 }
 
 const FormDropDownInput = <T extends FieldValues>({
@@ -33,6 +34,7 @@ const FormDropDownInput = <T extends FieldValues>({
                                                     addItemAction,
                                                     setFormIsValid,
                                                     loadingState,
+                                                    required,
                                                   }: IProps<T>) => {
   const [listVisibility, setListVisibility] = useState<boolean>(false);
   const [itemChosen, setItemChosen] = useState<string>('');
@@ -103,11 +105,7 @@ const FormDropDownInput = <T extends FieldValues>({
   const clearInput = () => {
     setItemChosen('');
   };
-  if (dropDownInput) {
-    console.log('dropDownInput.value:', dropDownInput.value);
-  } else {
-    console.log('dropDownInput.value - none');
-  }
+ 
   return (
     <label className={styles.label}>
       {field_label}:{' '}
@@ -115,7 +113,7 @@ const FormDropDownInput = <T extends FieldValues>({
              onInput={validate}
              type="text"
              autoComplete="on"
-             {...register(field_name)}
+             {...register(field_name, { required: required || true })}
       />
       {!!error && <p>{error}</p>}
       {!!groupError && itemChosen === 'add new item...' && <p>{groupError}</p>}

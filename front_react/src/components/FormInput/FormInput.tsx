@@ -15,6 +15,7 @@ interface IProps<T extends FieldValues> {
   field_label: string;
   field_type: InputFieldTypeEnum;
   error?: string;
+  required?: boolean;
 }
 
 const FormInput = <T extends FieldValues>({
@@ -22,6 +23,7 @@ const FormInput = <T extends FieldValues>({
                                             field_name,
                                             field_type,
                                             field_label,
+                                            required,
                                             error,
                                           }: IProps<T>) => {
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(field_type !== InputFieldTypeEnum.PASSWORD);
@@ -36,7 +38,7 @@ const FormInput = <T extends FieldValues>({
       <input
         type={type}
         autoComplete="on"
-        {...register(field_name)}
+        {...register(field_name, { required: required || true })}
       />
       {!!error && <p>{error}</p>}
       {field_type === InputFieldTypeEnum.PASSWORD &&
