@@ -15,7 +15,7 @@ import {
 import { TransformHelper } from '../../../../common/helpers/transform.helper';
 import { CourseEnum } from '../../enums/course.enum';
 import { CourseFormatEnum } from '../../enums/course-format.enum';
-import { CourseTypeEum } from '../../enums/course-type.enum';
+import { CourseTypeEnum } from '../../enums/course-type.enum';
 import { StatusEnum } from '../../enums/status.enum';
 
 export class OrderBaseReqDto {
@@ -98,9 +98,9 @@ export class OrderBaseReqDto {
 
   @IsOptional()
   @Transform(TransformHelper.trim)
-  @IsEnum(CourseTypeEum)
-  @ApiProperty({ enum: CourseTypeEum, example: CourseTypeEum.VIP })
-  readonly course_type?: CourseTypeEum;
+  @IsEnum(CourseTypeEnum)
+  @ApiProperty({ enum: CourseTypeEnum, example: CourseTypeEnum.VIP })
+  readonly course_type?: CourseTypeEnum;
 
   @IsOptional()
   @IsNumber()

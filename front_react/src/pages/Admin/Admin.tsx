@@ -1,9 +1,10 @@
 import React, { FC, useEffect } from 'react';
 
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import Table from '../../components/Table/Table';
 import { initialUsersQuery } from '../../constants/initialUsersQuery';
+import { UserRoleEnum } from '../../enums/user-role.enum';
 import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
 import { UsersActions } from '../../redux/Slices/usersSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
@@ -13,14 +14,18 @@ import styles from './Admin.module.css';
 
 const Admin: FC = () => {
   const dispatch = useAppDispatch();
-  const { users } = useAppSelector((state) => state.users);
+  const navigate = useNavigate();
+  const { users, userLogged } = useAppSelector((state) => state.users);
   const [query, setQuery] = useSearchParams(queryToSearchParams(initialUsersQuery));
   const usersNoStatistic = users.map(user => {
     const { statistic, ...output } = user;
     return output;
   });
-  useEffect(() => {
 
+  useEffect(() => {
+    if (userLogged?.role !== UserRoleEnum.ADMIN) {
+      navigate('/orders');
+    }
     if (!users.length) {
       setQuery(queryToSearchParams(initialUsersQuery));
     }

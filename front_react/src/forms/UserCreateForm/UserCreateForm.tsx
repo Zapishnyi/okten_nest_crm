@@ -18,7 +18,7 @@ import userCreateValidator from '../../validators/user-create.validator';
 import styles from '../Form.module.css';
 
 
-const CreateUserForm: FC = () => {
+const UserCreateForm: FC = () => {
   const [errorMessage, setErrorMassage] = useState<string[] | null>(null);
   const dispatch = useAppDispatch();
   const query = useSearchParams();
@@ -80,4 +80,4 @@ const CreateUserForm: FC = () => {
 
 };
 
-export default CreateUserForm;
+export default UserCreateForm;

@@ -21,7 +21,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import orderEditValidator from '../../validators/order-edit.validator';
 import styles from '../Form.module.css';
 
-const EditOrderForm: FC = () => {
+const OrderEditForm: FC = () => {
 
 
   const [formIsValid, setFormIsValid] = useState<boolean>(false);
@@ -174,4 +174,4 @@ const EditOrderForm: FC = () => {
 
 };
 
-export default EditOrderForm;
+export default OrderEditForm;

@@ -5,8 +5,8 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { FadeLoader } from 'react-spinners';
 
 import Header from '../../components/Header/Header';
-import CreateUserForm from '../../forms/CreateUserForm/CreateUserForm';
-import EditOrderForm from '../../forms/EditOrderForm/EditOrderForm';
+import OrderEditForm from '../../forms/OrderEditForm/OrderEditForm';
+import UserCreateForm from '../../forms/UserCreateForm/UserCreateForm';
 import { setNavigate } from '../../helpers/navigate-to';
 import { UsersActions } from '../../redux/Slices/usersSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
@@ -60,11 +60,11 @@ const MainLayout: FC = () => {
     }
     {createUserFormVisible &&
       <div className={styles.modal_window_base}>
-        <CreateUserForm />
+        <UserCreateForm />
       </div>}
     {editOrderFormVisible &&
       <div className={styles.modal_window_base}>
-        <EditOrderForm />
+        <OrderEditForm />
       </div>}
   </div>;
 

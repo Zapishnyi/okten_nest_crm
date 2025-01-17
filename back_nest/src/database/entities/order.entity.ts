@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 import { CourseEnum } from '../../modules/order/enums/course.enum';
 import { CourseFormatEnum } from '../../modules/order/enums/course-format.enum';
-import { CourseTypeEum } from '../../modules/order/enums/course-type.enum';
+import { CourseTypeEnum } from '../../modules/order/enums/course-type.enum';
 import { StatusEnum } from '../../modules/order/enums/status.enum';
 import { BaseModel } from './base/base.model';
 import { CommentEntity } from './comment.entity';
@@ -32,8 +32,8 @@ export class OrderEntity extends BaseModel {
   @Column('enum', { enum: CourseFormatEnum, nullable: true })
   course_format: CourseFormatEnum;
 
-  @Column('enum', { enum: CourseTypeEum, nullable: true })
-  course_type: CourseTypeEum;
+  @Column('enum', { enum: CourseTypeEnum, nullable: true })
+  course_type: CourseTypeEnum;
 
   @Column('integer', { nullable: true })
   sum: number;

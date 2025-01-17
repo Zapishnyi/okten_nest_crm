@@ -22,7 +22,9 @@ const Header: FC = memo(() => {
       <div className={styles.container}>
         <Logo />
         <div className={styles.toolbox}>
-          {location.pathname?.includes('/admin') && <AdminTools />
+          {location.pathname?.includes('/admin') && userLogged?.role === UserRoleEnum.ADMIN && <AdminTools />
+          }
+          {location.pathname?.includes('/order') && userLogged?.role === UserRoleEnum.ADMIN && <AdminTools />
           }
         </div>
         {userLogged?.role === UserRoleEnum.ADMIN &&

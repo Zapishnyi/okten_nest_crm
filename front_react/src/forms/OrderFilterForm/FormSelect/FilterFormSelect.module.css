@@ -1,0 +1,29 @@
+.label {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    user-select: none;
+
+    select {
+        font-size: 18px;
+        padding: 5px 35px 5px 5px;
+        width: 400px;
+        border: 1px solid rgba(96, 96, 96, 0.2);
+        border-radius: 5px;
+    }
+
+
+    p:before {
+        content: '*'
+    }
+
+    p {
+        color: #ff0000;
+        position: absolute;
+        bottom: 32px;
+        right: 0;
+        text-align: right;
+        width: 80%;
+    }
+}

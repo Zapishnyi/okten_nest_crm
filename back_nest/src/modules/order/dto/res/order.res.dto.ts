@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { CommentResDto } from '../../../comment/dto/res/comment.res.dto';
 import { CourseEnum } from '../../enums/course.enum';
 import { CourseFormatEnum } from '../../enums/course-format.enum';
-import { CourseTypeEum } from '../../enums/course-type.enum';
+import { CourseTypeEnum } from '../../enums/course-type.enum';
 import { StatusEnum } from '../../enums/status.enum';
 
 export class OrderResDto {
@@ -23,8 +23,8 @@ export class OrderResDto {
   readonly course: CourseEnum;
   @ApiProperty({ example: CourseFormatEnum.ONLINE })
   readonly course_format: CourseFormatEnum;
-  @ApiProperty({ example: CourseTypeEum.VIP })
-  readonly course_type: CourseTypeEum;
+  @ApiProperty({ example: CourseTypeEnum.VIP })
+  readonly course_type: CourseTypeEnum;
   @ApiProperty({ example: '3353' })
   readonly sum: number;
   @ApiProperty({ example: '3353' })

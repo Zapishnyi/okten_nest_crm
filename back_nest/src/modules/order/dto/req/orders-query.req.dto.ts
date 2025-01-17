@@ -13,7 +13,7 @@ import {
 import { TransformHelper } from '../../../../common/helpers/transform.helper';
 import { CourseEnum } from '../../enums/course.enum';
 import { CourseFormatEnum } from '../../enums/course-format.enum';
-import { CourseTypeEum } from '../../enums/course-type.enum';
+import { CourseTypeEnum } from '../../enums/course-type.enum';
 import { OrdersSortByEnum } from '../../enums/orders-sort-by.enum';
 import { SortEnum } from '../../enums/sort.enum';
 import { StatusEnum } from '../../enums/status.enum';
@@ -98,9 +98,9 @@ export class OrdersQueryReqDto {
 
   @IsOptional()
   @Transform(TransformHelper.trim)
-  @IsEnum(CourseTypeEum)
-  @ApiProperty({ description: 'Course type', enum: CourseTypeEum })
-  readonly course_type?: CourseTypeEum;
+  @IsEnum(CourseTypeEnum)
+  @ApiProperty({ description: 'Course type', enum: CourseTypeEnum })
+  readonly course_type?: CourseTypeEnum;
 
   @IsOptional()
   @Transform(TransformHelper.trim)
