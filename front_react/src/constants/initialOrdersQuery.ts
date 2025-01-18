@@ -3,8 +3,8 @@ import { SortEnum } from '../enums/sort.enum';
 
 
 export const initialOrdersQuery: Record<string, number | SortEnum | OrdersSortByEnum> = {
-  page: 1,
   sort: SortEnum.DESC,
+  page: 1,
   sortBy: OrdersSortByEnum.ID,
 };
 

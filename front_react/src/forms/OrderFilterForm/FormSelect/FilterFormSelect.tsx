@@ -8,6 +8,7 @@ interface IProps<T extends FieldValues> {
   field_name: Path<T>;
   enum_type: Record<string, string>;
   not_selected_value: string;
+  required?: boolean,
 }
 
 const FilterFormSelect = <T extends FieldValues>({
@@ -15,12 +16,13 @@ const FilterFormSelect = <T extends FieldValues>({
                                                    field_name,
                                                    enum_type,
                                                    not_selected_value,
+                                                   required,
                                                  }: IProps<T>) => {
 
   return (
-    <select  {...register(field_name)}>
+    <select  {...register(field_name, { required: required || true })}>
       {[not_selected_value, ...Object.values(enum_type)].map((item, i) =>
-        <option key={i} value={item}>{item}</option>)}
+        <option key={i} value={i - 1 ? '' : item}>{item}</option>)}
     </select>
 
   );

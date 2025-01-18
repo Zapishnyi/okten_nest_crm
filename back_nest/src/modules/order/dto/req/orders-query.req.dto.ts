@@ -1,12 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import {
+  IsBoolean,
+  IsDate,
   IsEnum,
   IsInt,
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsString,
   Min,
 } from 'class-validator';
 
@@ -44,7 +45,6 @@ export class OrdersQueryReqDto {
   public readonly sortBy: OrdersSortByEnum;
 
   @IsOptional()
-  @IsString()
   @Transform(TransformHelper.trim)
   @ApiProperty({
     description: 'Name',
@@ -53,7 +53,6 @@ export class OrdersQueryReqDto {
   readonly name?: string;
 
   @IsOptional()
-  @IsString()
   @Transform(TransformHelper.trim)
   @ApiProperty({
     description: 'Surname',
@@ -61,7 +60,6 @@ export class OrdersQueryReqDto {
   readonly surname?: string;
 
   @IsOptional()
-  @IsString()
   @Transform(TransformHelper.trim)
   @ApiProperty({
     description: 'Email',
@@ -69,7 +67,6 @@ export class OrdersQueryReqDto {
   readonly email?: string;
 
   @IsOptional()
-  @IsString()
   @Transform(TransformHelper.trim)
   @ApiProperty({
     description: 'Phone',
@@ -109,7 +106,6 @@ export class OrdersQueryReqDto {
   readonly status?: StatusEnum;
 
   @IsOptional()
-  @IsString()
   @Transform(TransformHelper.trim)
   @ApiProperty({
     minLength: 3,
@@ -117,4 +113,24 @@ export class OrdersQueryReqDto {
     description: 'Group name',
   })
   readonly group?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  @ApiProperty({
+    description: 'Search among my orders only',
+  })
+  readonly my_orders?: boolean;
+
+  @IsOptional()
+  @IsDate()
+  @ApiProperty({
+    description: 'Search from this date',
+  })
+  readonly upper_date?: Date;
+  @IsOptional()
+  @IsDate()
+  @ApiProperty({
+    description: 'Search before this date',
+  })
+  readonly lower_date?: Date;
 }

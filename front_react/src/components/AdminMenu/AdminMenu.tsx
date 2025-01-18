@@ -9,13 +9,7 @@ import { tableReset } from '../../helpers/table-reset';
 
 import styles from './AdminMenu.module.css';
 
-enum ChosenMenuItemEnum {
-  ORDERS = styles.orders,
-  MANAGERS = styles.managers
-}
-
 const AdminMenu: FC = () => {
-
   const query = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,7 +33,6 @@ const AdminMenu: FC = () => {
   const clickHandle = (event: MouseEvent<HTMLLIElement>) => {
     setIsOrdersChosen(event.currentTarget.classList.value === styles.orders);
   };
-
 
   return (
     <div className={styles.menu}>

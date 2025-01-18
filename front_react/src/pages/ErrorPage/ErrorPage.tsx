@@ -3,16 +3,20 @@ import React, { FC } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import ErrorsContainer from '../../components/ErrorsContainer/ErrorsContainer';
+import { initialUsersQuery } from '../../constants/initialUsersQuery';
+import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
 
 import styles from './ErrorPage.module.css';
 
 
+
 const ErrorPage: FC = () => {
   const navigate = useNavigate();
-  const searchParams = useSearchParams();
-  const errors = Array.from(searchParams[0].values());
+  const query = useSearchParams();
+  const errors = Array.from(query[0].values());
   const clickHandle = () => {
     navigate('/orders');
+    query[1](queryToSearchParams(initialUsersQuery));
   };
   return (
     <div className={styles.error}>

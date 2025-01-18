@@ -11,15 +11,20 @@ interface IProps {
 }
 
 const PageBubble: FC<IProps> = ({ page }) => {
-  const queryParams = useSearchParams();
-  const className = [page === '...' ? styles.non_click : '', page === queryParams[0].get('page') ? styles.current_page : ''].join(' ');
+  const [query, setQuery] = useSearchParams();
+  const className = [page === '...' ? styles.non_click : '', page === query.get('page') ? styles.current_page : ''].join(' ');
   const clickHandle = () => {
     if (page !== '...') {
       const queryModified = {
-        ...Object.fromEntries(queryParams[0].entries()),
         page: page,
       };
-      queryParams[1](queryModified);
+      for (const [key, value] of Object.entries(queryModified)) {
+        query.delete(key);
+        if (value) {
+          query.append(key, value);
+        }
+      }
+      setQuery(query);
     }
   };
   return (

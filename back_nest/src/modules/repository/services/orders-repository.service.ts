@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, EntityManager, Repository } from 'typeorm';
+import {
+  DataSource,
+  EntityManager,
+  QueryFailedError,
+  Repository,
+} from 'typeorm';
 
 import { OrderEntity } from '../../../database/entities/order.entity';
 import { OrdersQueryReqDto } from '../../order/dto/req/orders-query.req.dto';
@@ -114,11 +119,11 @@ export class OrdersRepository extends Repository<OrderEntity> {
 
       return [currentPage, ordersCounted[1]];
     } catch (err) {
-      // if (err instanceof QueryFailedError) {
-      //   throw new Error(err.message);
-      // } else {
-      throw new Error(err);
-      // }
+      if (err instanceof QueryFailedError) {
+        throw new Error(err.message);
+      } else {
+        throw new Error(err);
+      }
     }
   }
 

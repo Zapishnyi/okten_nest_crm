@@ -22,15 +22,21 @@ const Orders: FC = memo(() => {
   const [query, setQuery] = useSearchParams(queryToSearchParams(initialOrdersQuery));
   useEffect(() => {
     //Initial sync initial parameters to the URL
-    if (!orders.length) {
-      setQuery(queryToSearchParams(initialOrdersQuery));
+    // if (!orders.length) {
+    for (const [key, value] of Object.entries(initialOrdersQuery)) {
+      query.delete(key);
+      if (value) {
+        query.append(key, value.toString());
+      }
     }
-
+    console.log('Orders query chanhge');
+    setQuery(query);
+    // }
   }, []);
 
   useEffect(() => {
     dispatch(OrdersActions.searchForOrders(Object.fromEntries(query.entries())));
-  }, [query.toString()]);
+  }, [query.entries().toArray().toString()]);
   return (
     <div className={styles.wrapper}>
       {!!orders.length &&

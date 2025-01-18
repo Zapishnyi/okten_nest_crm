@@ -14,4 +14,5 @@ export interface IOrderFilterQuery {
   course_type?: CourseTypeEnum;
   status?: StatusEnum;
   group?: string;
+  my_orders?: boolean;
 }

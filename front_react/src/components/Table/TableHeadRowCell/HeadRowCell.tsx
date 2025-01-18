@@ -20,15 +20,20 @@ const HeadRowCell: FC<IProps> = memo(({ cellName, chosenColumnRef }) => {
     tableReset();
   }, []);
 
-  const queryParams = useSearchParams();
+  const [query, setQuery] = useSearchParams();
   const location = useLocation();
   const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
     const queryModified = {
-      ...Object.fromEntries(queryParams[0].entries()),
       ...(location.pathname.includes('orders') ? { page: '1' } : {}),
       sortBy: event.currentTarget.value,
     };
-    queryParams[1](queryModified);
+    for (const [key, value] of Object.entries(queryModified)) {
+      query.delete(key);
+      if (value) {
+        query.append(key, value.toString());
+      }
+    }
+    setQuery(query);
   };
 
   const clickHandle = (event: MouseEvent<HTMLInputElement>) => {
@@ -36,11 +41,16 @@ const HeadRowCell: FC<IProps> = memo(({ cellName, chosenColumnRef }) => {
     const sortDown = Array.from(document.getElementsByClassName(styles.down)) as HTMLParagraphElement[];
     if (chosenColumnRef.current === event.currentTarget.value) {
       const queryModified = {
-        ...Object.fromEntries(queryParams[0].entries()),
         ...(location.pathname.includes('orders') ? { page: '1' } : {}),
-        sort: sortToggle((queryParams[0].get('sort')) as SortEnum),
+        sort: sortToggle((query.get('sort')) as SortEnum),
       };
-      queryParams[1](queryModified);
+      for (const [key, value] of Object.entries(queryModified)) {
+        query.delete(key);
+        if (value) {
+          query.append(key, value.toString());
+        }
+      }
+      setQuery(query);
       sortUp.forEach(e => e.classList.toggle(styles.visible));
       sortDown.forEach(e => e.classList.toggle(styles.visible));
     }
@@ -48,7 +58,6 @@ const HeadRowCell: FC<IProps> = memo(({ cellName, chosenColumnRef }) => {
   };
   return <th className={[styles[cellName], styles.cell].join(' ')}>
     <label>
-
       <input className={'title'} onClick={clickHandle} onChange={changeHandle} type="radio"
              value={cellName} name={'orderBy'} />
       {cellName}
