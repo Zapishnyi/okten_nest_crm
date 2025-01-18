@@ -29,7 +29,6 @@ const Orders: FC = memo(() => {
         query.append(key, value.toString());
       }
     }
-    console.log('Orders query chanhge');
     setQuery(query);
     // }
   }, []);

@@ -20,11 +20,12 @@ export class OrderService {
 
   public async getOrdersByQuery(
     query: OrdersQueryReqDto,
+    user: UserEntity,
   ): Promise<[OrderEntity[], number]> {
     return await this.entityManager.transaction(
       this.isolationLevel.set(),
       async (em: EntityManager): Promise<[OrderEntity[], number]> => {
-        return await this.ordersRepository.getOrdersByQuery(query, em);
+        return await this.ordersRepository.getOrdersByQuery(query, user, em);
       },
     );
   }

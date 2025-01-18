@@ -47,14 +47,11 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       // validation
       case exception instanceof BadRequestException:
         status = exception.getStatus();
-        /*retrieves the HTTP status code from the HttpException.*/
-        messages = [
-          (
-            exception.getResponse() as {
-              message: string;
-            }
-          ).message,
-        ];
+        messages = (
+          exception.getResponse() as {
+            message: string[];
+          }
+        ).message;
         break;
 
       case exception instanceof HttpException:

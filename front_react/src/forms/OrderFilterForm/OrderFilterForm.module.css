@@ -11,7 +11,7 @@
         font-size: 12px;
         padding: 5px;
         border: 1px solid rgba(96, 96, 96, 0.2);
-        border-radius: 10px;
+        border-radius: 5px;
         overflow: auto;
 
     }
@@ -23,6 +23,60 @@
         align-items: center;
         user-select: none;
         gap: 5px;
+        background: #fdfdfd;
+        line-height: 13px;
+        transition: 0.2s;
+
+        span {
+            transform: translateX(0);
+            transition: transform 0.3s;
+
+        }
+
+        input {
+            display: none;
+        }
+
+        .check {
+            opacity: 0;
+            transition: 0.3s;;
+        }
+
+        .check_show {
+            opacity: 1;
+            transition: 0.2s;
+        }
+
+
+    }
+
+    label:not(:has(.check_show) ) {
+        span {
+            transform: translateX(-9px);
+            transition: transform 0.3s;
+
+        }
+    }
+
+    > div {
+        background: #fdfdfd;
+        line-height: 13px;
+        transition: 0.2s;
+
+        .check {
+            fill: black;
+        }
+    }
+
+    > div:hover, label:hover {
+        background: #1e1f22;
+        color: #fff;
+        transition: 0.2s;
+
+        .check {
+            fill: #fff;
+        }
+
     }
 
     label {

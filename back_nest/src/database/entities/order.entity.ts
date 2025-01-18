@@ -11,34 +11,34 @@ import { UserEntity } from './user.entity';
 
 @Entity('orders')
 export class OrderEntity extends BaseModel {
-  @Column('varchar', { length: 25, nullable: true })
+  @Column('varchar', { length: 25, nullable: true, default: null })
   name: string;
 
-  @Column('varchar', { length: 25, nullable: true })
+  @Column('varchar', { length: 25, nullable: true, default: null })
   surname: string;
 
-  @Column('varchar', { length: 100, nullable: true })
+  @Column('varchar', { length: 100, nullable: true, default: null })
   email: string;
 
-  @Column('varchar', { length: 13, nullable: true })
+  @Column('varchar', { length: 12, nullable: true, default: null })
   phone: string;
 
-  @Column('integer', { nullable: true })
+  @Column('integer', { nullable: true, default: null })
   age: number;
 
-  @Column('enum', { enum: CourseEnum, nullable: true })
+  @Column('varchar', { length: 10, nullable: true, default: null })
   course: CourseEnum;
 
-  @Column('enum', { enum: CourseFormatEnum, nullable: true })
+  @Column('varchar', { length: 15, nullable: true, default: null })
   course_format: CourseFormatEnum;
 
-  @Column('enum', { enum: CourseTypeEnum, nullable: true })
+  @Column('varchar', { length: 100, nullable: true, default: null })
   course_type: CourseTypeEnum;
 
-  @Column('integer', { nullable: true })
+  @Column('integer', { nullable: true, default: null })
   sum: number;
 
-  @Column('integer', { nullable: true })
+  @Column('integer', { nullable: true, default: null })
   alreadyPaid: number;
 
   @Column('varchar', { length: 100, nullable: true })
@@ -47,7 +47,7 @@ export class OrderEntity extends BaseModel {
   @Column('varchar', { length: 100, nullable: true })
   msg: string;
 
-  @Column('enum', { enum: StatusEnum, nullable: true })
+  @Column('varchar', { length: 15, nullable: true, default: null })
   status: StatusEnum;
 
   @ManyToOne(() => UserEntity, (entity) => entity.orders)

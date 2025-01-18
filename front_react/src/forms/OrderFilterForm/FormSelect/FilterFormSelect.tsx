@@ -22,7 +22,7 @@ const FilterFormSelect = <T extends FieldValues>({
   return (
     <select  {...register(field_name, { required: required || true })}>
       {[not_selected_value, ...Object.values(enum_type)].map((item, i) =>
-        <option key={i} value={i - 1 ? '' : item}>{item}</option>)}
+        <option key={i} value={!i ? '' : item}>{item}</option>)}
     </select>
 
   );

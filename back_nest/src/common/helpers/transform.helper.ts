@@ -32,6 +32,6 @@ export class TransformHelper {
   }
 
   public static toBoolean({ value }: { value: string }): boolean {
-    return value ? JSON.parse(value.toLowerCase()) : false;
+    return value === 'true';
   }
 }

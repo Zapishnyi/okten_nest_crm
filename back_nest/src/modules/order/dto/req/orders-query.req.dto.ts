@@ -115,6 +115,8 @@ export class OrdersQueryReqDto {
   readonly group?: string;
 
   @IsOptional()
+  @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.toBoolean)
   @IsBoolean()
   @ApiProperty({
     description: 'Search among my orders only',

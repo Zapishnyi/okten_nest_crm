@@ -1,12 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import {
-  DataSource,
-  EntityManager,
-  QueryFailedError,
-  Repository,
-} from 'typeorm';
+import { DataSource, EntityManager, Repository } from 'typeorm';
 
 import { OrderEntity } from '../../../database/entities/order.entity';
+import { UserEntity } from '../../../database/entities/user.entity';
 import { OrdersQueryReqDto } from '../../order/dto/req/orders-query.req.dto';
 import { OrderStatusStatisticResDto } from '../../user/dto/res/order-status-statistic.res.dto';
 
@@ -31,7 +27,9 @@ export class OrdersRepository extends Repository<OrderEntity> {
       surname,
       status,
       phone,
+      my_orders,
     }: OrdersQueryReqDto,
+    user: UserEntity,
     em?: EntityManager,
   ): Promise<[OrderEntity[], number]> {
     const repository = em ? em.getRepository(OrderEntity) : this;
@@ -46,66 +44,72 @@ export class OrdersRepository extends Repository<OrderEntity> {
       default:
         sortByMod = `orders.${sortBy}`;
     }
-    try {
-      const ordersQuery = repository
-        .createQueryBuilder('orders')
-        .select('orders.id')
-        .leftJoinAndSelect('orders.user', 'user')
-        .leftJoinAndSelect('orders.group', 'group');
+    // try {
+    const ordersQuery = repository
+      .createQueryBuilder('orders')
+      .select('orders.id')
+      .leftJoinAndSelect('orders.user', 'user')
+      .leftJoinAndSelect('orders.group', 'group');
 
-      if (name) {
-        ordersQuery.andWhere('LOWER(orders.name) LIKE :name', {
-          name: `%${name.toLowerCase()}%`,
-        });
-      }
-      if (surname) {
-        ordersQuery.andWhere('LOWER(orders.surname) LIKE :surname', {
-          surname: `%${surname.toLowerCase()}%`,
-        });
-      }
-      if (email) {
-        ordersQuery.andWhere('LOWER(orders.email) LIKE :email', {
-          email: `%${email.toLowerCase()}%`,
-        });
-      }
-      if (phone) {
-        ordersQuery.andWhere('LOWER(orders.phone) LIKE :phone', {
-          phone: `%${phone.toLowerCase()}%`,
-        });
-      }
-      if (age) {
-        ordersQuery.andWhere('orders.age = :age', { age });
-      }
-      if (course) {
-        ordersQuery.andWhere('orders.course = :course', { course });
-      }
-      if (course_format) {
-        ordersQuery.andWhere('orders.course_format = :course_format', {
-          course_format,
-        });
-      }
-      if (course_type) {
-        ordersQuery.andWhere('orders.course_type = :course_type', {
-          course_type,
-        });
-      }
-      if (status) {
-        ordersQuery.andWhere('orders.status = :status', {
-          status,
-        });
-      }
-      if (group) {
-        ordersQuery.andWhere('orders.group = :group', {
-          group,
-        });
-      }
+    if (name) {
+      ordersQuery.andWhere('LOWER(orders.name) LIKE :name', {
+        name: `%${name.toLowerCase()}%`,
+      });
+    }
+    if (surname) {
+      ordersQuery.andWhere('LOWER(orders.surname) LIKE :surname', {
+        surname: `%${surname.toLowerCase()}%`,
+      });
+    }
+    if (email) {
+      ordersQuery.andWhere('LOWER(orders.email) LIKE :email', {
+        email: `%${email.toLowerCase()}%`,
+      });
+    }
+    if (phone) {
+      ordersQuery.andWhere('LOWER(orders.phone) LIKE :phone', {
+        phone: `%${phone.toLowerCase()}%`,
+      });
+    }
+    if (age) {
+      ordersQuery.andWhere('orders.age = :age', { age });
+    }
+    if (course) {
+      ordersQuery.andWhere('orders.course = :course', { course });
+    }
+    if (course_format) {
+      ordersQuery.andWhere('orders.course_format = :course_format', {
+        course_format,
+      });
+    }
+    if (course_type) {
+      ordersQuery.andWhere('orders.course_type = :course_type', {
+        course_type,
+      });
+    }
+    if (status) {
+      ordersQuery.andWhere('orders.status = :status', {
+        status,
+      });
+    }
+    if (group) {
+      ordersQuery.andWhere('orders.group = :group', {
+        group,
+      });
+    }
+    if (my_orders) {
+      ordersQuery.andWhere('orders.user.id = :user_id', {
+        user_id: user.id,
+      });
+    }
 
-      const ordersCounted = await ordersQuery
-        .orderBy(sortByMod, sort)
-        .limit(25)
-        .offset((page - 1) * 25)
-        .getManyAndCount();
+    const ordersCounted = await ordersQuery
+      .orderBy(sortByMod, sort)
+      .limit(25)
+      .offset((page - 1) * 25)
+      .getManyAndCount();
 
+    if (ordersCounted[0].length) {
       const currentPage = await repository
         .createQueryBuilder('orders')
         .leftJoinAndSelect('orders.user', 'user')
@@ -118,13 +122,16 @@ export class OrdersRepository extends Repository<OrderEntity> {
         .getMany();
 
       return [currentPage, ordersCounted[1]];
-    } catch (err) {
-      if (err instanceof QueryFailedError) {
-        throw new Error(err.message);
-      } else {
-        throw new Error(err);
-      }
+    } else {
+      return [[], 0];
     }
+    // } catch (err) {
+    //   if (err instanceof QueryFailedError) {
+    //     throw new Error(err.message);
+    //   } else {
+    //     throw new Error('HHHHHHHHHHH' + err);
+    //   }
+    // }
   }
 
   public async getOrdersStatusStatistic(

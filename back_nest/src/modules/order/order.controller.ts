@@ -55,9 +55,12 @@ export class OrderController {
   @Get('/all')
   public async getOrdersByQuery(
     @Query() query: OrdersQueryReqDto,
+    @GetStoredUserDataFromResponse() { user }: IUserData,
   ): Promise<OrdersListResDto> {
-    const [ordersArray, total] =
-      await this.orderService.getOrdersByQuery(query);
+    const [ordersArray, total] = await this.orderService.getOrdersByQuery(
+      query,
+      user,
+    );
     return this.ordersPresenter.toOrderListDto(ordersArray, query, total);
   }
 
