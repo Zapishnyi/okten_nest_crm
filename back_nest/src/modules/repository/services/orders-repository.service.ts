@@ -28,6 +28,8 @@ export class OrdersRepository extends Repository<OrderEntity> {
       status,
       phone,
       my_orders,
+      upper_date,
+      lower_date,
     }: OrdersQueryReqDto,
     user: UserEntity,
     em?: EntityManager,
@@ -93,13 +95,24 @@ export class OrdersRepository extends Repository<OrderEntity> {
       });
     }
     if (group) {
-      ordersQuery.andWhere('orders.group = :group', {
+      ordersQuery.andWhere('group.name = :group', {
         group,
       });
     }
     if (my_orders) {
       ordersQuery.andWhere('orders.user.id = :user_id', {
         user_id: user.id,
+      });
+    }
+
+    if (upper_date) {
+      ordersQuery.andWhere('orders.created_at < :upper_date', {
+        upper_date,
+      });
+    }
+    if (lower_date) {
+      ordersQuery.andWhere('orders.created_at > :lower_date', {
+        lower_date,
       });
     }
 

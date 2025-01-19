@@ -15,4 +15,6 @@ export interface IOrderFilterQuery {
   status?: StatusEnum | null;
   group?: string | null;
   my_orders?: boolean | null;
+  upper_date?: Date | null;
+  lower_date?: Date | null;
 }

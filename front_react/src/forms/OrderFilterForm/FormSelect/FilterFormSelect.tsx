@@ -2,6 +2,8 @@ import React from 'react';
 
 import { FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
+import styles from './FilterFormSelect.module.css';
+
 
 interface IProps<T extends FieldValues> {
   register: UseFormRegister<T>;
@@ -20,7 +22,7 @@ const FilterFormSelect = <T extends FieldValues>({
                                                  }: IProps<T>) => {
 
   return (
-    <select  {...register(field_name, { required: required || true })}>
+    <select className={styles.select}  {...register(field_name, { required: required || true })}>
       {[not_selected_value, ...Object.values(enum_type)].map((item, i) =>
         <option key={i} value={!i ? '' : item}>{item}</option>)}
     </select>

@@ -124,12 +124,15 @@ export class OrdersQueryReqDto {
   readonly my_orders?: boolean;
 
   @IsOptional()
+  @Transform(TransformHelper.toDate)
   @IsDate()
   @ApiProperty({
     description: 'Search from this date',
   })
   readonly upper_date?: Date;
+
   @IsOptional()
+  @Transform(TransformHelper.toDate)
   @IsDate()
   @ApiProperty({
     description: 'Search before this date',

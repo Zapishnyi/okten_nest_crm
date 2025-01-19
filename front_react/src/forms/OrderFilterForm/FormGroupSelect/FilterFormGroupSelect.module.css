@@ -1,0 +1,32 @@
+.select {
+    position: relative;
+    font-size: 12px;
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 100%;
+
+
+    select {
+        font-size: 12px;
+        padding: 5px;
+        border: 1px solid rgba(96, 96, 96, 0.2);
+        border-radius: 5px;
+        width: 100%;
+
+    }
+
+
+    .loader {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: 101;
+        background-color: rgb(255, 255, 255);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

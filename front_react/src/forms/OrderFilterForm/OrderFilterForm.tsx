@@ -11,10 +11,11 @@ import { CourseEnum } from '../../enums/course.enum';
 import { StatusEnum } from '../../enums/status.enum';
 import { IOrderFilterQuery } from '../../interfaces/IOrderFilterQuery';
 
+import FilterFormGroupSelect from './FormGroupSelect/FilterFormGroupSelect';
 import FilterFormSelect from './FormSelect/FilterFormSelect';
 import styles from './OrderFilterForm.module.css';
 
-const defaultValues = {
+const defaultValues: IOrderFilterQuery = {
   age: null,
   course: null,
   course_format: null,
@@ -26,6 +27,8 @@ const defaultValues = {
   phone: null,
   status: null,
   surname: null,
+  upper_date: null,
+  lower_date: null,
 };
 
 const OrderFilterForm: FC = () => {
@@ -67,25 +70,33 @@ const OrderFilterForm: FC = () => {
   };
 
   return <form className={styles.form}>
-    <input type="text" {...register('name', { required: false })} placeholder={'Name'} />
-    <input type="text" {...register('surname', { required: false })} placeholder={'Surname'} />
-    <input type="text" {...register('email', { required: false })} placeholder={'Email'} />
-    <input type="text" {...register('phone', { required: false })} placeholder={'Phone'} />
-    <input type="number" {...register('age', { required: false })} placeholder={'Age'} />
-    <label><SvgCheck
+    <input className={styles.form_item} type="text" {...register('name', { required: false })} placeholder={'Name'} />
+    <input className={styles.form_item} type="text" {...register('surname', { required: false })}
+           placeholder={'Surname'} />
+    <input className={styles.form_item} type="text" {...register('email', { required: false })} placeholder={'Email'} />
+    <input className={styles.form_item} type="text" {...register('phone', { required: false })} placeholder={'Phone'} />
+    <input className={styles.form_item} type="number" {...register('age', { required: false })} placeholder={'Age'} />
+    <input className={styles.form_item} type="date" {...register('lower_date', { required: false })}
+           title={'Search after this date...'} />
+
+    <label className={`${styles.my_order}  ${styles.form_item}`}><SvgCheck
       className={[styles.check, watch().my_orders ? styles.check_show : ''].join(' ')} /><span>My orders</span>
       <input
         type="checkbox" {...register('my_orders')} /></label>
     <FilterFormSelect register={register} field_name={'course'} enum_type={CourseEnum}
                       not_selected_value={'all courses'} required={false} />
-    <FilterFormSelect register={register} field_name={'course_format'} enum_type={CourseFormatEnum}
+    <FilterFormSelect register={register} field_name={'course_format'}
+                      enum_type={CourseFormatEnum}
                       not_selected_value={'all course formats'} required={false} />
-    <FilterFormSelect register={register} field_name={'course_type'} enum_type={CourseTypeEnum}
+    <FilterFormSelect register={register} field_name={'course_type'}
+                      enum_type={CourseTypeEnum}
                       not_selected_value={'all course types'} required={false} />
     <FilterFormSelect register={register} field_name={'status'} enum_type={StatusEnum}
                       not_selected_value={'all order statuses'} required={false} />
-    <input type="text" {...register('group', { required: false })} placeholder={'Group'} />
-    <div onClick={formReset}><p>Reset</p></div>
+    <FilterFormGroupSelect register={register} field_name={'group'} required={false} />
+    <input className={styles.form_item} type="date" {...register('upper_date', { required: false })}
+           title={'Search before this date...'} />
+    <div onClick={formReset} className={`${styles.reset} ${styles.form_item}`}><p>Reset</p></div>
   </form>;
 
 

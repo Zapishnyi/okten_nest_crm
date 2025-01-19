@@ -34,4 +34,8 @@ export class TransformHelper {
   public static toBoolean({ value }: { value: string }): boolean {
     return value === 'true';
   }
+
+  public static toDate({ value }: { value: string }): Date {
+    return new Date(value);
+  }
 }
