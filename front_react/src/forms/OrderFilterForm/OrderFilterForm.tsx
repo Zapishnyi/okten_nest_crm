@@ -66,7 +66,7 @@ const OrderFilterForm: FC = () => {
         } else {
           firstRender.current = false;
         }
-      }, 800),
+      }, 500),
     [],
   );
 
