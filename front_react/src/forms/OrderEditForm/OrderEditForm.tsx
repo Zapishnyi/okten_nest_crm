@@ -30,9 +30,7 @@ const OrderEditForm: FC = () => {
   const { groupsLoadingState, groups } = useAppSelector(state => state.groups);
   const { utm, manager, msg, id, comments, manager_id, created_at, ...restValues } = chosenOrder as IOrder;
   const initialFormValue = restValues as IOrderEdit;
-  if (!initialFormValue.status) {
-    initialFormValue.status = StatusEnum.IN_WORK;
-  }
+
   const {
     register,
     handleSubmit,
@@ -47,9 +45,12 @@ const OrderEditForm: FC = () => {
   const formSubmit = async (formData: IOrderEdit) => {
     const filteredData: IOrderEdit = {};
     for (const [key, value] of Object.entries(formData)) {
-      if (value && initialFormValue[key as keyof IOrderEdit] !== value) {
+      if (value && (initialFormValue[key as keyof IOrderEdit] !== value)) {
         filteredData[key as keyof IOrderEdit] = value;
       }
+    }
+    if (!filteredData.status) {
+      filteredData.status = StatusEnum.IN_WORK;
     }
     if (chosenOrder && Object.keys(filteredData).length) {
       dispatch(OrdersActions.editOrder({

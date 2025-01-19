@@ -91,6 +91,7 @@ const orderEditValidator: Joi.ObjectSchema = Joi.object({
     }),
 
   status: Joi.string()
+    .allow(null)
     .valid(...Object.values(StatusEnum)),
 
   group: Joi.string()
