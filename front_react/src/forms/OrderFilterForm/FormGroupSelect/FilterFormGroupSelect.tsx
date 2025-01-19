@@ -20,7 +20,7 @@ const FilterFormGroupSelect = <T extends FieldValues>({
                                                         required,
                                                       }: IProps<T>) => {
   const dispatch = useAppDispatch();
-  const { groups, groupsLoadingState } = useAppSelector(state => state.groups);
+  const { groups } = useAppSelector(state => state.groups);
   const { orders } = useAppSelector(state => state.orders);
   useEffect(() => {
     dispatch(GroupsActions.getGroups());

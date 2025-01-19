@@ -14,11 +14,11 @@ import { UserNoStatisticType } from '../../types/UserNoStatisticType';
 import styles from './Admin.module.css';
 
 const Admin: FC = () => {
-  console.log('.');
+  // console.log('.');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { users, userLogged } = useAppSelector((state) => state.users);
-  const [query, setQuery] = useSearchParams(queryToSearchParams(initialUsersQuery));
+  const [query] = useSearchParams(queryToSearchParams(initialUsersQuery));
   const usersNoStatistic = users.map(user => {
     const { statistic, ...output } = user;
     return output;

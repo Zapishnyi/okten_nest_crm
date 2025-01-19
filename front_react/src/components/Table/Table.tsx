@@ -12,7 +12,7 @@ interface IProps<T> {
 }
 
 const Table = <T extends TableType>({ items }: IProps<T>) => {
-  console.log('.');
+  // console.log('.');
   const chosenColumnRef = useRef<string>('id');
   const titles = Object.keys(items[0] || {});
   return <table className={styles.table} border={1}>

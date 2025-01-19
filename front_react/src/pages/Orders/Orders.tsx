@@ -15,11 +15,11 @@ import styles from './Orders.module.css';
 
 
 const Orders: FC = memo(() => {
-  console.log('.');
+  // console.log('.');
   const { orders } = useAppSelector((state) => state.orders);
   const { pages, page } = useAppSelector((state) => state.pagination.paginationData);
   const dispatch = useAppDispatch();
-  const [query, setQuery] = useSearchParams(queryToSearchParams(initialOrdersQuery));
+  const [query] = useSearchParams(queryToSearchParams(initialOrdersQuery));
   // useEffect(() => {
   //   //Initial sync initial parameters to the URL
   //   if (!location.hash.includes(`?`)) {
