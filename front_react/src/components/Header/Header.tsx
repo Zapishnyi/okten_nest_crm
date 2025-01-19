@@ -15,7 +15,8 @@ import styles from './Header.module.css';
 
 const Header: FC = memo(() => {
   const location = useLocation();
-  // console.log('.');
+
+
   const { userLogged } = useAppSelector((state) => state.users);
 
   return (
@@ -23,9 +24,9 @@ const Header: FC = memo(() => {
       <div className={styles.container}>
         <Logo />
         <div className={styles.toolbox}>
-          {location.pathname?.includes('/admin') && userLogged?.role === UserRoleEnum.ADMIN && <AdminTools />
+          {(location.pathname === '/admin') && userLogged?.role === UserRoleEnum.ADMIN && <AdminTools />
           }
-          {location.pathname?.includes('/order') && <OrderFilterForm />
+          {(location.pathname === '/orders') && <OrderFilterForm />
           }
         </div>
         {userLogged?.role === UserRoleEnum.ADMIN &&

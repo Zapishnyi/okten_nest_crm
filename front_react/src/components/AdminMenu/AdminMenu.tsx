@@ -1,37 +1,31 @@
-import React, { FC, MouseEvent, useEffect, useState } from 'react';
+import React, { FC, MouseEvent } from 'react';
 
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { initialOrdersQuery } from '../../constants/initialOrdersQuery';
 import { initialUsersQuery } from '../../constants/initialUsersQuery';
 import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
-import { tableReset } from '../../helpers/table-reset';
 
 import styles from './AdminMenu.module.css';
 
 const AdminMenu: FC = () => {
-  const query = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isOrdersChosen, setIsOrdersChosen] = useState<boolean>(location.pathname.includes('/orders'));
-  useEffect(() => {
-    switch (isOrdersChosen) {
-      case true : {
-        navigate('/orders');
-        query[1](queryToSearchParams(initialOrdersQuery));
-        tableReset();
+
+  const clickHandle = (event: MouseEvent<HTMLLIElement>) => {
+
+    switch (event.currentTarget.classList.value) {
+      case styles.orders : {
+        const searchParams = new URLSearchParams(queryToSearchParams(initialOrdersQuery));
+        navigate(`/orders?${searchParams}`);
         break;
       }
-      case false : {
-        navigate('/admin');
-        query[1](queryToSearchParams(initialUsersQuery));
-        tableReset();
+      case styles.managers : {
+        const searchParams = new URLSearchParams(queryToSearchParams(initialUsersQuery));
+        navigate(`/admin?${searchParams}`);
         break;
       }
     }
-  }, [isOrdersChosen]);
-  const clickHandle = (event: MouseEvent<HTMLLIElement>) => {
-    setIsOrdersChosen(event.currentTarget.classList.value === styles.orders);
   };
 
   return (
@@ -40,7 +34,8 @@ const AdminMenu: FC = () => {
         <li className={styles.orders} onClick={clickHandle}><span>Orders</span></li>
         <li className={styles.managers} onClick={clickHandle}><span>Managers</span></li>
       </ul>
-      <div className={[styles.underline, isOrdersChosen ? '' : styles.under_managers].join(' ')}></div>
+      <div
+        className={[styles.underline, location.pathname === '/orders' ? '' : styles.under_managers].join(' ')}></div>
     </div>
   );
 };

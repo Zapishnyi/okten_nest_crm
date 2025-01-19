@@ -761,7 +761,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/order/all?page=1&sort=DESC&sortBy=id",
+							"raw": "{{host}}/order/all?page=1&sort=DESC&sortBy=id&name&surname&email&phone&age&course&course_format&course_type&status&group&my_order&upper_date&lower_date",
 							"host": [
 								"{{host}}"
 							],
@@ -781,6 +781,65 @@
 								{
 									"key": "sortBy",
 									"value": "id"
+								},
+								{
+									"key": "name",
+									"value": null
+								},
+								{
+									"key": "surname",
+									"value": null
+								},
+								{
+									"key": "email",
+									"value": null
+								},
+								{
+									"key": "phone",
+									"value": null
+								},
+								{
+									"key": "age",
+									"value": null
+								},
+								{
+									"key": "course",
+									"value": null,
+									"description": "FS, QACX, JSX, JSCX, FE, PCX"
+								},
+								{
+									"key": "course_format",
+									"value": null,
+									"description": "static, online"
+								},
+								{
+									"key": "course_type",
+									"value": null,
+									"description": "pro, minimal, premium, incubator, vip"
+								},
+								{
+									"key": "status",
+									"value": null,
+									"description": "In work, New, Agree, Disagree, Dubbing"
+								},
+								{
+									"key": "group",
+									"value": null
+								},
+								{
+									"key": "my_order",
+									"value": null,
+									"description": "boolean"
+								},
+								{
+									"key": "upper_date",
+									"value": null,
+									"description": "Date"
+								},
+								{
+									"key": "lower_date",
+									"value": null,
+									"description": "Date"
 								}
 							]
 						}

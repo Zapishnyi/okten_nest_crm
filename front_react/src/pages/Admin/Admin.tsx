@@ -3,6 +3,7 @@ import React, { FC, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import Table from '../../components/Table/Table';
+import { initialOrdersQuery } from '../../constants/initialOrdersQuery';
 import { initialUsersQuery } from '../../constants/initialUsersQuery';
 import { UserRoleEnum } from '../../enums/user-role.enum';
 import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
@@ -13,6 +14,7 @@ import { UserNoStatisticType } from '../../types/UserNoStatisticType';
 import styles from './Admin.module.css';
 
 const Admin: FC = () => {
+  console.log('.');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { users, userLogged } = useAppSelector((state) => state.users);
@@ -24,10 +26,7 @@ const Admin: FC = () => {
 
   useEffect(() => {
     if (userLogged?.role !== UserRoleEnum.ADMIN) {
-      navigate('/orders');
-    }
-    if (!users.length) {
-      setQuery(queryToSearchParams(initialUsersQuery));
+      navigate(`/orders?${queryToSearchParams(initialOrdersQuery)}`);
     }
   }, []);
 

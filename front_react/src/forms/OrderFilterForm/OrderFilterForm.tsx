@@ -1,8 +1,8 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 
 import { debounce } from 'lodash';
 import { useForm } from 'react-hook-form';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 import { SvgCheck } from '../../components/SvgCheck/SvgCheck';
 import { CourseFormatEnum } from '../../enums/course-format.enum';
@@ -32,7 +32,9 @@ const defaultValues: IOrderFilterQuery = {
 };
 
 const OrderFilterForm: FC = () => {
+  const location = useLocation();
   const [query, setQuery] = useSearchParams();
+
   const {
     register,
     watch,
@@ -41,9 +43,14 @@ const OrderFilterForm: FC = () => {
     useForm<IOrderFilterQuery>({
       defaultValues,
     });
+  const firstRender = useRef<boolean>(true);
   useEffect(() => {
-    reset();
-  }, []);
+    if (location.search === '?sort=DESC&page=1&sortBy=id') {
+      reset();
+    }
+
+  }, [query.toString()]);
+
 
   const debouncedFormSubmitHandler = useCallback(
     debounce(
@@ -54,10 +61,15 @@ const OrderFilterForm: FC = () => {
             query.append(key, value);
           }
         }
-        setQuery(query);
-      }, 500),
+        if (!firstRender.current) {
+          setQuery(query);
+        } else {
+          firstRender.current = false;
+        }
+      }, 800),
     [],
   );
+
   useEffect(() => {
     debouncedFormSubmitHandler(watch());
     return () => {

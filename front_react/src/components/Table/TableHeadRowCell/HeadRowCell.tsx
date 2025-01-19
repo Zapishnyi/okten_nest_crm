@@ -16,15 +16,15 @@ interface IProps {
 
 const HeadRowCell: FC<IProps> = memo(({ cellName, chosenColumnRef }) => {
   // console.log('.');
+  const location = useLocation();
   useEffect(() => {
     tableReset();
   }, []);
 
   const [query, setQuery] = useSearchParams();
-  const location = useLocation();
   const changeHandle = (event: ChangeEvent<HTMLInputElement>) => {
     const queryModified = {
-      ...(location.pathname.includes('orders') ? { page: '1' } : {}),
+      ...((location.pathname === '/orders') ? { page: '1' } : {}),
       sortBy: event.currentTarget.value,
     };
     for (const [key, value] of Object.entries(queryModified)) {
@@ -41,7 +41,7 @@ const HeadRowCell: FC<IProps> = memo(({ cellName, chosenColumnRef }) => {
     const sortDown = Array.from(document.getElementsByClassName(styles.down)) as HTMLParagraphElement[];
     if (chosenColumnRef.current === event.currentTarget.value) {
       const queryModified = {
-        ...(location.pathname.includes('orders') ? { page: '1' } : {}),
+        ...((location.pathname === '/orders') ? { page: '1' } : {}),
         sort: sortToggle((query.get('sort')) as SortEnum),
       };
       for (const [key, value] of Object.entries(queryModified)) {

@@ -15,27 +15,22 @@ import styles from './Orders.module.css';
 
 
 const Orders: FC = memo(() => {
-  // console.log('.');
+  console.log('.');
   const { orders } = useAppSelector((state) => state.orders);
   const { pages, page } = useAppSelector((state) => state.pagination.paginationData);
   const dispatch = useAppDispatch();
   const [query, setQuery] = useSearchParams(queryToSearchParams(initialOrdersQuery));
-  useEffect(() => {
-    //Initial sync initial parameters to the URL
-    // if (!orders.length) {
-    for (const [key, value] of Object.entries(initialOrdersQuery)) {
-      query.delete(key);
-      if (value) {
-        query.append(key, value.toString());
-      }
-    }
-    setQuery(query);
-    // }
-  }, []);
+  // useEffect(() => {
+  //   //Initial sync initial parameters to the URL
+  //   if (!location.hash.includes(`?`)) {
+  //     console.log('initial orders');
+  //     setQuery(queryToSearchParams(initialOrdersQuery));
+  //   }
+  // }, []);
 
   useEffect(() => {
     dispatch(OrdersActions.searchForOrders(Object.fromEntries(query.entries())));
-  }, [query.entries().toArray().toString()]);
+  }, [query.toString()]);
   return (
     <div className={styles.wrapper}>
       {!!orders.length &&
@@ -44,6 +39,7 @@ const Orders: FC = memo(() => {
           <Pagination page={page} pages={pages} />
         </div>
       }
+      {!orders.length && <h2 className={styles.no_data}>No data matches your request.</h2>}
     </div>
   );
 });
