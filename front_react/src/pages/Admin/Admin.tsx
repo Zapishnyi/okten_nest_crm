@@ -30,14 +30,14 @@ const Admin: FC = () => {
       const searchParams = new URLSearchParams(queryToSearchParams(initialOrdersQuery));
       navigate(`/orders?${searchParams}`);
     }
-    if (!location.search) {
+    if (!location.search || !location.search.match(/\b(sort=|sortBy=)\b/)) {
       setQuery(queryToSearchParams(initialUsersQuery), { replace: true });
       dispatch(UsersActions.getAllUsers(queryToSearchParams(initialUsersQuery)));
     } else {
       dispatch(UsersActions.getAllUsers(Object.fromEntries(query.entries())));
     }
 
-  }, [location.key]);
+  }, [location.search]);
 
   return (
     <div className={styles.wrapper}>

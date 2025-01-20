@@ -147,7 +147,10 @@ axiosInstance.interceptors.response.use((response) => response,
     const originalRequest = error.config;
 
     if (error.status) {
-      if (error.response.status === 401 && !originalRequest._retry && cookie.getRefreshToken() && originalRequest.url !== '/auth/refresh') {
+      if (error.response.status === 401
+        && !originalRequest._retry
+        && cookie.getRefreshToken()
+        && originalRequest.url !== '/auth/refresh') {
         originalRequest._retry = true;
         try {
           const { tokens } = await CRMApi.auth.refresh();

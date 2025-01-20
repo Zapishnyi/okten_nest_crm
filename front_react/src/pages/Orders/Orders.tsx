@@ -25,14 +25,14 @@ const Orders: FC = memo(() => {
   const [query, setQuery] = useSearchParams(queryToSearchParams(initialOrdersQuery));
 
   useEffect(() => {
-    if (!location.search) {
+    if (!location.search || !location.search.match(/\b(sort=|page=|sortBy=)\b/)) {
       setQuery(queryToSearchParams(initialOrdersQuery), { replace: true });
       dispatch(OrdersActions.searchForOrders(queryToSearchParams(initialOrdersQuery)));
     } else {
       dispatch(OrdersActions.searchForOrders(Object.fromEntries(query.entries())));
     }
 
-  }, [location.key]);
+  }, [location.search]);
   return (
     <div className={styles.wrapper}>
       {!!orders.length &&
