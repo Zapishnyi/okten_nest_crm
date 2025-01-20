@@ -15,7 +15,7 @@ import styles from './Orders.module.css';
 
 
 const Orders: FC = memo(() => {
-  console.log('.');
+  // console.log('.');
   const location = useLocation();
 
   const { orders, ordersLoadingState } = useAppSelector((state) => state.orders);
