@@ -1,6 +1,6 @@
 import React, { FC, memo, useEffect } from 'react';
 
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 import Pagination from '../../components/Pagination/Pagination';
 import Table from '../../components/Table/Table';
@@ -16,17 +16,18 @@ import styles from './Orders.module.css';
 
 const Orders: FC = memo(() => {
   // console.log('.');
+  const location = useLocation();
+
   const { orders } = useAppSelector((state) => state.orders);
   const { pages, page } = useAppSelector((state) => state.pagination.paginationData);
   const dispatch = useAppDispatch();
-  const [query] = useSearchParams(queryToSearchParams(initialOrdersQuery));
-  // useEffect(() => {
-  //   //Initial sync initial parameters to the URL
-  //   if (!location.hash.includes(`?`)) {
-  //     console.log('initial orders');
-  //     setQuery(queryToSearchParams(initialOrdersQuery));
-  //   }
-  // }, []);
+  const [query, setQuery] = useSearchParams(queryToSearchParams(initialOrdersQuery));
+  useEffect(() => {
+    //Initial sync initial parameters to the URL
+    if (!location.search) {
+      setQuery(queryToSearchParams(initialOrdersQuery), { replace: true });
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(OrdersActions.searchForOrders(Object.fromEntries(query.entries())));
