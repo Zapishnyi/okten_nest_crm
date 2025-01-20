@@ -15,7 +15,7 @@ import styles from './Orders.module.css';
 
 
 const Orders: FC = memo(() => {
-  // console.log('.');
+
   const location = useLocation();
 
   const { orders, ordersLoadingState } = useAppSelector((state) => state.orders);
@@ -25,7 +25,7 @@ const Orders: FC = memo(() => {
   const [query, setQuery] = useSearchParams(queryToSearchParams(initialOrdersQuery));
 
   useEffect(() => {
-    if (!location.search || !location.search.match(/\b(sort=|page=|sortBy=)\b/)) {
+    if (!location.search || !location.search.match(/^(?=.*\bsort=\b)(?=.*\bpage=\b)(?=.*\bsortBy=\b).*/)) {
       setQuery(queryToSearchParams(initialOrdersQuery), { replace: true });
       dispatch(OrdersActions.searchForOrders(queryToSearchParams(initialOrdersQuery)));
     } else {

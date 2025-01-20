@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, memo, useEffect } from 'react';
 
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -13,8 +13,8 @@ import { UserNoStatisticType } from '../../types/UserNoStatisticType';
 
 import styles from './Admin.module.css';
 
-const Admin: FC = () => {
-  // console.log('.');
+const Admin: FC = memo(() => {
+
   const location = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const Admin: FC = () => {
       const searchParams = new URLSearchParams(queryToSearchParams(initialOrdersQuery));
       navigate(`/orders?${searchParams}`);
     }
-    if (!location.search || !location.search.match(/\b(sort=|sortBy=)\b/)) {
+    if (!location.search || !location.search.match(/^(?=.*\bsort=\b)(?=.*\bsortBy=\b).*/)) {
       setQuery(queryToSearchParams(initialUsersQuery), { replace: true });
       dispatch(UsersActions.getAllUsers(queryToSearchParams(initialUsersQuery)));
     } else {
@@ -46,6 +46,6 @@ const Admin: FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Admin;

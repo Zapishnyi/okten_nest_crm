@@ -44,7 +44,7 @@ const orderEditValidator: Joi.ObjectSchema = Joi.object({
   phone: Joi.string()
     .allow(null, '')
     .optional()
-    .pattern(/^(?:\+380)?\d{9,}$/)
+    .pattern(/^(?:\+380)?\d{9,12}$/)
     .messages({
       'string.pattern.base': 'Ukrainian local or international ',
     }),
