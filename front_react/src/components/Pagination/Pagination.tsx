@@ -62,7 +62,7 @@ const Pagination: FC<IProps> = memo(({ page, pages }) => {
   return (
     <div className={styles.wrapper}>
       {!!pagination.length && <LeftArrow />}
-      {pagination.map((page_mark, i) => <PageBubble key={i} page={page_mark} />)}
+      {pagination.map((page_mark, i) => <PageBubble key={i} page={page_mark} pages={pages} />)}
       {!!pagination.length && <RightArrow pages={pages} />}
     </div>
   );

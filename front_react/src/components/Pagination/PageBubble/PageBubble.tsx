@@ -7,14 +7,15 @@ import styles from './PageBubble.module.css';
 
 interface IProps {
   page: string;
+  pages: number;
 
 }
 
-const PageBubble: FC<IProps> = ({ page }) => {
+const PageBubble: FC<IProps> = ({ page, pages }) => {
   const [query, setQuery] = useSearchParams();
   const className = [page === '...' ? styles.non_click : '', page === query.get('page') ? styles.current_page : ''].join(' ');
   const clickHandle = () => {
-    if (page !== '...') {
+    if (page !== '...' && pages > 1) {
       const queryModified = {
         page: page,
       };
