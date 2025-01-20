@@ -9,6 +9,7 @@ import { IsolationLevelService } from '../../transaction-isolation-level/isolati
 import { OrderStatusStatisticResDto } from '../../user/dto/res/order-status-statistic.res.dto';
 import { OrderReqDto } from '../dto/req/order.req.dto';
 import { OrdersQueryReqDto } from '../dto/req/orders-query.req.dto';
+import { StatusEnum } from '../enums/status.enum';
 
 @Injectable()
 export class OrderService {
@@ -54,6 +55,9 @@ export class OrderService {
         const ordersRepositoryEM = em.getRepository(OrderEntity);
         const groupsRepositoryEM = em.getRepository(GroupEntity);
         const { group, ...updateData } = dto;
+        if (!updateData.status) {
+          updateData.status = StatusEnum.IN_WORK;
+        }
         const groupEntity = group
           ? await groupsRepositoryEM.findOneBy({ name: group })
           : undefined;

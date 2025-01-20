@@ -49,10 +49,7 @@ const OrderEditForm: FC = () => {
         filteredData[key as keyof IOrderEdit] = value;
       }
     }
-    if (!filteredData.status) {
-      filteredData.status = StatusEnum.IN_WORK;
-    }
-    if (chosenOrder && Object.keys(filteredData).length) {
+    if (chosenOrder) {
       dispatch(OrdersActions.editOrder({
         order_id: chosenOrder.id,
         orderEdited: filteredData,
