@@ -18,20 +18,21 @@ const Orders: FC = memo(() => {
   // console.log('.');
   const location = useLocation();
 
-  const { orders } = useAppSelector((state) => state.orders);
+  const { orders, ordersLoadingState } = useAppSelector((state) => state.orders);
+  const { userLogged } = useAppSelector(state => state.users);
   const { pages, page } = useAppSelector((state) => state.pagination.paginationData);
   const dispatch = useAppDispatch();
   const [query, setQuery] = useSearchParams(queryToSearchParams(initialOrdersQuery));
-  useEffect(() => {
-    //Initial sync initial parameters to the URL
-    if (!location.search) {
-      setQuery(queryToSearchParams(initialOrdersQuery), { replace: true });
-    }
-  }, [dispatch]);
 
   useEffect(() => {
-    dispatch(OrdersActions.searchForOrders(Object.fromEntries(query.entries())));
-  }, [query.toString()]);
+    if (!location.search) {
+      setQuery(queryToSearchParams(initialOrdersQuery), { replace: true });
+      dispatch(OrdersActions.searchForOrders(queryToSearchParams(initialOrdersQuery)));
+    } else {
+      dispatch(OrdersActions.searchForOrders(Object.fromEntries(query.entries())));
+    }
+
+  }, [location.key]);
   return (
     <div className={styles.wrapper}>
       {!!orders.length &&
@@ -40,7 +41,8 @@ const Orders: FC = memo(() => {
           <Pagination page={page} pages={pages} />
         </div>
       }
-      {!orders.length && <h2 className={styles.no_data}>No data matches your request.</h2>}
+      {!orders.length && !ordersLoadingState && userLogged &&
+        <h2 className={styles.no_data}>No data matches your request.</h2>}
     </div>
   );
 });

@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import Table from '../../components/Table/Table';
 import { initialOrdersQuery } from '../../constants/initialOrdersQuery';
@@ -15,10 +15,11 @@ import styles from './Admin.module.css';
 
 const Admin: FC = () => {
   // console.log('.');
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { users, userLogged } = useAppSelector((state) => state.users);
-  const [query] = useSearchParams(queryToSearchParams(initialUsersQuery));
+  const [query, setQuery] = useSearchParams();
   const usersNoStatistic = users.map(user => {
     const { statistic, ...output } = user;
     return output;
@@ -26,13 +27,17 @@ const Admin: FC = () => {
 
   useEffect(() => {
     if (userLogged?.role !== UserRoleEnum.ADMIN) {
-      navigate(`/orders?${queryToSearchParams(initialOrdersQuery)}`);
+      const searchParams = new URLSearchParams(queryToSearchParams(initialOrdersQuery));
+      navigate(`/orders?${searchParams}`);
     }
-  }, []);
+    if (!location.search) {
+      setQuery(queryToSearchParams(initialUsersQuery), { replace: true });
+      dispatch(UsersActions.getAllUsers(queryToSearchParams(initialUsersQuery)));
+    } else {
+      dispatch(UsersActions.getAllUsers(Object.fromEntries(query.entries())));
+    }
 
-  useEffect(() => {
-    dispatch(UsersActions.getAllUsers(Object.fromEntries(query.entries())));
-  }, [query.toString()]);
+  }, [location.key]);
 
   return (
     <div className={styles.wrapper}>

@@ -19,7 +19,7 @@ const getAllUsers = createAsyncThunk(
   'users/getAllUsers',
   async (query: Record<string, string>, thunkAPI) => {
     try {
-      // console.log('search for users');
+      // console.log('search for users', query);
       const users = await CRMApi.admin.get_all_users(query);
 
       return thunkAPI.fulfillWithValue(users.map(e => ({
