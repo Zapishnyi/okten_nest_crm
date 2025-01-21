@@ -55,7 +55,7 @@ export class OrderService {
         const ordersRepositoryEM = em.getRepository(OrderEntity);
         const groupsRepositoryEM = em.getRepository(GroupEntity);
         const { group, ...updateData } = dto;
-        if (!updateData.status) {
+        if (!updateData.status || updateData.status === StatusEnum.NEW) {
           updateData.status = StatusEnum.IN_WORK;
         }
         const groupEntity = group

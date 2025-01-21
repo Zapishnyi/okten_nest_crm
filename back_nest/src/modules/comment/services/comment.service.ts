@@ -25,7 +25,11 @@ export class CommentService {
       async (em) => {
         const ordersRepositoryEM = em.getRepository(OrderEntity);
         const commentsRepositoryEM = em.getRepository(CommentEntity);
-        if (!order.status || !order.user?.id) {
+        if (
+          !order.status ||
+          order.status === StatusEnum.NEW ||
+          !order.user?.id
+        ) {
           await ordersRepositoryEM.update(
             { id: order.id },
             { user: { id: user.id }, status: StatusEnum.IN_WORK },
