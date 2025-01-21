@@ -30,7 +30,7 @@ const Admin: FC = memo(() => {
       const searchParams = new URLSearchParams(queryToSearchParams(initialOrdersQuery));
       navigate(`/orders?${searchParams}`);
     }
-    if (!location.search || !location.search.match(/^(?=.*\bsort=\b)(?=.*\bsortBy=\b).*/)) {
+    if (!location.search.match(/^(?=.*\bsort=\b)(?=.*\bsortBy=\b).*/)) {
       setQuery(queryToSearchParams(initialUsersQuery), { replace: true });
       dispatch(UsersActions.getAllUsers(queryToSearchParams(initialUsersQuery)));
     } else {

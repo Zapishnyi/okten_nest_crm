@@ -25,7 +25,7 @@ const Orders: FC = memo(() => {
   const [query, setQuery] = useSearchParams(queryToSearchParams(initialOrdersQuery));
 
   useEffect(() => {
-    if (!location.search || !location.search.match(/^(?=.*\bsort=\b)(?=.*\bpage=\b)(?=.*\bsortBy=\b).*/)) {
+    if (!location.search.match(/^(?=.*\bsort=\b)(?=.*\bpage=\b)(?=.*\bsortBy=\b).*/)) {
       setQuery(queryToSearchParams(initialOrdersQuery), { replace: true });
       dispatch(OrdersActions.searchForOrders(queryToSearchParams(initialOrdersQuery)));
     } else {
