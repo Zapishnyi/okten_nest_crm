@@ -18,15 +18,15 @@ export const cookie: ICookiesService = {
   setActivateToken: (token) => document.cookie = `activate=${token}; path=/; ${setCookieExpire(1)};`,
   getAccessToken: () => {
     const token = document.cookie.split('; ').filter(e => e.includes('access'))[0]?.replace('access=', '');
-    return !!token ? token : null;
+    return token ? token : null;
   },
   getRefreshToken: () => {
     const token = document.cookie.split('; ').filter(e => e.includes('refresh'))[0]?.replace('refresh=', '');
-    return !!token ? token : null;
+    return token ? token : null;
   },
   getActivateToken: () => {
     const token = document.cookie.split('; ').filter(e => e.includes('activate'))[0]?.replace('activate=', '');
-    return !!token ? token : null;
+    return token ? token : null;
   },
   deleteAuthTokens: () => {
     document.cookie = `access=token; path=/; ${setCookieExpire(0)}`;
