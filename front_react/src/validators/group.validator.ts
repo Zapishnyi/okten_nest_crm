@@ -7,7 +7,7 @@ const groups = store.getState().groups.groups;
 export const groupValidator = Joi.string()
   .allow('')
   .pattern(/^[^\s]+$/)
-  .invalid(...groups)
+  .invalid(groups)
   .min(3)
   .max(25)
   .required()
