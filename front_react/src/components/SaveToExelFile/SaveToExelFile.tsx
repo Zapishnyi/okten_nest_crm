@@ -14,8 +14,8 @@ const SaveToExelFile: FC = () => {
   const { paginationData: { total } } = useAppSelector(state => state.pagination);
   const saveToExelFileHandel = async () => {
     try {
-      const orders = CRMApi.orders.get_all({ ...Object.fromEntries(query.entries()), limit: total.toString() });
-      console.log('orders:', orders);
+      const orders = await CRMApi.orders.get_all({ ...Object.fromEntries(query.entries()), limit: total.toString() });
+    
     } catch (e) {
       errorHandle(e);
     }
