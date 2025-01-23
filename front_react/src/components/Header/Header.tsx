@@ -8,6 +8,7 @@ import { useAppSelector } from '../../redux/store';
 import AdminMenu from '../AdminMenu/AdminMenu';
 import AdminTools from '../AdminTools/AdminTools';
 import Logo from '../Logo/Logo';
+import SaveToExelFile from '../SaveToExelFile/SaveToExelFile';
 import UserMenu from '../UserMenu/UserMenu';
 
 import styles from './Header.module.css';
@@ -26,7 +27,10 @@ const Header: FC = memo(() => {
         <div className={styles.toolbox}>
           {(location.pathname === '/admin') && userLogged?.role === UserRoleEnum.ADMIN && <AdminTools />
           }
-          {(location.pathname === '/orders') && <OrderFilterForm />
+          {(location.pathname === '/orders') && <>
+            <OrderFilterForm />
+            <SaveToExelFile />
+          </>
           }
         </div>
         {userLogged?.role === UserRoleEnum.ADMIN &&

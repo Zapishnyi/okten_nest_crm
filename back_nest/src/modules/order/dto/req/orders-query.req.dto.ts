@@ -45,6 +45,13 @@ export class OrdersQueryReqDto {
   public readonly sortBy: OrdersSortByEnum;
 
   @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @ApiProperty({ description: 'Quantity of records on the page' })
+  public readonly limit?: number = 25;
+
+  @IsOptional()
   @Transform(TransformHelper.trim)
   @ApiProperty({
     description: 'Name',

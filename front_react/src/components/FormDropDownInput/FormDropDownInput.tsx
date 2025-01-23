@@ -3,7 +3,8 @@ import { Dispatch, useEffect, useState } from 'react';
 import { FieldValues, Path, UseFormRegister } from 'react-hook-form';
 import { ClipLoader } from 'react-spinners';
 
-import { groupValidator } from '../../validators/group.validator';
+import { useAppSelector } from '../../redux/store';
+import { createGroupValidator } from '../../validators/group.validator';
 import { SvgArrowDownDropDown } from '../SvgArrowDownDropDown/SgArrowDownDropDown';
 import { SvgArrowUpDropDown } from '../SvgArrowUpDropDown/SvgArrowUpDropDown';
 import { SvgCross } from '../SvgCross/SvgCross';
@@ -40,6 +41,8 @@ const FormDropDownInput = <T extends FieldValues>({
   const dropDownInput = document.getElementsByClassName(styles.drop_down_input)[0] as HTMLInputElement;
   const [addItemVisibility, setAddItemVisibility] = useState<boolean>(false);
   const [groupError, setGroupError] = useState<string | undefined>(undefined);
+  const { groups } = useAppSelector(state => state.groups);
+  const groupValidator = createGroupValidator(groups);
 
   useEffect(() => {
     if (dropDownInput) {
@@ -98,7 +101,7 @@ const FormDropDownInput = <T extends FieldValues>({
       setAddItemVisibility(false);
     }
 
-    setGroupError(groupValidator.validate(currentValue).error?.message);
+    setGroupError(groupValidator.validate({ groupName: currentValue }).error?.message);
   };
 
   const clearInput = () => {

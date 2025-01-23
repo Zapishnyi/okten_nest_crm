@@ -27,6 +27,7 @@
             border-radius: 10px;
             /*border: 1px solid grey;*/
             /*background: #f8f8f8;*/
+            display: flex;
         }
 
         .menu {

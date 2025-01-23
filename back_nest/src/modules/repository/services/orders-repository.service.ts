@@ -17,6 +17,7 @@ export class OrdersRepository extends Repository<OrderEntity> {
       page,
       sortBy,
       sort,
+      limit,
       course,
       course_format,
       course_type,
@@ -118,8 +119,8 @@ export class OrdersRepository extends Repository<OrderEntity> {
 
     const ordersCounted = await ordersQuery
       .orderBy(sortByMod, sort)
-      .limit(25)
-      .offset((page - 1) * 25)
+      .limit(limit)
+      .offset((page - 1) * limit)
       .getManyAndCount();
 
     if (ordersCounted[0].length) {

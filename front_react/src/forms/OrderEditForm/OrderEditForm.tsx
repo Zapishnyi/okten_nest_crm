@@ -30,7 +30,6 @@ const OrderEditForm: FC = () => {
   const { groupsLoadingState, groups } = useAppSelector(state => state.groups);
   const { utm, manager, msg, id, comments, manager_id, created_at, ...restValues } = chosenOrder as IOrder;
   const initialFormValue = restValues as IOrderEdit;
-
   const {
     register,
     handleSubmit,
@@ -61,7 +60,7 @@ const OrderEditForm: FC = () => {
   const closeForm = () => {
     dispatch(VisibilityActions.editOrderFormVisible(false));
   };
-
+  
   // Group names get and set logic
   useEffect(() => {
     dispatch(GroupsActions.getGroups());
