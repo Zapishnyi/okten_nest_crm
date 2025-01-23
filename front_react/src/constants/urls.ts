@@ -1,4 +1,4 @@
-export const baseURL = process.env.REACT_APP_BACK_BASE_URL;
+export const baseURL = import.meta.env.VITE_BACK_BASE_URL;
 
 export const urls = {
   auth: {

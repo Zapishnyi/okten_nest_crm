@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { VisibilityActions } from '../../redux/Slices/visabilitySlice';
 import { useAppDispatch } from '../../redux/store';

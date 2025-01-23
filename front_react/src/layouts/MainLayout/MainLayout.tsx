@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 
 import { AxiosError } from 'axios';
 import { Outlet, useNavigate } from 'react-router-dom';

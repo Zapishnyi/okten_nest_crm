@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { UsersActions } from '../../redux/Slices/usersSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';

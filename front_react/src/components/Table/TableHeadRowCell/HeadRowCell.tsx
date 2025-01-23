@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, memo, MouseEvent, RefObject, useEffect } from 'react';
+import { ChangeEvent, FC, memo, MouseEvent, RefObject, useEffect } from 'react';
 
 import { useLocation, useSearchParams } from 'react-router-dom';
 

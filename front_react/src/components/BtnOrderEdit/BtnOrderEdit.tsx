@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import IOrder from '../../interfaces/IOrder';
 import { OrdersActions } from '../../redux/Slices/ordersSlice';

@@ -1,6 +1,5 @@
-import React, { Dispatch, useEffect, useState } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
 
-import { input } from '@testing-library/user-event/event/input';
 import { FieldValues, Path, UseFormRegister } from 'react-hook-form';
 import { ClipLoader } from 'react-spinners';
 
@@ -105,7 +104,7 @@ const FormDropDownInput = <T extends FieldValues>({
   const clearInput = () => {
     setItemChosen('');
   };
- 
+
   return (
     <label className={styles.label}>
       {field_label}:{' '}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { FieldValues, Path, UseFormRegister } from 'react-hook-form';
 

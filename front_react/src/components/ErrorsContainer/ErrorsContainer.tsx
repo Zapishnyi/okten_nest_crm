@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import styles from './ErrorContainer.module.css';
 import ErrorItem from './ErrorItem/ErrorItem';

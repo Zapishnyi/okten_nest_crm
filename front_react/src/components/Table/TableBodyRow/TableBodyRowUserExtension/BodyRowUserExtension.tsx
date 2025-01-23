@@ -1,4 +1,4 @@
-import React, { FC, memo, useState } from 'react';
+import { FC, memo, useState } from 'react';
 
 import { useAppSelector } from '../../../../redux/store';
 import BtnActivate from '../../../BtnActivate/BtnActivate';

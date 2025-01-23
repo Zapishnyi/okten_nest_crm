@@ -27,6 +27,7 @@ const searchForOrders = createAsyncThunk(
     try {
       // console.log('search for orders');
       const ordersPaginated = await CRMApi.orders.get_all(searchQuery);
+     
       const { page, pages, total, limit } = ordersPaginated;
       thunkAPI.dispatch(PaginationActions.setPaginationData({ page, pages, total, limit }));
       return thunkAPI.fulfillWithValue(ordersPaginated.data.map(e => ({
@@ -148,7 +149,7 @@ export const ordersSlice = createSlice({
       })
       .addMatcher(
         isRejected(searchForOrders, getOrder, addComment, editOrder),
-        (state, action) => {
+        (_, action) => {
           console.error(
             'Orders receive sequence failed with error:',
             action.payload,

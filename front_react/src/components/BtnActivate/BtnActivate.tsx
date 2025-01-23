@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, useState } from 'react';
+import { Dispatch, FC, useState } from 'react';
 
 import { errorHandle } from '../../helpers/error-handle';
 import { useAppSelector } from '../../redux/store';

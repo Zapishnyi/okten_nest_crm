@@ -30,7 +30,7 @@ Developed as per technical assigment
 6. Start React app:
    > cd front_react
 
-   > npm start
+   > npm run dev
 
 ### Swagger
 
