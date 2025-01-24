@@ -1,4 +1,28 @@
 .save_button {
     height: 100%;
     cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    * {
+        transform: scale(1);
+        transition: 0.2s;
+    }
+
+    .loader {
+        position: absolute;
+        left: 30%;
+        top: 40%;
+
+    }
 }
+
+.save_button:hover {
+    * {
+        transform: scale(1.05);
+        transition: 0.2s;
+    }
+}
+
