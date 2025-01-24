@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -76,7 +77,13 @@ export class AdminService {
     );
   }
 
-  public async userBanReinstate(user_id: number): Promise<UserEntity> {
+  public async userBanReinstate(
+    user_id: number,
+    user: UserEntity,
+  ): Promise<UserEntity> {
+    if (user_id === user.id) {
+      throw new ForbiddenException("User can't ban himself");
+    }
     return await this.entityManager.transaction(
       this.isolationLevel.set(),
       async (em) => {

@@ -19,8 +19,10 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
+import { GetStoredUserDataFromResponse } from '../../../common/custom_decorators/get-stored-user-data-from-response.decorator';
 import { AdminRoleGuard } from '../../../common/guards/admin-role.guard';
 import { JwtAccessGuard } from '../../../common/guards/jwt-access.guard';
+import { IUserData } from '../../auth/interfaces/IUserData';
 import { OrderService } from '../../order/services/order.service';
 import { UserCreateByAdminReqDto } from '../dto/req/user-create-by-admin.req.dto';
 import { UsersQueryReqDto } from '../dto/req/users-query.req.dto';
@@ -175,9 +177,10 @@ export class AdminController {
   @UseGuards(JwtAccessGuard, AdminRoleGuard)
   public async userBanReinstate(
     @Param('id', ParseIntPipe) user_id: number,
+    @GetStoredUserDataFromResponse() { user }: IUserData,
   ): Promise<UserBanResDto> {
     return this.userPresenter.toResponseDtoFromEntity(
-      await this.adminService.userBanReinstate(user_id),
+      await this.adminService.userBanReinstate(user_id, user),
     );
   }
 
