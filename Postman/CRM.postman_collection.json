@@ -761,7 +761,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/order/all?page=1&sort=DESC&sortBy=id&name&surname&email&phone&age&course&course_format&course_type&status&group&my_order&upper_date&lower_date",
+							"raw": "{{host}}/order/all?page=1&sort=DESC&sortBy=id&limit=25&name&surname&email&phone&age&course&course_format&course_type&status&group&my_order&upper_date&lower_date",
 							"host": [
 								"{{host}}"
 							],
@@ -781,6 +781,10 @@
 								{
 									"key": "sortBy",
 									"value": "id"
+								},
+								{
+									"key": "limit",
+									"value": "25"
 								},
 								{
 									"key": "name",
