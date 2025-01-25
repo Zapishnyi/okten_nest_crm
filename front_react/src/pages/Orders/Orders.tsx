@@ -27,7 +27,7 @@ const Orders: FC = memo(() => {
   const [query, setQuery] = useSearchParams(
     queryToSearchParams(initialOrdersQuery)
   );
-
+  console.log("Just a check how github is working");
   useEffect(() => {
     if (
       !location.search.match(
