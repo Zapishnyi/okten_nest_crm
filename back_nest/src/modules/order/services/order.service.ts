@@ -75,27 +75,6 @@ export class OrderService {
     );
   }
 
-  public async getGroupingItems(): Promise<Record<string, string[]>> {
-    const groupingItems = await this.ordersRepository.find({
-      select: ['course', 'course_format', 'course_type'],
-    });
-    const keys = Object.keys(groupingItems[0]);
-    const initial = {};
-    keys.forEach((key) => {
-      initial[key] = [];
-    });
-    groupingItems.reduce((acc, item) => {
-      keys.forEach((key) => {
-        acc[key] = Array.from(
-          new Set(item[key] ? [...acc[key], item[key]] : acc[key]),
-        );
-      });
-      return acc;
-    }, initial);
-
-    return initial;
-  }
-
   public async getOrdersStatusStatistic(): Promise<OrderStatusStatisticResDto> {
     return await this.entityManager.transaction(
       this.isolationLevel.set(),

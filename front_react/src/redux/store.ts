@@ -5,7 +5,7 @@ import { groupsSlice } from './Slices/groupsSlice';
 import { ordersSlice } from './Slices/ordersSlice';
 import { paginationSlice } from './Slices/paginationSlice';
 import { usersSlice } from './Slices/usersSlice';
-import { visibilitySlice } from './Slices/visabilitySlice';
+import { visibilitySlice } from './Slices/visibilitySlice';
 
 export const store = configureStore({
   reducer: {

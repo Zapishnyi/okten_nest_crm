@@ -1,9 +1,9 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
 
 import { IUserData } from '../../modules/auth/interfaces/IUserData';
@@ -25,7 +25,7 @@ export class OrderOwnershipGuard implements CanActivate {
       throw new NotFoundException('Order does not exist');
     }
     if (order?.user?.id !== user?.id && order.user) {
-      throw new UnauthorizedException();
+      throw new ForbiddenException('You do not have access to this order');
     }
     request.order_data = {
       order,

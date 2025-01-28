@@ -17,20 +17,24 @@ const userCreateValidator: Joi.ObjectSchema<IUserSignIn> = Joi.object({
 
   name: Joi.string()
     .required()
+    .pattern(/^[a-zA-Zа-яА-ЯёЁїЇіІєЄґҐ]+$/)
     .empty()
-    .min(3)
+    .min(1)
     .max(25)
     .messages({
-      'string.min': '5 characters min',
+      'string.pattern.base': 'Surname must contain only letters',
+      'string.min': '2 characters min',
       'string.max': '16 characters max',
     }),
   surname: Joi.string()
     .required()
+    .pattern(/^[a-zA-Zа-яА-ЯёЁїЇіІєЄґҐ]+$/)
     .empty()
-    .min(3)
+    .min(1)
     .max(25)
     .messages({
-      'string.min': '3 characters min',
+       'string.pattern.base': 'Surname must contain only letters',
+      'string.min': '2 characters min',
       'string.max': '25 characters max',
     }),
 });

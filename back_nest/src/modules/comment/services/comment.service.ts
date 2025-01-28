@@ -15,6 +15,7 @@ export class CommentService {
     private readonly isolationLevel: IsolationLevelService,
   ) {}
 
+  // Add comment to order ---------------------------------------
   public async addComment(
     dto: CommentReqDto,
     user: UserEntity,
@@ -25,11 +26,7 @@ export class CommentService {
       async (em) => {
         const ordersRepositoryEM = em.getRepository(OrderEntity);
         const commentsRepositoryEM = em.getRepository(CommentEntity);
-        if (
-          !order.status ||
-          order.status === StatusEnum.NEW ||
-          !order.user?.id
-        ) {
+        if (!order.status || order.status === StatusEnum.NEW) {
           await ordersRepositoryEM.update(
             { id: order.id },
             { user: { id: user.id }, status: StatusEnum.IN_WORK },

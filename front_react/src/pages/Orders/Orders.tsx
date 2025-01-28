@@ -1,45 +1,46 @@
-import React, { FC, memo, useEffect } from 'react';
+import React, { FC, memo, useEffect } from "react";
 
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from "react-router-dom";
 
-import Pagination from '../../components/Pagination/Pagination';
-import Table from '../../components/Table/Table';
-import { initialOrdersQuery } from '../../constants/initialOrdersQuery';
-import { orderToReduced } from '../../helpers/order-to-reduced';
-import { queryToSearchParams } from '../../helpers/query-to-search-params-obj';
-import IOrderReduced from '../../interfaces/IOrderReduced';
-import { OrdersActions } from '../../redux/Slices/ordersSlice';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
+import Pagination from "../../components/Pagination/Pagination";
+import Table from "../../components/Table/Table";
+import { initialOrdersQuery } from "../../constants/initialOrdersQuery";
+import { orderToReduced } from "../../helpers/order-to-reduced";
+import { queryToSearchParams } from "../../helpers/query-to-search-params-obj";
+import IOrderReduced from "../../interfaces/IOrderReduced";
+import { OrdersActions } from "../../redux/Slices/ordersSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 
-import styles from './Orders.module.css';
+import styles from "./Orders.module.css";
 
 const Orders: FC = memo(() => {
+  // console.log(".");
   const location = useLocation();
 
   const { orders, ordersLoadingState } = useAppSelector(
-    (state) => state.orders,
+    (state) => state.orders
   );
   const { userLogged } = useAppSelector((state) => state.users);
   const { pages, page } = useAppSelector(
-    (state) => state.pagination.paginationData,
+    (state) => state.pagination.paginationData
   );
   const dispatch = useAppDispatch();
   const [query, setQuery] = useSearchParams(
-    queryToSearchParams(initialOrdersQuery),
+    queryToSearchParams(initialOrdersQuery)
   );
   useEffect(() => {
     if (
       !location.search.match(
-        /^(?=.*\bsort=\b)(?=.*\bpage=\b)(?=.*\bsortBy=\b).*/,
+        /^(?=.*\bsort=\b)(?=.*\bpage=\b)(?=.*\bsortBy=\b).*/
       )
     ) {
       setQuery(queryToSearchParams(initialOrdersQuery), { replace: true });
       dispatch(
-        OrdersActions.searchForOrders(queryToSearchParams(initialOrdersQuery)),
+        OrdersActions.searchForOrders(queryToSearchParams(initialOrdersQuery))
       );
     } else {
       dispatch(
-        OrdersActions.searchForOrders(Object.fromEntries(query.entries())),
+        OrdersActions.searchForOrders(Object.fromEntries(query.entries()))
       );
     }
   }, [location.search]);

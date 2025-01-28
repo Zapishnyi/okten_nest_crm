@@ -26,6 +26,7 @@ export class OrderBaseReqDto {
   @IsString()
   @Length(2, 25)
   @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.emptyToUndefined)
   @ApiProperty({
     minLength: 2,
     maxLength: 25,
@@ -38,6 +39,7 @@ export class OrderBaseReqDto {
   @IsString()
   @Length(2, 25)
   @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.emptyToUndefined)
   @ApiProperty({
     minLength: 2,
     maxLength: 25,
@@ -51,6 +53,7 @@ export class OrderBaseReqDto {
   @IsEmail()
   @Length(2, 100)
   @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.emptyToUndefined)
   @ApiProperty({
     minLength: 2,
     maxLength: 100,
@@ -64,6 +67,7 @@ export class OrderBaseReqDto {
   @IsPhoneNumber('UA')
   @Length(6, 13)
   @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.emptyToUndefined)
   @ApiProperty({
     minLength: 6,
     maxLength: 13,
@@ -73,7 +77,10 @@ export class OrderBaseReqDto {
   readonly phone?: string;
 
   @IsOptional()
+  @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.toNumber)
   @IsNumber()
+  @Transform(TransformHelper.emptyToUndefined)
   @Min(16)
   @Max(120)
   @ApiProperty({
@@ -86,24 +93,30 @@ export class OrderBaseReqDto {
 
   @IsOptional()
   @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.emptyToUndefined)
   @IsEnum(CourseEnum)
   @ApiProperty({ enum: CourseEnum, example: CourseEnum.QACX })
   readonly course?: CourseEnum;
 
   @IsOptional()
   @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.emptyToUndefined)
   @IsEnum(CourseFormatEnum)
   @ApiProperty({ enum: CourseFormatEnum, example: CourseFormatEnum.ONLINE })
   readonly course_format?: CourseFormatEnum;
 
   @IsOptional()
   @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.emptyToUndefined)
   @IsEnum(CourseTypeEnum)
   @ApiProperty({ enum: CourseTypeEnum, example: CourseTypeEnum.VIP })
   readonly course_type?: CourseTypeEnum;
 
   @IsOptional()
+  @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.toNumber)
   @IsNumber()
+  @Transform(TransformHelper.emptyToUndefined)
   @Min(0)
   @ApiProperty({
     minimum: 0,
@@ -113,7 +126,10 @@ export class OrderBaseReqDto {
   readonly sum?: number;
 
   @IsOptional()
+  @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.toNumber)
   @IsNumber()
+  @Transform(TransformHelper.emptyToUndefined)
   @Min(0)
   @ApiProperty({
     minimum: 0,
@@ -126,6 +142,7 @@ export class OrderBaseReqDto {
   @IsString()
   @Length(0, 100)
   @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.emptyToUndefined)
   @ApiProperty({
     minLength: 0,
     maxLength: 100,
@@ -138,6 +155,7 @@ export class OrderBaseReqDto {
   @IsString()
   @Length(0, 100)
   @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.emptyToUndefined)
   @ApiProperty({
     minLength: 0,
     maxLength: 100,
@@ -148,6 +166,7 @@ export class OrderBaseReqDto {
 
   @IsOptional()
   @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.emptyToUndefined)
   @IsEnum(StatusEnum)
   @ApiProperty({ enum: StatusEnum, example: StatusEnum.IN_WORK })
   readonly status?: StatusEnum;
@@ -156,6 +175,7 @@ export class OrderBaseReqDto {
   @IsString()
   @Length(3, 25)
   @Transform(TransformHelper.trim)
+  @Transform(TransformHelper.emptyToUndefined)
   @ApiProperty({
     minLength: 3,
     maxLength: 25,

@@ -11,10 +11,10 @@ const orderEditValidator: Joi.ObjectSchema = Joi.object({
     .optional()
     .pattern(/^[a-zA-Zа-яА-ЯёЁїЇіІєЄґҐ]+$/)
     .max(25)
-    .min(3)
+    .min(2)
     .messages({
       'string.pattern.base': 'Name must contain only letters',
-      'string.min': 'Name must be at least 3 characters long',
+      'string.min': 'Name must be at least 2 characters long',
       'string.max': 'Name must not exceed 25 characters',
     }),
 
@@ -23,10 +23,10 @@ const orderEditValidator: Joi.ObjectSchema = Joi.object({
     .optional()
     .pattern(/^[a-zA-Zа-яА-ЯёЁїЇіІєЄґҐ]+$/)
     .max(25)
-    .min(3)
+    .min(2)
     .messages({
       'string.pattern.base': 'Surname must contain only letters',
-      'string.min': 'Surname must be at least 3 characters long',
+      'string.min': 'Surname must be at least 2 characters long',
       'string.max': 'Surname must not exceed 25 characters',
     }),
 
@@ -62,12 +62,15 @@ const orderEditValidator: Joi.ObjectSchema = Joi.object({
     }),
 
   course: Joi.string()
+    .allow(null, '')
     .valid(...Object.values(CourseEnum)),
 
   course_format: Joi.string()
+    .allow(null, '')
     .valid(...Object.values(CourseFormatEnum)),
 
   course_type: Joi.string()
+    .allow(null, '')
     .valid(...Object.values(CourseTypeEnum)),
 
   sum: Joi.number()
@@ -91,8 +94,8 @@ const orderEditValidator: Joi.ObjectSchema = Joi.object({
     }),
 
   status: Joi.string()
-    .allow(null)
-    .valid(...Object.values(StatusEnum)),
+    .allow(null, '')
+       .valid(...Object.values(StatusEnum)),
 
   group: Joi.string()
     .allow(null, '')

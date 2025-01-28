@@ -51,7 +51,7 @@
 
         position: absolute;
         border: 1px solid rgba(96, 96, 96, 0.2);
-        z-index: 101;
+        z-index: 102;
         overflow-y: auto;
         max-height: 300px;
         top: 54px;
@@ -61,11 +61,11 @@
     }
 
 
-    > p:before {
+    >p:before {
         content: '*'
     }
 
-    > p {
+    >p {
         color: #ff0000;
         position: absolute;
         bottom: 32px;

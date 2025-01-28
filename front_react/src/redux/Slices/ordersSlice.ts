@@ -5,7 +5,7 @@ import { navigateTo } from '../../helpers/navigate-to';
 import IComment from '../../interfaces/IComment';
 import IOrder from '../../interfaces/IOrder';
 import IOrderEdit from '../../interfaces/IOrderEdit';
-import { CRMApi } from '../../services/crm.api.servise';
+import { CRMApi } from '../../services/crm.api.service';
 
 import { PaginationActions } from './paginationSlice';
 

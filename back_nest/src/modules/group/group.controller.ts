@@ -19,6 +19,7 @@ export class GroupController {
     private readonly groupPresenter: GroupPresenterService,
   ) {}
 
+  //Get all groups--------------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -32,10 +33,12 @@ export class GroupController {
   @UseGuards(JwtAccessGuard)
   @Get('/all')
   public async getAllGroups(): Promise<GroupResDto[]> {
-    const groups = await this.groupService.getAllGroups();
-    return groups.map((entity) => this.groupPresenter.toResponseDto(entity));
+    return (await this.groupService.getAllGroups()).map((entity) =>
+      this.groupPresenter.toResponseDto(entity),
+    );
   }
 
+  //Add a group-------------------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {

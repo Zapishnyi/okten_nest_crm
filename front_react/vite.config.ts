@@ -7,6 +7,11 @@ export default defineConfig({
     port: 3000,
     open: true,
   },
+  //   css: {
+  //   modules: {
+  //     generateScopedName: "[name]__[local]___[hash:base64:5]",
+  //   },
+  // },
   build: {
     rollupOptions: {
       output: {

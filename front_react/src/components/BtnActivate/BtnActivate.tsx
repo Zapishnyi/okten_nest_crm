@@ -1,9 +1,9 @@
-import { Dispatch, FC, useState } from 'react';
+import { Dispatch, FC, useState } from "react";
 
-import { errorHandle } from '../../helpers/error-handle';
-import { useAppSelector } from '../../redux/store';
-import { CRMApi } from '../../services/crm.api.servise';
-import BtnLoader from '../BtnLoader/BtnLoader';
+import { errorHandle } from "../../helpers/error-handle";
+import { useAppSelector } from "../../redux/store";
+import { CRMApi } from "../../services/crm.api.service";
+import BtnLoader from "../BtnLoader/BtnLoader";
 
 interface IProps {
   user_id: number;
@@ -11,7 +11,11 @@ interface IProps {
   setErrorMassage: Dispatch<string[] | null>;
 }
 
-const BtnActivate: FC<IProps> = ({ user_id, setActivateLink, setErrorMassage }) => {
+const BtnActivate: FC<IProps> = ({
+  user_id,
+  setActivateLink,
+  setErrorMassage,
+}) => {
   const [isPending, setIsPending] = useState(false);
   const { users } = useAppSelector((state) => state.users);
   const user = users?.filter((user) => user.id === user_id)[0];
@@ -31,13 +35,17 @@ const BtnActivate: FC<IProps> = ({ user_id, setActivateLink, setErrorMassage }) 
     } finally {
       setIsPending(false);
     }
-
   };
-  return <div title="Activate link will be available in the clipboard" className="button"
-              onClick={activate}>
-    <p>{!user.active ? 'Activate' : 'Password recovery'}</p>
-    {isPending && <BtnLoader loadingState={isPending} />}
-  </div>;
+  return (
+    <div
+      title="Activate link will be available in the clipboard"
+      className="button"
+      onClick={activate}
+    >
+      <p>{!user.active ? "Activate" : "Password recovery"}</p>
+      {isPending && <BtnLoader loadingState={isPending} />}
+    </div>
+  );
 };
 
 export default BtnActivate;

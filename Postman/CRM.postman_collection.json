@@ -16,9 +16,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"// Parse the response body to JSON\r",
 									"const responseBody = pm.response.json();\r",
-									"// Extract the token \r",
 									"try{\r",
 									"const access = responseBody.tokens.access;\r",
 									"const refresh = responseBody.tokens.refresh;\r",
@@ -41,8 +39,8 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
+							"mode": "urlencoded",
+							"urlencoded": [
 								{
 									"key": "email",
 									"value": "admin@gmail.com",
@@ -70,6 +68,26 @@
 				},
 				{
 					"name": "Sign-out",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"try{\r",
+									"const sataus = pm.response.code;\r",
+									"if (sataus===201) {\r",
+									"    pm.environment.set('access', null);\r",
+									"    pm.environment.set('refresh', null);\r",
+									"       } \r",
+									"}catch(err){\r",
+									"console.log(err)\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -85,7 +103,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"MAks\",\r\n    \"age\":15,\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -173,7 +191,14 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"try{\r",
+									"const sataus = pm.response.code;\r",
+									"if (sataus===201) {\r",
+									"    pm.environment.set('activate', null);\r",
+									"          } \r",
+									"}catch(err){\r",
+									"console.log(err)\r",
+									"}"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -198,7 +223,7 @@
 							"urlencoded": [
 								{
 									"key": "password",
-									"value": "",
+									"value": "qQ1!1",
 									"description": " Password must contain  a digit, a lowercase letter, a uppercase letter, a special character, no space, 5 characters min,16 characters max",
 									"type": "text"
 								}
@@ -240,7 +265,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{refresh}}",
+									"value": "{{access}}",
 									"type": "string"
 								}
 							]
@@ -301,28 +326,7 @@
 						"header": [],
 						"body": {
 							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "name",
-									"value": "Cool",
-									"type": "text"
-								},
-								{
-									"key": "surname",
-									"value": "Manager",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "test@crowed.com",
-									"type": "text"
-								},
-								{
-									"key": "role",
-									"value": "manager",
-									"type": "text"
-								}
-							]
+							"urlencoded": []
 						},
 						"url": {
 							"raw": "{{host}}/admin/user/get-all?sort=DESC&sortBy=id",
@@ -351,7 +355,7 @@
 					"response": []
 				},
 				{
-					"name": "User activate token",
+					"name": "Get User activate token",
 					"event": [
 						{
 							"listen": "test",
@@ -363,7 +367,7 @@
 									"if (activate) {\r",
 									"    // Set the token in the environment\r",
 									"    pm.environment.set('activate', activate);\r",
-									"           } \r",
+									"    } \r",
 									"}catch(err){\r",
 									"console.log(err)\r",
 									"}\r",
@@ -408,7 +412,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "4"
 								}
 							]
 						}
@@ -447,50 +451,17 @@
 						"header": [],
 						"body": {
 							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "name",
-									"value": "Cool",
-									"type": "text"
-								},
-								{
-									"key": "surname",
-									"value": "Manager",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "test@crowed.com",
-									"type": "text"
-								},
-								{
-									"key": "role",
-									"value": "manager",
-									"type": "text"
-								}
-							]
+							"urlencoded": []
 						},
 						"url": {
-							"raw": "{{host}}/admin/user/get-all?sort=DESC&sortBy=id",
+							"raw": "{{host}}/admin/orders/statistic",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"admin",
-								"user",
-								"get-all"
-							],
-							"query": [
-								{
-									"key": "sort",
-									"value": "DESC",
-									"description": "Available values : ASC, DESC"
-								},
-								{
-									"key": "sortBy",
-									"value": "id",
-									"description": "Available values : id, name, surname, email, ban, active, role, last_login, total_orders, created_at"
-								}
+								"orders",
+								"statistic"
 							]
 						}
 					},
@@ -503,18 +474,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"const responseBody = pm.response.json();\r",
-									"try{\r",
-									"const access = responseBody.tokens.access;\r",
-									"const refresh = responseBody.tokens.refresh;\r",
-									"if (access||refresh) {\r",
-									"    // Set the token in the environment\r",
-									"    pm.environment.set('access', access);\r",
-									"    pm.environment.set('refresh', refresh);\r",
-									"       } \r",
-									"}catch(err){\r",
-									"console.log(err)\r",
-									"}\r",
 									""
 								],
 								"type": "text/javascript",
@@ -540,22 +499,17 @@
 							"urlencoded": [
 								{
 									"key": "name",
-									"value": "Cool",
+									"value": "Leonard",
 									"type": "text"
 								},
 								{
 									"key": "surname",
-									"value": "Manager",
+									"value": "Hofsteder",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "test@crowed.com",
-									"type": "text"
-								},
-								{
-									"key": "role",
-									"value": "manager",
+									"value": "hofsteder@example.com",
 									"type": "text"
 								}
 							]
@@ -606,7 +560,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "{{host}}/admin/user/:id/ban-reinstane",
+							"raw": "{{host}}/admin/user/:id/ban-reinstate",
 							"host": [
 								"{{host}}"
 							],
@@ -614,12 +568,12 @@
 								"admin",
 								"user",
 								":id",
-								"ban-reinstane"
+								"ban-reinstate"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": ""
+									"value": "4"
 								}
 							]
 						}
@@ -670,7 +624,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "11"
+									"value": "4"
 								}
 							]
 						}
@@ -709,19 +663,19 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "{{host}}/admin/user/:id",
+							"raw": "{{host}}/admin/group/:id",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"admin",
-								"user",
+								"group",
 								":id"
 							],
 							"variable": [
 								{
 									"key": "id",
-									"value": "11"
+									"value": "800"
 								}
 							]
 						}
@@ -761,7 +715,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/order/all?page=1&sort=DESC&sortBy=id&limit=25&name&surname&email&phone&age&course&course_format&course_type&status&group&my_order&upper_date&lower_date",
+							"raw": "{{host}}/order/all?page=1&sort=DESC&sortBy=id",
 							"host": [
 								"{{host}}"
 							],
@@ -784,66 +738,80 @@
 								},
 								{
 									"key": "limit",
-									"value": "25"
+									"value": "25",
+									"disabled": true
 								},
 								{
 									"key": "name",
-									"value": null
+									"value": "",
+									"disabled": true
 								},
 								{
 									"key": "surname",
-									"value": null
+									"value": null,
+									"disabled": true
 								},
 								{
 									"key": "email",
-									"value": null
+									"value": null,
+									"disabled": true
 								},
 								{
 									"key": "phone",
-									"value": null
+									"value": null,
+									"disabled": true
 								},
 								{
 									"key": "age",
-									"value": null
+									"value": null,
+									"disabled": true
 								},
 								{
 									"key": "course",
 									"value": null,
-									"description": "FS, QACX, JSX, JSCX, FE, PCX"
+									"description": "FS, QACX, JSX, JSCX, FE, PCX",
+									"disabled": true
 								},
 								{
 									"key": "course_format",
 									"value": null,
-									"description": "static, online"
+									"description": "static, online",
+									"disabled": true
 								},
 								{
 									"key": "course_type",
 									"value": null,
-									"description": "pro, minimal, premium, incubator, vip"
+									"description": "pro, minimal, premium, incubator, vip",
+									"disabled": true
 								},
 								{
 									"key": "status",
 									"value": null,
-									"description": "In work, New, Agree, Disagree, Dubbing"
+									"description": "In work, New, Agree, Disagree, Dubbing",
+									"disabled": true
 								},
 								{
 									"key": "group",
-									"value": null
+									"value": null,
+									"disabled": true
 								},
 								{
 									"key": "my_order",
 									"value": null,
-									"description": "boolean"
+									"description": "boolean",
+									"disabled": true
 								},
 								{
 									"key": "upper_date",
 									"value": null,
-									"description": "Date"
+									"description": "Date",
+									"disabled": true
 								},
 								{
 									"key": "lower_date",
 									"value": null,
-									"description": "Date"
+									"description": "Date",
+									"disabled": true
 								}
 							]
 						}
@@ -889,7 +857,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "356"
+									"value": "45"
 								}
 							]
 						}
@@ -992,7 +960,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "354"
+									"value": "45"
 								}
 							]
 						}
@@ -1019,7 +987,7 @@
 							"urlencoded": [
 								{
 									"key": "comment",
-									"value": "",
+									"value": "Let's check how it is working from Postman\n",
 									"description": "1 - 60 charasters",
 									"type": "text"
 								}
@@ -1038,7 +1006,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "354"
+									"value": "45"
 								}
 							]
 						}
@@ -1078,26 +1046,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/orders?page=1&sort=DESC&sortBy=id",
+							"raw": "{{host}}/group/all",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"orders"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "sort",
-									"value": "DESC"
-								},
-								{
-									"key": "sortBy",
-									"value": "id"
-								}
+								"group",
+								"all"
 							]
 						}
 					},
@@ -1123,7 +1078,7 @@
 							"urlencoded": [
 								{
 									"key": "name",
-									"value": "",
+									"value": "September2024",
 									"description": "3-25 charasters",
 									"type": "text"
 								}
@@ -1150,7 +1105,16 @@
 					"name": "Health",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{host}}/health",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"health"
+							]
+						}
 					},
 					"response": []
 				}

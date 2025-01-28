@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, isPending, isRejected, PayloadAction } f
 
 import { errorHandle } from '../../helpers/error-handle';
 import IUser from '../../interfaces/IUser';
-import { CRMApi } from '../../services/crm.api.servise';
+import { CRMApi } from '../../services/crm.api.service';
 
 interface IInitial {
   userLogged: IUser | null;

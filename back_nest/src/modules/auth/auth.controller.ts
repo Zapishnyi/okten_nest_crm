@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiOperation,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -26,6 +27,7 @@ export class AuthController {
     private readonly userPresenter: UserPresenterService,
   ) {}
 
+  // Sign in ---------------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -34,6 +36,10 @@ export class AuthController {
       timestamp: '2024-12-03T18:41:52.824Z',
       path: '/auth/sign-in',
     },
+  })
+  @ApiOperation({
+    summary: 'Sign in of User using email and password',
+    // description: 'Sign in user',
   })
   @Post('sign-in')
   public async signIn(
@@ -44,6 +50,7 @@ export class AuthController {
     return { tokens, user: this.userPresenter.toResponseDtoFromEntity(user) };
   }
 
+  // Activate user ---------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -52,6 +59,10 @@ export class AuthController {
       timestamp: '2024-12-03T18:52:08.622Z',
       path: '/auth/activate',
     },
+  })
+  @ApiOperation({
+    summary: 'Activate of User using activate token',
+    // description: 'Sign in user',
   })
   @UseGuards(JwtActivateGuard)
   @ApiBearerAuth('Activate-Token')
@@ -64,6 +75,7 @@ export class AuthController {
     return this.userPresenter.toResponseDtoFromEntity(user);
   }
 
+  // Refresh tokens --------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -86,6 +98,7 @@ export class AuthController {
     };
   }
 
+  // Log out -----------------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -103,7 +116,7 @@ export class AuthController {
   ): Promise<void> {
     await this.authService.signOut(userData);
   }
-
+  // Get logged user data -----------------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {

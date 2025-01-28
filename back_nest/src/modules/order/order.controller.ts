@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiOperation,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -41,6 +42,7 @@ export class OrderController {
     private readonly commentService: CommentService,
   ) {}
 
+  // get orders by query -------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -51,6 +53,7 @@ export class OrderController {
     },
   })
   @ApiBearerAuth('Access-Token')
+  @ApiOperation({ summary: 'Get orders by query' })
   @UseGuards(JwtAccessGuard)
   @Get('/all')
   public async getOrdersByQuery(
@@ -64,6 +67,7 @@ export class OrderController {
     return this.ordersPresenter.toOrderListDto(ordersArray, query, total);
   }
 
+  // get order by id -------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -73,6 +77,7 @@ export class OrderController {
       path: '/orders?page=1&order=DESC&orderBy=id',
     },
   })
+  @ApiOperation({ summary: 'Get order by id' })
   @ApiBearerAuth('Access-Token')
   @UseGuards(JwtAccessGuard)
   @Get('/:id')
@@ -83,7 +88,7 @@ export class OrderController {
       await this.orderService.getOrderById(order_id),
     );
   }
-
+  // Edit order by id -------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -93,6 +98,7 @@ export class OrderController {
       path: '',
     },
   })
+  @ApiOperation({ summary: 'Edit order by id' })
   @ApiBearerAuth('Access-Token')
   @UseGuards(JwtAccessGuard, OrderOwnershipGuard)
   @Patch('/:id')
@@ -106,7 +112,7 @@ export class OrderController {
       await this.orderService.editOrderById(user, order, dto),
     );
   }
-
+  // Add comment to order by id -------------------------------------------
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -116,6 +122,7 @@ export class OrderController {
       path: '/orders?page=1&order=DESC&orderBy=id',
     },
   })
+  @ApiOperation({ summary: 'Add comment to order by id' })
   @ApiBearerAuth('Access-Token')
   @UseGuards(JwtAccessGuard, OrderOwnershipGuard)
   @Post('/:id/comment')
@@ -128,11 +135,4 @@ export class OrderController {
       await this.commentService.addComment(dto, user, order),
     );
   }
-
-  // @ApiBearerAuth('Access-Token')
-  // @UseGuards(JwtAccessGuard)
-  // @Get('/grouping_items')
-  // public async getGroupingItems(): Promise<Record<string, string[]>> {
-  //   return await this.orderService.getGroupingItems();
-  // }
 }

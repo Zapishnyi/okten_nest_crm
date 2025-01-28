@@ -14,11 +14,13 @@ import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiConflictResponse,
+  ApiForbiddenResponse,
   ApiNotFoundResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
+// eslint-disable-next-line max-len
 import { GetStoredUserDataFromResponse } from '../../../common/custom_decorators/get-stored-user-data-from-response.decorator';
 import { AdminRoleGuard } from '../../../common/guards/admin-role.guard';
 import { JwtAccessGuard } from '../../../common/guards/jwt-access.guard';
@@ -154,6 +156,7 @@ export class AdminController {
   @ApiBearerAuth('Access-Token')
   @Post('user/create')
   @UseGuards(JwtAccessGuard, AdminRoleGuard)
+  @Post('user/create')
   public async userCreate(
     @Body() dto: UserCreateByAdminReqDto,
   ): Promise<UserResDto> {
@@ -172,6 +175,15 @@ export class AdminController {
       path: '/user/5/ban',
     },
   })
+  @ApiForbiddenResponse({
+    description: 'Forbidden',
+    example: {
+      statusCode: 403,
+      messages: "User can't ban himself",
+      timestamp: '2024-12-03T20:40:32.905Z',
+      path: '/user/5/ban',
+    },
+  })
   @ApiBearerAuth('Access-Token')
   @Patch('user/:id/ban-reinstate')
   @UseGuards(JwtAccessGuard, AdminRoleGuard)
@@ -184,7 +196,7 @@ export class AdminController {
     );
   }
 
-  //Delete--------------------------------------------------------
+  //Delete User--------------------------------------------------------
   @ApiNotFoundResponse({
     description: 'Not Found',
     example: {

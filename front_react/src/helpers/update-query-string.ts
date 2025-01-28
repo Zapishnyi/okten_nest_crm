@@ -6,6 +6,5 @@ export const updateQueryString = (searchParams: Record<string, string>) => {
       query.append(key, value);
     }
   }
-  console.log(query.toString());
-  window.history.replaceState(null, '', `?${query.toString()}`);
+    window.history.replaceState(null, '', `?${query.toString()}`);
 };

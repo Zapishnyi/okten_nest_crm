@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsString, Length, Matches } from 'class-validator';
 
@@ -14,6 +15,12 @@ export class ActivateReqDto {
     message:
       'Password must contain  a digit, a lowercase letter,' +
       ' a uppercase letter, a special character, no space',
+  })
+  @ApiProperty({
+    description: 'User password',
+    format: 'string',
+    minLength: 5,
+    maxLength: 16,
   })
   password: string;
 }

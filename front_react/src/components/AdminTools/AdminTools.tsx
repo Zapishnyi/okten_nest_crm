@@ -1,20 +1,21 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from "react";
 
-import { ClipLoader } from 'react-spinners';
+import { ClipLoader } from "react-spinners";
 
-import { errorHandle } from '../../helpers/error-handle';
-import IOrdersStatusStatistic from '../../interfaces/IOrdersStatusStatistic';
-import { useAppSelector } from '../../redux/store';
-import { CRMApi } from '../../services/crm.api.servise';
-import BtnCreateUser from '../BtnCreateUser/BtnCreateUser';
-import OrdersStatistic from '../OrdersStatictic/OrdersStatistic';
+import { errorHandle } from "../../helpers/error-handle";
+import IOrdersStatusStatistic from "../../interfaces/IOrdersStatusStatistic";
+import { useAppSelector } from "../../redux/store";
+import { CRMApi } from "../../services/crm.api.service";
+import BtnCreateUser from "../BtnCreateUser/BtnCreateUser";
+import OrdersStatistic from "../OrdersStatistic/OrdersStatistic";
 
-import styles from './AdminTools.module.css';
+import styles from "./AdminTools.module.css";
 
 const AdminTools: FC = () => {
-
-  const { orders } = useAppSelector(state => state.orders);
-  const [statistic, setStatistic] = useState<IOrdersStatusStatistic | null>(null);
+  const { orders } = useAppSelector((state) => state.orders);
+  const [statistic, setStatistic] = useState<IOrdersStatusStatistic | null>(
+    null
+  );
   const [isPending, setIsPending] = useState(false);
   useEffect(() => {
     const getStatistic = async (): Promise<void> => {
@@ -35,10 +36,9 @@ const AdminTools: FC = () => {
       <div className={styles.statistic_container}>
         {isPending && <ClipLoader />}
         {!isPending && <OrdersStatistic statistic={statistic} />}
-
       </div>
-
-    </div>);
+    </div>
+  );
 };
 
 export default AdminTools;

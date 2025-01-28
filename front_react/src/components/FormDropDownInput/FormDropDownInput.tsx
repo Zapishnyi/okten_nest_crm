@@ -1,47 +1,51 @@
-import { Dispatch, useEffect, useState } from 'react';
+import { Dispatch, useEffect, useState } from "react";
 
-import { FieldValues, Path, UseFormRegister } from 'react-hook-form';
-import { ClipLoader } from 'react-spinners';
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import { ClipLoader } from "react-spinners";
 
-import { useAppSelector } from '../../redux/store';
-import { createGroupValidator } from '../../validators/group.validator';
-import { SvgArrowDownDropDown } from '../SvgArrowDownDropDown/SgArrowDownDropDown';
-import { SvgArrowUpDropDown } from '../SvgArrowUpDropDown/SvgArrowUpDropDown';
-import { SvgCross } from '../SvgCross/SvgCross';
-import { SvgPlus } from '../SvgPlus/SvgPlus';
+import { useAppSelector } from "../../redux/store";
+import { createGroupValidator } from "../../validators/group.validator";
+import { SvgArrowDownDropDown } from "../SvgArrowDownDropDown/SgArrowDownDropDown";
+import { SvgArrowUpDropDown } from "../SvgArrowUpDropDown/SvgArrowUpDropDown";
+import { SvgCross } from "../SvgCross/SvgCross";
+import { SvgPlus } from "../SvgPlus/SvgPlus";
 
-import DropDownItem from './DropDownItem/DropDownItem';
-import styles from './FormDropDownInput.module.css';
+import DropDownItem from "./DropDownItem/DropDownItem";
+import styles from "./FormDropDownInput.module.css";
 
 interface IProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   field_name: Path<T>;
   field_label: string;
   items: string[];
-  addItemAction: (value: string) => void;
-  loadingState: boolean;
   setFormIsValid: Dispatch<boolean>;
+  loadingState?: boolean;
   error?: string;
   required?: boolean;
+  placeholder?: string;
+  addItemAction?: (value: string) => void;
 }
 
 const FormDropDownInput = <T extends FieldValues>({
-                                                    field_label,
-                                                    field_name,
-                                                    error,
-                                                    register,
-                                                    items,
-                                                    addItemAction,
-                                                    setFormIsValid,
-                                                    loadingState,
-                                                    required,
-                                                  }: IProps<T>) => {
+  field_label,
+  field_name,
+  error,
+  register,
+  items,
+  addItemAction,
+  setFormIsValid,
+  loadingState,
+  required,
+  placeholder,
+}: IProps<T>) => {
   const [listVisibility, setListVisibility] = useState<boolean>(false);
-  const [itemChosen, setItemChosen] = useState<string>('');
-  const dropDownInput = document.getElementsByClassName(styles.drop_down_input)[0] as HTMLInputElement;
+  const [itemChosen, setItemChosen] = useState<string>("");
+  const dropDownInput = document.getElementsByClassName(
+    `${styles.drop_down_input} ${field_name}`
+  )[0] as HTMLInputElement;
   const [addItemVisibility, setAddItemVisibility] = useState<boolean>(false);
   const [groupError, setGroupError] = useState<string | undefined>(undefined);
-  const { groups } = useAppSelector(state => state.groups);
+  const { groups } = useAppSelector((state) => state.groups);
   const groupValidator = createGroupValidator(groups);
 
   useEffect(() => {
@@ -52,10 +56,10 @@ const FormDropDownInput = <T extends FieldValues>({
 
   useEffect(() => {
     if (dropDownInput) {
-      if (itemChosen === 'add new item...') {
-        dropDownInput.value = '';
+      if (itemChosen === "add new item...") {
+        dropDownInput.value = "";
         dropDownInput.readOnly = false;
-        const event = new Event('input', { bubbles: true, cancelable: true });
+        const event = new Event("input", { bubbles: true, cancelable: true });
         dropDownInput.dispatchEvent(event);
       } else {
         dropDownInput.value = itemChosen;
@@ -63,7 +67,6 @@ const FormDropDownInput = <T extends FieldValues>({
       }
     }
     setFormIsValid(true);
-    // setGroupError(undefined);
   }, [itemChosen]);
 
   const [mouseOver, setMouseOver] = useState<boolean>(false);
@@ -75,18 +78,20 @@ const FormDropDownInput = <T extends FieldValues>({
       }
     };
     if (dropDownInput) {
-      dropDownInput.addEventListener('blur', handleBlur);
+      dropDownInput.addEventListener("blur", handleBlur);
     }
     return () => {
       if (dropDownInput) {
-        dropDownInput.removeEventListener('blur', handleBlur);
+        dropDownInput.removeEventListener("blur", handleBlur);
       }
     };
   }, [mouseOver]);
 
   const addItem = () => {
     const currentValue = dropDownInput.value;
-    addItemAction(currentValue);
+    if (addItemAction) {
+      addItemAction(currentValue);
+    }
     setItemChosen(currentValue);
     setListVisibility(false);
   };
@@ -100,49 +105,74 @@ const FormDropDownInput = <T extends FieldValues>({
       setFormIsValid(true);
       setAddItemVisibility(false);
     }
-
-    setGroupError(groupValidator.validate({ groupName: currentValue }).error?.message);
+    if (field_name === "group") {
+      setGroupError(
+        groupValidator.validate({ groupName: currentValue }).error?.message
+      );
+    }
   };
 
   const clearInput = () => {
-    setItemChosen('');
+    setItemChosen("");
   };
 
   return (
     <label className={styles.label}>
-      {field_label}:{' '}
-      <input className={styles.drop_down_input}
-             onInput={validate}
-             type="text"
-             autoComplete="on"
-             {...register(field_name, { required: required || true })}
+      {field_label}:{" "}
+      <input
+        className={[styles.drop_down_input, field_name].join(" ")}
+        onInput={validate}
+        placeholder={placeholder}
+        type="text"
+        autoComplete="on"
+        {...register(field_name, { required: required || true })}
       />
       {!!error && <p>{error}</p>}
-      {!!groupError && itemChosen === 'add new item...' && <p>{groupError}</p>}
+      {!!groupError && itemChosen === "add new item..." && <p>{groupError}</p>}
       <div className={styles.control_buttons}>
         {loadingState && <ClipLoader size={18} />}
-        {(itemChosen === 'add new item...') && addItemVisibility && !groupError && !loadingState &&
-          <div className={styles.svg_base} title={'Add item'} onClick={addItem}>
-            <SvgPlus />
-          </div>}
-        {(itemChosen !== 'add new item...') && itemChosen && !loadingState &&
-          <div className={styles.svg_base} title={'Clear'} onClick={clearInput}>
+        {itemChosen === "add new item..." &&
+          addItemVisibility &&
+          !groupError &&
+          !loadingState && (
+            <div
+              className={styles.svg_base}
+              title={"Add item"}
+              onClick={addItem}
+            >
+              <SvgPlus />
+            </div>
+          )}
+        {itemChosen !== "add new item..." && itemChosen && !loadingState && (
+          <div className={styles.svg_base} title={"Clear"} onClick={clearInput}>
             <SvgCross />
-          </div>}
-        <div className={styles.svg_base} onClick={() => setListVisibility(current => !current)}>
+          </div>
+        )}
+        <div
+          className={styles.svg_base}
+          onClick={() => setListVisibility((current) => !current)}
+        >
           {listVisibility ? <SvgArrowUpDropDown /> : <SvgArrowDownDropDown />}
         </div>
       </div>
-      {listVisibility &&
-        <div className={styles.drop_down}
-             onMouseEnter={() => setMouseOver(true)}
-             onMouseLeave={() => setMouseOver(false)}>
-          {['add new item...', ...items].map((e, i) =>
-            <DropDownItem key={i} name={e} setItemChosen={setItemChosen}
-                          setListVisibility={setListVisibility}
-                          dropDownInput={dropDownInput}
-            />)}
-        </div>}
+      {listVisibility && (
+        <div
+          className={styles.drop_down}
+          onMouseEnter={() => setMouseOver(true)}
+          onMouseLeave={() => setMouseOver(false)}
+        >
+          {(addItemAction ? ["add new item...", ...items] : items).map(
+            (e, i) => (
+              <DropDownItem
+                key={i}
+                name={e}
+                setItemChosen={setItemChosen}
+                setListVisibility={setListVisibility}
+              />
+            )
+          )}
+        </div>
+      )}
     </label>
   );
 };
