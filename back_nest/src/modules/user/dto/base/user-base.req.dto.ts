@@ -1,5 +1,5 @@
-import { UserRoleEnum } from '../../enums/user-role.enum';
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsEnum,
@@ -8,19 +8,20 @@ import {
   Length,
   Matches,
 } from 'class-validator';
-import { Transform } from 'class-transformer';
+
 import { TransformHelper } from '../../../../common/helpers/transform.helper';
 import { regexp } from '../../constants/regexp';
+import { UserRoleEnum } from '../../enums/user-role.enum';
 
 export class UserBaseReqDto {
   @IsNotEmpty()
   @IsString()
-  @Length(3, 25)
+  @Length(1, 25)
   @Transform(TransformHelper.trim)
   @ApiProperty({
     description: 'User name',
     format: 'string',
-    minLength: 3,
+    minLength: 1,
     maxLength: 25,
     example: 'John',
   })
@@ -28,12 +29,12 @@ export class UserBaseReqDto {
 
   @IsNotEmpty()
   @IsString()
-  @Length(3, 25)
+  @Length(1, 25)
   @Transform(TransformHelper.trim)
   @ApiProperty({
     description: 'User name',
     format: 'string',
-    minLength: 3,
+    minLength: 1,
     maxLength: 25,
     example: 'Doe',
   })

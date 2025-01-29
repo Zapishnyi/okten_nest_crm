@@ -24,11 +24,11 @@ export class OrderBaseReqDto {
 
   @IsOptional()
   @IsString()
-  @Length(2, 25)
+  @Length(1, 25)
   @Transform(TransformHelper.trim)
   @Transform(TransformHelper.emptyToUndefined)
   @ApiProperty({
-    minLength: 2,
+    minLength: 1,
     maxLength: 25,
     description: 'Name',
     example: 'Joe',
@@ -37,11 +37,11 @@ export class OrderBaseReqDto {
 
   @IsOptional()
   @IsString()
-  @Length(2, 25)
+  @Length(1, 25)
   @Transform(TransformHelper.trim)
   @Transform(TransformHelper.emptyToUndefined)
   @ApiProperty({
-    minLength: 2,
+    minLength: 1,
     maxLength: 25,
     description: 'Surname',
     example: 'Doe',
