@@ -1,5 +1,14 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiOperation,
   ApiTags,
@@ -28,6 +37,9 @@ export class AuthController {
   ) {}
 
   // Sign in ---------------------------------------------------
+  @ApiOperation({
+    summary: 'User login using email and password',
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -36,10 +48,6 @@ export class AuthController {
       timestamp: '2024-12-03T18:41:52.824Z',
       path: '/auth/sign-in',
     },
-  })
-  @ApiOperation({
-    summary: 'Sign in of User using email and password',
-    // description: 'Sign in user',
   })
   @Post('sign-in')
   public async signIn(
@@ -51,18 +59,26 @@ export class AuthController {
   }
 
   // Activate user ---------------------------------------------
+  @ApiOperation({
+    summary: 'User activation using an activation token.',
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
       statusCode: 401,
-      messages: 'jwt expired',
+      messages: 'Unauthorized',
       timestamp: '2024-12-03T18:52:08.622Z',
       path: '/auth/activate',
     },
   })
-  @ApiOperation({
-    summary: 'Activate of User using activate token',
-    // description: 'Sign in user',
+  @ApiBadRequestResponse({
+    description: 'Bad Request',
+    example: {
+      statusCode: 400,
+      messages: ['Password must contain  ...'],
+      timestamp: '2025-01-29T14:25:09.535Z',
+      path: '/auth/activate',
+    },
   })
   @UseGuards(JwtActivateGuard)
   @ApiBearerAuth('Activate-Token')
@@ -76,6 +92,9 @@ export class AuthController {
   }
 
   // Refresh tokens --------------------------------------------
+  @ApiOperation({
+    summary: 'Refresh of tokens pair.',
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -99,6 +118,9 @@ export class AuthController {
   }
 
   // Log out -----------------------------------------------------
+  @ApiOperation({
+    summary: 'User log out.',
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -117,6 +139,9 @@ export class AuthController {
     await this.authService.signOut(userData);
   }
   // Get logged user data -----------------------------------------------------
+  @ApiOperation({
+    summary: 'Retrieve logged-in user data.',
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {

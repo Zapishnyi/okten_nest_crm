@@ -16,6 +16,7 @@ import {
   ApiConflictResponse,
   ApiForbiddenResponse,
   ApiNotFoundResponse,
+  ApiOperation,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -43,7 +44,10 @@ export class AdminController {
     private readonly userPresenter: UserPresenterService,
     private readonly ordersService: OrderService,
   ) {}
-
+  // Get all users data --------------------------------------------
+  @ApiOperation({
+    summary: "Retrieve all users' data based on sorting parameters.",
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -64,6 +68,9 @@ export class AdminController {
   }
 
   //Activate--------------------------------------------
+  @ApiOperation({
+    summary: "Retrieve a user's activation token by user ID.",
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -82,15 +89,6 @@ export class AdminController {
       path: '/user/5/activate',
     },
   })
-  @ApiConflictResponse({
-    description: 'Conflict',
-    example: {
-      statusCode: 409,
-      messages: 'User with ID: 2 - already activated',
-      timestamp: '2024-12-03T19:13:05.162Z',
-      path: '/user/2/activate',
-    },
-  })
   @ApiBearerAuth('Access-Token')
   @Get('user/:id/activate')
   @UseGuards(JwtAccessGuard, AdminRoleGuard)
@@ -105,6 +103,9 @@ export class AdminController {
   }
 
   //Get Orders Statistic -------------------------------------
+  @ApiOperation({
+    summary: 'Retrieve statistics for all order statuses.',
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {

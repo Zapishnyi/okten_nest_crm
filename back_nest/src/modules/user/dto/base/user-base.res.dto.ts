@@ -10,7 +10,7 @@ export class UserBaseResDto {
   @ApiProperty({
     description: 'User name',
     format: 'string',
-    minLength: 3,
+    minLength: 1,
     maxLength: 25,
     example: 'John',
   })
@@ -19,7 +19,7 @@ export class UserBaseResDto {
   @ApiProperty({
     description: 'User name',
     format: 'string',
-    minLength: 3,
+    minLength: 1,
     maxLength: 25,
     example: 'Doe',
   })
