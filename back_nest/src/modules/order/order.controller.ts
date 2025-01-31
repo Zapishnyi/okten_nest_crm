@@ -144,6 +144,7 @@ export class OrderController {
     );
   }
   // Add comment to order by id -------------------------------------------
+  @ApiOperation({ summary: "Add comment to order by it's ID" })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -153,13 +154,13 @@ export class OrderController {
       path: '/orders?page=1&order=DESC&orderBy=id',
     },
   })
-  @ApiOperation({ summary: 'Add comment to order by id' })
   @ApiBearerAuth('Access-Token')
   @UseGuards(JwtAccessGuard, OrderOwnershipGuard)
   @Post('/:id/comment')
   public async addComment(
     @GetStoredOrderDataFromResponse() { order }: IOrderData,
     @GetStoredUserDataFromResponse() { user }: IUserData,
+    @Param('id', ParseIntPipe) order_id: number,
     @Body() dto: CommentReqDto,
   ): Promise<OrderResDto> {
     return this.ordersPresenter.toOrderResDto(
