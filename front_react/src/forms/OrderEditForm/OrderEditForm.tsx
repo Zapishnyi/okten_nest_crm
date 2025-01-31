@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { joiResolver } from "@hookform/resolvers/joi";
 import { useForm } from "react-hook-form";
@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import BtnLoader from "../../components/BtnLoader/BtnLoader";
 import FormDropDownInput from "../../components/FormDropDownInput/FormDropDownInput";
 import FormInput from "../../components/FormInput/FormInput";
-import FormSelect from "../../components/FormSelect/FormSelect";
 import { CourseFormatEnum } from "../../enums/course-format.enum";
 import { CourseTypeEnum } from "../../enums/course-type.enum";
 import { CourseEnum } from "../../enums/course.enum";

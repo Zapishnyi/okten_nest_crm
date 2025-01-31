@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 
 import { GroupEntity } from '../../../database/entities/group.entity';
@@ -36,10 +36,14 @@ export class OrderService {
       this.isolationLevel.set(),
       async (em: EntityManager): Promise<OrderEntity> => {
         const ordersRepositoryEM = em.getRepository(OrderEntity);
-        return await ordersRepositoryEM.findOne({
+        const order = await ordersRepositoryEM.findOne({
           where: { id: order_id },
           relations: ['user', 'group', 'comments'],
         });
+        if (!order) {
+          throw new NotFoundException('Order does not exist');
+        }
+        return order;
       },
     );
   }

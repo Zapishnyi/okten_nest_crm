@@ -10,7 +10,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiNotFoundResponse,
   ApiOperation,
   ApiTags,
   ApiUnauthorizedResponse,
@@ -43,6 +45,9 @@ export class OrderController {
   ) {}
 
   // get orders by query -------------------------------------------
+  @ApiOperation({
+    summary: 'Retrieve paginated orders based on query parameters',
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -53,7 +58,6 @@ export class OrderController {
     },
   })
   @ApiBearerAuth('Access-Token')
-  @ApiOperation({ summary: 'Get orders by query' })
   @UseGuards(JwtAccessGuard)
   @Get('/all')
   public async getOrdersByQuery(
@@ -68,6 +72,7 @@ export class OrderController {
   }
 
   // get order by id -------------------------------------------
+  @ApiOperation({ summary: 'Fetch a specific order using its order ID.' })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -77,7 +82,15 @@ export class OrderController {
       path: '/orders?page=1&order=DESC&orderBy=id',
     },
   })
-  @ApiOperation({ summary: 'Get order by id' })
+  @ApiNotFoundResponse({
+    description: 'Order not found',
+    example: {
+      statusCode: 404,
+      messages: ['Order does not exist'],
+      timestamp: '2025-01-29T21:21:29.843Z',
+      path: '/order/:id',
+    },
+  })
   @ApiBearerAuth('Access-Token')
   @UseGuards(JwtAccessGuard)
   @Get('/:id')
@@ -89,16 +102,34 @@ export class OrderController {
     );
   }
   // Edit order by id -------------------------------------------
+  @ApiOperation({ summary: 'Update order by ID.' })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
       statusCode: 401,
       messages: 'Unauthorized',
       timestamp: '2024-12-03T18:38:15.306Z',
-      path: '',
+      path: '/order/:id',
     },
   })
-  @ApiOperation({ summary: 'Edit order by id' })
+  @ApiNotFoundResponse({
+    description: 'Not found',
+    example: {
+      statusCode: 404,
+      messages: ['Order does not exist'],
+      timestamp: '2025-01-29T21:21:29.843Z',
+      path: '/order/:id',
+    },
+  })
+  @ApiBadRequestResponse({
+    description: 'Bad request',
+    example: {
+      statusCode: 400,
+      messages: ['age must not be greater than 120'],
+      timestamp: '2025-01-29T21:21:29.843Z',
+      path: '/order/:id',
+    },
+  })
   @ApiBearerAuth('Access-Token')
   @UseGuards(JwtAccessGuard, OrderOwnershipGuard)
   @Patch('/:id')

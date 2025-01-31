@@ -36,10 +36,23 @@ const FormInput = <T extends FieldValues>({
         ? InputFieldTypeEnum.TEXT
         : InputFieldTypeEnum.PASSWORD
       : field_type;
+  const eRestrictHandle = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      (e.key === "e" ||
+        e.key === "E" ||
+        e.key === "+" ||
+        e.key === "-" ||
+        e.key === ".") &&
+      type === InputFieldTypeEnum.NUMBER
+    ) {
+      e.preventDefault();
+    }
+  };
   return (
     <label className={styles.label}>
       {field_label}:{" "}
       <input
+        onKeyDown={eRestrictHandle}
         type={type}
         autoComplete="on"
         placeholder={placeholder}

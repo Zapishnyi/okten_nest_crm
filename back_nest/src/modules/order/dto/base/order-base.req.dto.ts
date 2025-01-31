@@ -77,7 +77,6 @@ export class OrderBaseReqDto {
   readonly phone?: string;
 
   @IsOptional()
-  @Transform(TransformHelper.trim)
   @Transform(TransformHelper.toNumber)
   @IsNumber()
   @Transform(TransformHelper.emptyToUndefined)
@@ -113,7 +112,6 @@ export class OrderBaseReqDto {
   readonly course_type?: CourseTypeEnum;
 
   @IsOptional()
-  @Transform(TransformHelper.trim)
   @Transform(TransformHelper.toNumber)
   @IsNumber()
   @Transform(TransformHelper.emptyToUndefined)
@@ -126,7 +124,6 @@ export class OrderBaseReqDto {
   readonly sum?: number;
 
   @IsOptional()
-  @Transform(TransformHelper.trim)
   @Transform(TransformHelper.toNumber)
   @IsNumber()
   @Transform(TransformHelper.emptyToUndefined)

@@ -123,6 +123,9 @@ export class AdminController {
   }
 
   // Add Manager -------------------------------------------------
+  @ApiOperation({
+    summary: 'Create a new manager.',
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -136,11 +139,7 @@ export class AdminController {
     description: 'Bad Request',
     example: {
       statusCode: 400,
-      messages: [
-        'surname must be longer than or equal to 3 characters',
-        'surname must be a string',
-        'surname should not be empty',
-      ],
+      messages: ['surname must be a string', 'surname should not be empty'],
       timestamp: '2024-12-03T18:58:59.338Z',
       path: '/user/create',
     },
@@ -167,6 +166,18 @@ export class AdminController {
   }
 
   // Ban---------------------------------------------------
+  @ApiOperation({
+    summary: 'Ban or reinstate a user by user ID.',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    example: {
+      statusCode: 401,
+      messages: 'Unauthorized',
+      timestamp: '2024-12-03T18:55:06.367Z',
+      path: '/user/5/ban',
+    },
+  })
   @ApiNotFoundResponse({
     description: 'Not Found',
     example: {
@@ -198,6 +209,27 @@ export class AdminController {
   }
 
   //Delete User--------------------------------------------------------
+  @ApiOperation({
+    summary: 'Delete a user by user ID.',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    example: {
+      statusCode: 401,
+      messages: 'Unauthorized',
+      timestamp: '2024-12-03T18:55:06.367Z',
+      path: '/user/5',
+    },
+  })
+  @ApiForbiddenResponse({
+    description: 'Forbidden',
+    example: {
+      statusCode: 403,
+      messages: "User can't ban himself",
+      timestamp: '2024-12-03T20:40:32.905Z',
+      path: '/user/5',
+    },
+  })
   @ApiNotFoundResponse({
     description: 'Not Found',
     example: {
@@ -217,6 +249,9 @@ export class AdminController {
   }
 
   // Delete Group --------------------------------------------
+  @ApiOperation({
+    summary: 'Delete a group name by group ID.',
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -224,6 +259,15 @@ export class AdminController {
       messages: 'Unauthorized',
       timestamp: '2024-12-03T18:38:15.306Z',
       path: 'admin/group/:id',
+    },
+  })
+  @ApiConflictResponse({
+    description: 'Conflict',
+    example: {
+      statusCode: 409,
+      messages: 'Such a group does not exist',
+      timestamp: '2024-12-03T19:00:32.047Z',
+      path: '/admin/group/:id',
     },
   })
   @ApiBearerAuth('Access-Token')
