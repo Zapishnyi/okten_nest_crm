@@ -8,10 +8,3 @@ interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
-// declare module 'vite/client' {
-//   interface ImportMeta {
-//     env: {
-//       [key: string]: string;
-//     };
-//   }
-// }
