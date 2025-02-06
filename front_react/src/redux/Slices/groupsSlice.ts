@@ -34,18 +34,18 @@ const getGroups = createAsyncThunk(
 
 const addGroup = createAsyncThunk(
   'groups/addGroup',
-  async (groupName: IGroupCreate, thunkAPI) => {
+  async (groupName: IGroupCreate, {rejectWithValue,fulfillWithValue,dispatch}) => {
     try {
       const group = await CRMApi.groups.create_group(groupName);
-      return thunkAPI.fulfillWithValue(group.name);
+      return fulfillWithValue(group.name);
     } catch (e) {
       const error = errorHandle(e);
       // if (error.status === 401) {
       //   navigateTo('/auth/sign-in');
       // }
-      return thunkAPI.rejectWithValue(error.message);
+      return rejectWithValue(error.message);
     } finally {
-      thunkAPI.dispatch(GroupsActions.setLoadingState(false));
+      dispatch(GroupsActions.setLoadingState(false));
     }
   },
 );

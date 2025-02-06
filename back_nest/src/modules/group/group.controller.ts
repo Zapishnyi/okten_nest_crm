@@ -1,6 +1,8 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiOperation,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -20,6 +22,7 @@ export class GroupController {
   ) {}
 
   //Get all groups--------------------------------------------------
+  @ApiOperation({ summary: 'Get all groups list' })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -39,6 +42,16 @@ export class GroupController {
   }
 
   //Add a group-------------------------------------------------------
+  @ApiOperation({ summary: 'Add a new group to the list' })
+  @ApiBadRequestResponse({
+    description: 'Bad Request',
+    example: {
+      statusCode: 400,
+      messages: 'Group name must not contain spaces',
+      timestamp: '2024-12-03T18:38:15.306Z',
+      path: '/group',
+    },
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {

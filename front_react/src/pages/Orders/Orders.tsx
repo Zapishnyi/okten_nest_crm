@@ -10,6 +10,7 @@ import { queryToSearchParams } from "../../helpers/query-to-search-params-obj";
 import IOrderReduced from "../../interfaces/IOrderReduced";
 import { OrdersActions } from "../../redux/Slices/ordersSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { cookie } from "../../services/cookies.service";
 
 import styles from "./Orders.module.css";
 
@@ -46,7 +47,7 @@ const Orders: FC = memo(() => {
   }, [location.search]);
   return (
     <div className={styles.wrapper}>
-      {!!orders.length && (
+      {!!orders.length && cookie.getAccessToken() && (
         <div className={styles.table_container}>
           <Table<IOrderReduced>
             items={orders.map((order) => orderToReduced(order))}
@@ -60,5 +61,5 @@ const Orders: FC = memo(() => {
     </div>
   );
 });
-
+Orders.whyDidYouRender = true;
 export default Orders;

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import { baseURL, urls } from '../constants/urls';
 import { navigateTo } from '../helpers/navigate-to';
@@ -19,7 +19,7 @@ import IUserSignIn from '../interfaces/IUserSignIn';
 import { UsersActions } from '../redux/Slices/usersSlice';
 import { store } from '../redux/store';
 
-import { cookie } from './cookies.servise';
+import { cookie } from './cookies.service';
 
 const axiosInstance = axios.create({
   baseURL,
@@ -29,6 +29,8 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((request) => {
+  // const userLoadingState = store.getState().users.usersLoadingState;
+  // const ordersLoadingState = store.getState().orders.ordersLoadingState;
   let token: string | null;
   switch (request.url) {
     case '/auth/refresh':
@@ -39,11 +41,10 @@ axiosInstance.interceptors.request.use((request) => {
       break;
     default :
       token = cookie.getAccessToken();
-      if (!token) {
-        navigateTo('/auth/sign-in');
-      }
-  }
-
+       }
+//  if (!token && request.url === '/auth/refresh') {
+//         navigateTo('/auth/sign-in');
+//       }
   request.headers.Authorization = `Bearer ${token}`;
   return request;
 });
@@ -145,27 +146,30 @@ axiosInstance.interceptors.response.use((response) => response,
   async (error) => {
     const dispatch = store.dispatch;
     const originalRequest = error.config;
-
-    if (error.status) {
-      if (error.response.status === 401
-        && !originalRequest._retry
+    if (error.status === 401) {
+      if (
+!originalRequest._retry
         && cookie.getRefreshToken()
-        && originalRequest.url !== '/auth/refresh') {
+        && originalRequest.url !== '/auth/refresh'
+      )  {
         originalRequest._retry = true;
         try {
-          const { tokens } = await CRMApi.auth.refresh();
+                const { tokens } = await CRMApi.auth.refresh();
           cookie.setAccessToken(tokens.access);
           cookie.setRefreshToken(tokens.refresh);
           return axiosInstance(originalRequest);
         } catch (error) {
-          cookie.deleteAuthTokens();
+          if ((error as AxiosError).response?.status === 401) {
+                       cookie.deleteAuthTokens();
           dispatch(UsersActions.setUser(null));
           console.error('Token refresh failed with error:', error);
           navigateTo('/auth/sign-in');
-        }
+            }
       }
-      return Promise.reject(error);
-    } else {
-      return Promise.reject(error);
+      } else {
+        navigateTo('/auth/sign-in');
+      } 
+           } 
+                   return Promise.reject(error);
     }
-  });
+  );

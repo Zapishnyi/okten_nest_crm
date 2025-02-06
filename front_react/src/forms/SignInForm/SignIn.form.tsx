@@ -13,7 +13,7 @@ import { queryToSearchParams } from "../../helpers/query-to-search-params-obj";
 import IUserSignIn from "../../interfaces/IUserSignIn";
 import { UsersActions } from "../../redux/Slices/usersSlice";
 import { useAppDispatch } from "../../redux/store";
-import { cookie } from "../../services/cookies.servise";
+import { cookie } from "../../services/cookies.service";
 import { CRMApi } from "../../services/crm.api.service";
 import styles from "../Form.module.css";
 
@@ -34,7 +34,7 @@ const SignInForm = () => {
       cookie.setAccessToken(tokens.access);
       cookie.setRefreshToken(tokens.refresh);
       dispatch(UsersActions.setUser(user));
-      navigate(`/orders`);
+      navigate("/orders");
       query[1](queryToSearchParams(initialOrdersQuery));
     } catch (e) {
       setErrorMassage(errorHandle(e).message);

@@ -5,6 +5,7 @@ import IErrorResponse from '../interfaces/IErrorResponse';
 
 import { navigateTo } from './navigate-to';
 
+
 export const errorHandle = (e: any): IErrorModified => {
 
   const error = e as AxiosError<IErrorResponse>;

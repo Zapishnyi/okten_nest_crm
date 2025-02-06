@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { UsersActions } from "../../redux/Slices/usersSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { cookie } from "../../services/cookies.servise";
+import { cookie } from "../../services/cookies.service";
 import { CRMApi } from "../../services/crm.api.service";
 import SvgUser from "../SvgUser/SvgUser";
 

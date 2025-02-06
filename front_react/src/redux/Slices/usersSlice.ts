@@ -48,6 +48,41 @@ const getAllUsers = createAsyncThunk(
   },
 );
 
+const getMe = createAsyncThunk(
+  'users/getMe',
+  async (_, thunkAPI) => {
+    try {
+      // console.log('search for users', query);
+      const me = await CRMApi.auth.me();
+
+      return thunkAPI.fulfillWithValue({
+        ...me,
+        created_at: (new Date(me.created_at)).toLocaleDateString('uk-UA'),
+        last_login: me.last_login ? (new Date(me.last_login))
+            .toLocaleString('uk-UA', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              timeZone: 'Europe/Kyiv',
+            })
+          : 'null',
+      });
+    } catch (e) {
+      const error = errorHandle(e);
+      // if (error.status === 401) {
+      //   navigateTo('/auth/sign-in');
+      // }
+      return thunkAPI.rejectWithValue(error.message);
+    } finally {
+      thunkAPI.dispatch(UsersActions.setLoadingState(false));
+    }
+  },
+);
+
+
+
 
 const banReinstate = createAsyncThunk(
   'users/banReinstate',
@@ -99,6 +134,9 @@ export const usersSlice = createSlice({
       .addCase(getAllUsers.fulfilled, (state, action) => {
         state.users = action.payload;
       })
+      .addCase(getMe.fulfilled, (state, action) => {
+        state.userLogged = action.payload;
+      })
       .addCase(banReinstate.fulfilled, (state, action) => {
         state.users = state.users.map(user => user.id === action.payload.id ? action.payload : user);
       })
@@ -120,5 +158,5 @@ export const usersSlice = createSlice({
 });
 
 export const UsersActions = {
-  ...usersSlice.actions, getAllUsers, banReinstate,
+  ...usersSlice.actions, getAllUsers,getMe, banReinstate,
 };

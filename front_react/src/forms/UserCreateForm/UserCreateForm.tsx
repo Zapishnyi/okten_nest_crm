@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 
 import { joiResolver } from "@hookform/resolvers/joi";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
 
 import BtnLoader from "../../components/BtnLoader/BtnLoader";
@@ -33,7 +33,7 @@ const UserCreateForm: FC = () => {
     dispatch(VisibilityActions.createUserFormVisible(false));
   };
   const [isPending, setIsPending] = useState<boolean>(false);
-  const formSubmit = async (formData: IUserCreate) => {
+  const formSubmit: SubmitHandler<IUserCreate> = async (formData) => {
     setIsPending(true);
     try {
       await CRMApi.admin.create_user(formData);

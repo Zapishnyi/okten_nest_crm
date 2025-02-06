@@ -9,7 +9,7 @@ import FormInput from "../../components/FormInput/FormInput";
 import { InputFieldTypeEnum } from "../../enums/input-field-type.enum";
 import { errorHandle } from "../../helpers/error-handle";
 import IUserActivateFormData from "../../interfaces/IUserActivateFormData";
-import { cookie } from "../../services/cookies.servise";
+import { cookie } from "../../services/cookies.service";
 import { CRMApi } from "../../services/crm.api.service";
 import userActivateValidator from "../../validators/user-activate.validator";
 import styles from "../Form.module.css";

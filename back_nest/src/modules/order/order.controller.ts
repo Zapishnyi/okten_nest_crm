@@ -12,6 +12,7 @@ import {
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiForbiddenResponse,
   ApiNotFoundResponse,
   ApiOperation,
   ApiTags,
@@ -103,6 +104,15 @@ export class OrderController {
   }
   // Edit order by id -------------------------------------------
   @ApiOperation({ summary: 'Update order by ID.' })
+  @ApiBadRequestResponse({
+    description: 'Bad request',
+    example: {
+      statusCode: 400,
+      messages: ['age must not be greater than 120'],
+      timestamp: '2025-01-29T21:21:29.843Z',
+      path: '/order/:id',
+    },
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
@@ -112,20 +122,20 @@ export class OrderController {
       path: '/order/:id',
     },
   })
+  @ApiForbiddenResponse({
+    description: 'Forbidden',
+    example: {
+      statusCode: 403,
+      messages: ['You do not have access to this order'],
+      timestamp: '2025-01-29T21:21:29.843Z',
+      path: '/order/:id',
+    },
+  })
   @ApiNotFoundResponse({
     description: 'Not found',
     example: {
       statusCode: 404,
       messages: ['Order does not exist'],
-      timestamp: '2025-01-29T21:21:29.843Z',
-      path: '/order/:id',
-    },
-  })
-  @ApiBadRequestResponse({
-    description: 'Bad request',
-    example: {
-      statusCode: 400,
-      messages: ['age must not be greater than 120'],
       timestamp: '2025-01-29T21:21:29.843Z',
       path: '/order/:id',
     },
@@ -145,13 +155,40 @@ export class OrderController {
   }
   // Add comment to order by id -------------------------------------------
   @ApiOperation({ summary: "Add comment to order by it's ID" })
+  @ApiBadRequestResponse({
+    description: 'Bad request',
+    example: {
+      statusCode: 400,
+      messages: ['Comment must be less than 60 characters'],
+      timestamp: '2025-01-31T16:13:00.549Z',
+      path: '/order/:id/comment',
+    },
+  })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
     example: {
       statusCode: 401,
       messages: 'Unauthorized',
       timestamp: '2024-12-03T18:38:15.306Z',
-      path: '/orders?page=1&order=DESC&orderBy=id',
+      path: '/order/:id/comment',
+    },
+  })
+  @ApiForbiddenResponse({
+    description: 'Forbidden',
+    example: {
+      statusCode: 403,
+      messages: ['You do not have access to this order'],
+      timestamp: '2025-01-29T21:21:29.843Z',
+      path: '/order/:id/comment',
+    },
+  })
+  @ApiNotFoundResponse({
+    description: 'Not found',
+    example: {
+      statusCode: 404,
+      messages: ['Order does not exist'],
+      timestamp: '2025-01-29T21:21:29.843Z',
+      path: '/order/:id/comment',
     },
   })
   @ApiBearerAuth('Access-Token')

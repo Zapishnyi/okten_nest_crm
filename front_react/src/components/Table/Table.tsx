@@ -43,4 +43,5 @@ const Table = <T extends TableType>({ items }: IProps<T>) => {
   );
 };
 
+Table.whyDidYouRender = true;
 export default Table;

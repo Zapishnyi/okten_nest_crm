@@ -22,19 +22,19 @@ import {
 } from '@nestjs/swagger';
 
 // eslint-disable-next-line max-len
-import { GetStoredUserDataFromResponse } from '../../../common/custom_decorators/get-stored-user-data-from-response.decorator';
-import { AdminRoleGuard } from '../../../common/guards/admin-role.guard';
-import { JwtAccessGuard } from '../../../common/guards/jwt-access.guard';
-import { IUserData } from '../../auth/interfaces/IUserData';
-import { OrderService } from '../../order/services/order.service';
-import { UserCreateByAdminReqDto } from '../dto/req/user-create-by-admin.req.dto';
-import { UsersQueryReqDto } from '../dto/req/users-query.req.dto';
-import { OrderStatusStatisticResDto } from '../dto/res/order-status-statistic.res.dto';
-import { UserResDto } from '../dto/res/user.res.dto';
-import { UserActivateResDto } from '../dto/res/user-activate.res.dto';
-import { UserBanResDto } from '../dto/res/user-ban.res.dto';
-import { AdminService } from '../services/admin.service';
-import { UserPresenterService } from '../services/user-presenter.service';
+import { GetStoredUserDataFromResponse } from '../../common/custom_decorators/get-stored-user-data-from-response.decorator';
+import { AdminRoleGuard } from '../../common/guards/admin-role.guard';
+import { JwtAccessGuard } from '../../common/guards/jwt-access.guard';
+import { IUserData } from '../auth/interfaces/IUserData';
+import { OrderService } from '../order/services/order.service';
+import { UserResDto } from '../user/dto/res/user.res.dto';
+import { UserPresenterService } from '../user/services/user-presenter.service';
+import { UserCreateByAdminReqDto } from './dto/req/user-create-by-admin.req.dto';
+import { UsersQueryReqDto } from './dto/req/users-query.req.dto';
+import { OrderStatusStatisticResDto } from './dto/res/order-status-statistic.res.dto';
+import { UserActivateResDto } from './dto/res/user-activate.res.dto';
+import { UserBanResDto } from './dto/res/user-ban.res.dto';
+import { AdminService } from './services/admin.service';
 
 @ApiTags('2.Administrator')
 @Controller('/admin')
@@ -154,7 +154,6 @@ export class AdminController {
     },
   })
   @ApiBearerAuth('Access-Token')
-  @Post('user/create')
   @UseGuards(JwtAccessGuard, AdminRoleGuard)
   @Post('user/create')
   public async userCreate(
