@@ -44,7 +44,7 @@ const Orders: FC = memo(() => {
         OrdersActions.searchForOrders(Object.fromEntries(query.entries()))
       );
     }
-  }, [location.search]);
+  }, [query.toString()]);
   return (
     <div className={styles.wrapper}>
       {!!orders.length && cookie.getAccessToken() && (

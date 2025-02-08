@@ -26,6 +26,6 @@
     }
   },
   "silent": true,
-  "collectCoverage": false,
+  "collectCoverage": true,
   "coverageDirectory": "../coverage"
 }

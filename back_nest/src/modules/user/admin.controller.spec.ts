@@ -10,14 +10,22 @@ import { UserPresenterService } from './services/user-presenter.service';
 describe('AdminController', () => {
   let controller: AdminController;
   let adminService: AdminService;
-  let userPresenterService: UserPresenterService;
   let orderService: OrderService;
 
   beforeEach(async () => {
+    // mocking dependencies, it is copy of our user module
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AdminController],
-      providers: [
-        AdminService,
+      providers: [{
+        provide: 'AdminService',
+        useValue: {
+          getAllUsers: jest.fn(),
+          userActivate: jest.fn(),
+          userCreate: jest.fn(),
+          userBanReinstate: jest.fn(),  
+        }
+      }
+      
         UserPresenterService,
         OrderService,
         JwtAccessGuard,
@@ -27,13 +35,19 @@ describe('AdminController', () => {
 
     controller = module.get<AdminController>(AdminController);
     adminService = module.get<AdminService>(AdminService);
-    userPresenterService =
-      module.get<UserPresenterService>(UserPresenterService);
     orderService = module.get<OrderService>(OrderService);
   });
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
   });
 
   describe('getAllUsers', () => {

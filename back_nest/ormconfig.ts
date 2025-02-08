@@ -2,6 +2,7 @@ import * as path from 'node:path';
 
 import * as dotenv from 'dotenv';
 import { DataSource } from 'typeorm'; /* import of connection to database*/
+
 import getter from './src/configs/envConfiguration'; /* import configuration from ENV configuration*/
 
 dotenv.config({
@@ -26,5 +27,5 @@ export default new DataSource({
     path.join(process.cwd(), 'src', 'database', 'migrations', '*.ts'),
   ],
   synchronize:
-    false /*Must be false to avoid automatic entity's synchronisation with database */,
+    false /*Must be false to avoid automatic entity's synchronization with database */,
 });
