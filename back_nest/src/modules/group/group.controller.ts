@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiConflictResponse,
   ApiOperation,
   ApiTags,
   ApiUnauthorizedResponse,
@@ -57,6 +58,15 @@ export class GroupController {
     example: {
       statusCode: 401,
       messages: 'Unauthorized',
+      timestamp: '2024-12-03T18:38:15.306Z',
+      path: '/group',
+    },
+  })
+  @ApiConflictResponse({
+    description: 'Conflict',
+    example: {
+      statusCode: 409,
+      messages: 'Such a group is already exist',
       timestamp: '2024-12-03T18:38:15.306Z',
       path: '/group',
     },

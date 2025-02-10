@@ -2,14 +2,12 @@ import { Injectable } from '@nestjs/common';
 
 import { UserEntity } from '../../../database/entities/user.entity';
 import { StatusEnum } from '../../order/enums/status.enum';
-import { OrderPresenterService } from '../../order/services/order-presenter.service';
 import { UserResDto } from '../dto/res/user.res.dto';
+import { UserNoStatisticResDto } from '../dto/res/user-no-statistic.res.dto';
 import IUserRaw from '../interfaces/IUserRaw';
 
 @Injectable()
 export class UserPresenterService {
-  constructor(private readonly orderPresenter: OrderPresenterService) {}
-
   public toResponseDtoFromRaw({
     name,
     id,
@@ -88,6 +86,29 @@ export class UserPresenterService {
           ? orders?.filter((e) => e.status === StatusEnum.DUBBING).length
           : 0,
       },
+    };
+  }
+  public toUserNoStatisticResponseDtoFromEntity({
+    name,
+    created_at,
+    id,
+    email,
+    surname,
+    active,
+    ban,
+    role,
+    last_login,
+  }: UserEntity): UserNoStatisticResDto {
+    return {
+      id,
+      name,
+      surname,
+      email,
+      role,
+      active: !!active,
+      ban: !!ban,
+      last_login,
+      created_at,
     };
   }
 }

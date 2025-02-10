@@ -34,6 +34,7 @@ import { UsersQueryReqDto } from './dto/req/users-query.req.dto';
 import { OrderStatusStatisticResDto } from './dto/res/order-status-statistic.res.dto';
 import { UserActivateResDto } from './dto/res/user-activate.res.dto';
 import { UserBanResDto } from './dto/res/user-ban.res.dto';
+import IUserRaw from './interfaces/IUserRaw';
 import { AdminService } from './services/admin.service';
 
 @ApiTags('2.Administrator')
@@ -98,7 +99,7 @@ export class AdminController {
     const [{ activate }, user] = await this.adminService.userActivate(user_id);
     return {
       activateToken: activate,
-      user,
+      user: this.userPresenter.toUserNoStatisticResponseDtoFromEntity(user),
     };
   }
 

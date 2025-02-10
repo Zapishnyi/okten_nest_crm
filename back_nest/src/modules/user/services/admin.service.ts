@@ -60,10 +60,6 @@ export class AdminService {
           throw new NotFoundException(
             `User with ID: ${user_id} -  does not exist`,
           );
-        // if (user.active)
-        //   throw new ConflictException(
-        //     `User with ID: ${user_id} - already activated`,
-        //   );
         const activateToken = await this.tokenService.generateActivateToken({
           user_id,
           device: 'activate',
