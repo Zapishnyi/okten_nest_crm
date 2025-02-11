@@ -118,7 +118,7 @@ export class AdminService {
     );
   }
 
-  public async deleteGroup(group_id: number): Promise<void> {
+  public async groupDelete(group_id: number): Promise<void> {
     return await this.entityManager.transaction(
       this.isolationLevel.set(),
       async (em: EntityManager): Promise<void> => {

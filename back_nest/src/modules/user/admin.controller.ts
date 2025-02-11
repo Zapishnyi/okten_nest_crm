@@ -34,7 +34,6 @@ import { UsersQueryReqDto } from './dto/req/users-query.req.dto';
 import { OrderStatusStatisticResDto } from './dto/res/order-status-statistic.res.dto';
 import { UserActivateResDto } from './dto/res/user-activate.res.dto';
 import { UserBanResDto } from './dto/res/user-ban.res.dto';
-import IUserRaw from './interfaces/IUserRaw';
 import { AdminService } from './services/admin.service';
 
 @ApiTags('2.Administrator')
@@ -45,6 +44,7 @@ export class AdminController {
     private readonly userPresenter: UserPresenterService,
     private readonly ordersService: OrderService,
   ) {}
+
   // Get all users data --------------------------------------------
   @ApiOperation({
     summary: "Retrieve all users' data based on sorting parameters.",
@@ -273,9 +273,9 @@ export class AdminController {
   @ApiBearerAuth('Access-Token')
   @UseGuards(JwtAccessGuard, AdminRoleGuard)
   @Delete('group/:id')
-  public async deleteGroup(
+  public async groupDelete(
     @Param('id', ParseIntPipe) group_id: number,
   ): Promise<void> {
-    await this.adminService.deleteGroup(group_id);
+    await this.adminService.groupDelete(group_id);
   }
 }
