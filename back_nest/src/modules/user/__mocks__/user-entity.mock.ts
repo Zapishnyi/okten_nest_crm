@@ -3,7 +3,7 @@ import { UserRoleEnum } from '../enums/user-role.enum';
 
 export const mockUserEntity: UserEntity = {
   id: 1,
-  name: 'John Doe',
+  name: 'John',
   surname: 'Doe',
   email: 'johndoe@example.com',
   password: '',

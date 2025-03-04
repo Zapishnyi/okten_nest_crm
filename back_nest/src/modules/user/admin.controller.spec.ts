@@ -8,25 +8,24 @@ import { OrderService } from '../order/services/order.service';
 import { AuthTokensRepository } from '../repository/services/auth-tokens-repository.service';
 import { IsolationLevelsEnum } from '../transaction-isolation-level/enums/isolationLevels.enum';
 import { IsolationLevelService } from '../transaction-isolation-level/isolation-level.service';
-import { mockUsersQuery } from './__mocks__/user-activate.mock';
+import { mockUserActivate } from './__mocks__/user-activate.mock';
 import { mockUserCreateReq } from './__mocks__/user-create-req.mock';
 import { mockUserCreateRes } from './__mocks__/user-create-res.mock';
 import { mockUserEntity } from './__mocks__/user-entity.mock';
-import { mockUserActivate } from './__mocks__/user-query.mock';
+import { mockUsersQuery } from './__mocks__/user-query.mock';
 import { mockUsersRaw } from './__mocks__/user-raw.mock';
 import { mockUsers } from './__mocks__/user-res.mock';
 import { AdminController } from './admin.controller';
 import { AdminService } from './services/admin.service';
 import { UserPresenterService } from './services/user-presenter.service';
 
-describe('AdminController', () => {
+describe(AdminController.name, () => {
   let adminController: AdminController;
   let adminService: AdminService;
   let orderService: OrderService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      // imports: [OrderModule],
       controllers: [AdminController],
       providers: [
         UserPresenterService,
@@ -71,9 +70,9 @@ describe('AdminController', () => {
               .fn()
               .mockResolvedValue([mockActivateToken, mockUserEntity]),
             userCreate: jest.fn().mockResolvedValue(mockUserEntity),
-            userBanReinstate: jest.fn(),
-            userDelete: jest.fn(),
-            deleteGroup: jest.fn(),
+            userBanReinstate: jest.fn().mockResolvedValue(mockUserEntity),
+            userDelete: jest.fn().mockResolvedValue({}),
+            groupDelete: jest.fn().mockResolvedValue({}),
           },
         },
       ],
@@ -84,7 +83,7 @@ describe('AdminController', () => {
     orderService = module.get<OrderService>(OrderService);
   });
 
-  it('should be defined', () => {
+  it('adminController should be defined', () => {
     expect(adminController).toBeDefined();
   });
 
@@ -98,7 +97,7 @@ describe('AdminController', () => {
 
   // Get all users --------------------------------------------------
   describe('getAllUsers', () => {
-    it('should return an array of users', async () => {
+    it('should return an array of mapped users', async () => {
       jest.spyOn(adminService, 'getAllUsers');
       const result = await adminController.getAllUsers(mockUsersQuery);
       expect(result).toEqual(mockUsers);
@@ -142,31 +141,33 @@ describe('AdminController', () => {
     });
   });
 
-  // describe('userBanReinstate', () => {
-  //   it('should ban or reinstate a user and return user data', async () => {
-  //     const userId = 1;
-  //     const user = { id: 1, name: 'John Doe' };
-  //     jest.spyOn(adminService, 'userBanReinstate').mockResolvedValue(user);
-  //     const result = await controller.userBanReinstate(userId, user);
-  //     expect(result).toEqual(user);
-  //   });
-  // });
+  // User ban or reinstate --------------------------------------------------
+  describe('userBanReinstate', () => {
+    it('should ban or reinstate a user', async () => {
+      jest.spyOn(adminService, 'userBanReinstate');
+      const result = await adminController.userBanReinstate(1, {
+        user: mockUserEntity,
+        device: 'device',
+      });
 
-  // describe('userDelete', () => {
-  //   it('should delete a user', async () => {
-  //     const userId = 1;
-  //     jest.spyOn(adminService, 'userDelete').mockResolvedValue();
-  //     await controller.userDelete(userId);
-  //     expect(adminService.userDelete).toHaveBeenCalledTimes(1);
-  //   });
-  // });
+      expect(result).toEqual(mockUserCreateRes);
+    });
+  });
 
-  // describe('deleteGroup', () => {
-  //   it('should delete a group', async () => {
-  //     const groupId = 1;
-  //     jest.spyOn(adminService, 'deleteGroup').mockResolvedValue();
-  //     await controller.deleteGroup(groupId);
-  //     expect(adminService.deleteGroup).toHaveBeenCalledTimes(1);
-  //   });
-  // });
+  describe('userDelete', () => {
+    it('should delete a user', async () => {
+      const userId = 1;
+      jest.spyOn(adminService, 'userDelete');
+      await adminController.userDelete(userId);
+      expect(adminService.userDelete).toHaveBeenCalledTimes(1);
+    });
+  });
+  // Group delete --------------------------------------------------
+  describe('groupDelete', () => {
+    it('should delete a group', async () => {
+      jest.spyOn(adminService, 'groupDelete');
+      await adminController.groupDelete(1);
+      expect(adminService.groupDelete).toHaveBeenCalledTimes(1);
+    });
+  });
 });

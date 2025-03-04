@@ -4,7 +4,7 @@ import IUserRaw from '../interfaces/IUserRaw';
 export const mockUsersRaw: IUserRaw[] = [
   {
     id: 1,
-    name: 'John Doe',
+    name: 'John',
     surname: 'Doe',
     email: 'johndoe@example.com',
     role: UserRoleEnum.MANAGER,

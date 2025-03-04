@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+
 import { UserRoleEnum } from '../../enums/user-role.enum';
 
 export class UserBanResDto {
@@ -52,6 +53,12 @@ export class UserBanResDto {
     default: UserRoleEnum.MANAGER,
   })
   public readonly role: UserRoleEnum;
+
+  @ApiProperty({
+    description: 'Date nad time when user last time login',
+    example: new Date(),
+  })
+  public readonly last_login: Date;
 
   @ApiProperty({
     description: 'Date nad time when record made',

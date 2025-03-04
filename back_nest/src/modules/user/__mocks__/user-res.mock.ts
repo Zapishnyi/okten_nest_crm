@@ -5,7 +5,7 @@ import { UserRoleEnum } from '../enums/user-role.enum';
 export const mockUsers: UserResDto[] = [
   {
     id: 1,
-    name: 'John Doe',
+    name: 'John',
     surname: 'Doe',
     email: 'johndoe@example.com',
     role: UserRoleEnum.MANAGER,
