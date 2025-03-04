@@ -2,4 +2,5 @@
 /back_nest/dist/
 /back_nest/node_modules/
 /back_nest/coverage/
+/.vscode/
 
