@@ -69,7 +69,7 @@ Database is built and running on http://owu.linkpc.net/, available without pre-s
 ### Running tests
 
 - To run tests, enter application folder and use the command:
-  > npm run test
+  > npm run test:unit
 
 ### Need to add:
 
